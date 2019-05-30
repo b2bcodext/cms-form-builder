@@ -1,0 +1,36 @@
+{% set fieldResponses = record.getValue('fieldResponses') %}
+
+{% if fieldResponses and fieldResponses|length > 0 %}
+    {% import 'OroUIBundle::macros.html.twig' as UI %}
+    {% for fieldResponse in fieldResponses %}
+        {% set value = fieldResponse.value(true) %}
+        {% if value is iterable %}
+            {% set value %}
+                <ul class="extra-list">
+                    {% for item in value %}
+                        <li>{{ item|escape }}</li>
+                    {% endfor %}
+                </ul>
+            {% endset %}
+        {% else %}
+            {% set value = value|escape %}
+        {% endif %}
+
+        {% if value|length > 300 %}
+            {% set value %}
+                <div data-page-component-collapse="{{ {open: false}|json_encode() }}">
+                    <div>{{ value|slice(0, 300) }}</div>
+                    <i data-collapse-trigger class='fa-caret-right'>
+                        <span>{{ 'b2bcode.cmsform.cmsformresponse.show_all.label'|trans }}</span>
+                    </i>
+                    <div data-collapse-container>
+                        {{ value }}
+                    </div>
+                </div>
+            {% endset %}
+        {% endif %}
+        {{ UI.renderHtmlProperty(fieldResponse.field.label, value) }}
+    {% endfor %}
+{% else %}
+    {{ 'oro.ui.empty'|trans }}
+{% endif %}

@@ -1,0 +1,5 @@
+// STOREFRONT
+// do not show already selected options in multiple dropdown element
+.select2-result-selectable.select2-selected {
+  display: none;
+}

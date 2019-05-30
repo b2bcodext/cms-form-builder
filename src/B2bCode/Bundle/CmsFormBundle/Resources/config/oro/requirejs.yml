@@ -1,0 +1,4 @@
+config:
+    paths:
+        'b2bcodecmsform/js/app/components/field-options-component': 'bundles/b2bcodecmsform/js/app/components/field-options-component.js'
+        'b2bcodecmsform/js/app/components/sortable-fields-component': 'bundles/b2bcodecmsform/js/app/components/sortable-fields-component.js'

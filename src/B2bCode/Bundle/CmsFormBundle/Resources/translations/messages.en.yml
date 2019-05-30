@@ -1,0 +1,184 @@
+b2bcode:
+    cmsform:
+        entity_label: Cms Form
+        entity_plural_label: Cms Forms
+
+        id.label: ID
+        uuid.label: UUID
+        name.label: Name
+        alias:
+            label: Alias
+            tooltip: |
+                This value should start with a symbol and contain only alphabetic symbols, underscore and numbers.
+                It's automatically generated based on the name of the form. Must be unique.
+
+        preview_enabled:
+            link_label: Preview
+            label: Preview enabled
+            tooltip: |
+                When preview is enabled, a special link is auto-generated and the form is accessible via this link.
+                Very useful when drafting the form to easily share it with your team.
+            warning_message: Preview is not enabled. To enable it, <a href="%link%">update the form</a>.
+
+        notifications_enabled:
+            label: Notifications enabled
+            tooltip: |
+                When notifications are enabled and at least one email is defined, you'll get an email on every form response.
+            warning_message: Notifications are disabled or empty. To enable them, <a href="%link%">update the form</a>.
+
+        notifications:
+            label: Notifications
+            tooltip: |
+                Email and optional template which is used to send a notification email. When template is blank, default
+                one will be used (B2bCodeCmsFormBundle:response_received)
+            template:
+                label: Template
+            email:
+                label: Email
+
+
+        cmsformfield:
+            entity_label: Cms Form Field
+            entity_short_label: Field
+            entity_plural_label: Cms Form Fields
+
+            id.label: ID
+            name:
+                label: Name
+                tooltip: |
+                    This value should start with a symbol and contain only alphabetic symbols, underscore and numbers.
+                    It's automatically generated based on the label of the field. Must be unique across the form.
+            label.label: Label
+            form.label: Form
+            type:
+                label: Type
+                placeholder: Select type...
+            sort_order.label: Order
+
+            options:
+                required.label: Required
+                data.label: Data value
+                label.label: Label
+                placeholder:
+                    label: Placeholder Text
+                    tooltip: |
+                        Specifies a short hint that describes the expected value of an input field.
+                        <b>Note:</b> It works only with plain input fields (doesn't work with e.g. Dropdown)
+                css_class:
+                    label: Css classes
+                    tooltip: |
+                        Optional CSS classes that will be added to the field. Must be separated by space.
+                        Useful when Web developer provides standard set of form CSS classes and give the full control of
+                        using them to the end user.
+                size:
+                    label: Field Size
+                    tooltip: |
+                        Controls the appearance of the field. Forms are rendered based on the standard OroCommerce
+                        12-columns grid system. Possible values of a grid column are: SMALL - 3, MEDIUM - 6, LARGE - 12.
+                        Small takes 1/4 of the row size, medium 1/2 and large - whole row.
+                    choices:
+                        small: Small
+                        medium: Medium
+                        large: Large
+                choice:
+                    choices:
+                        label: Choices
+                        tooltip: |
+                            Array of choices where <i>Name</i> is an item's label and <i>Value</i> is a value stored
+                            in a database.
+                        name.label: Name
+                        value.label: Value
+                    multiple:
+                        label: Multiple
+                        tooltip: |
+                            Specifies whether user is able to select multiple values or just one option.
+                    expanded.label: Expanded
+                    placeholder:
+                        label: Placeholder Text
+                        tooltip: |
+                            Specifies a short hint that describes the expected value of a <i>Choice</i> field.
+                            It works with e.g. Dropdown and Radio button fields.
+            sections:
+                general: General
+                common_options: Common options
+                type_specific_options: Type-specific options
+                preview:
+                    title: Field preview
+                    notice: |
+                        Preview is being refreshed automatically on every attribute change if both name and type attributes are valid.
+                        This is just an example to show how different attributes affect field appearance. The final result may (and will) vary
+                        depending on css styles applied on the storefront.
+
+            saved_message: Field saved
+
+        sections:
+            general: General
+            preview: Preview
+            reorder: Reorder fields
+            fields: Fields
+            responses: Responses
+            notifications:
+                label: Notifications
+            code_markup: Generated code
+            view_page: View Form
+
+        navigation:
+            view: 'Cms Form #%name%'
+            responses: 'Cms Form #%name% responses'
+            form_preview: 'Cms Form #%name% preview'
+            form_update: 'Cms Form #%name% - Edit'
+            field_update: 'Field #%name% - Edit'
+
+        field_type:
+            text.label: Single Line Text
+            textarea.label: Paragraph Text
+            email.label: Email
+            dropdown.label: Dropdown
+            radio.label: Radio button
+            hidden.label: Hidden
+
+        submit.label: Submit
+
+        saved_message: Form saved
+
+        cmsformresponse:
+            field_responses:
+                label: Field response
+            form:
+                label: Form
+            entity_plural_label: Form Responses
+            entity_label: Form Response
+            id.label: ID
+            visitor.label: Visitor ID
+
+            show_all:
+                label: Show all...
+
+        cmsfieldresponse:
+            id:
+                label: ID
+            field:
+                label: Field
+            form_response:
+                label: Form response
+            value:
+                label: Value
+            entity_label: Field Response
+            entity_plural_label: Field Responses
+        cmsformnotification:
+            entity_label: Form Notification
+            entity_plural_label: Form Notifications
+    acl:
+        b2b_code_cms_frontend_form_respond.label: Respond to CMS forms
+
+    cmsformresponse:
+        entity_label: Form Response
+        entity_plural_label: Form Responses
+
+        id.label: ID
+        visitor.label: Visitor ID
+
+        cmsfieldresponse:
+            entity_label: Field Response
+            entity_plural_label: Field Responses
+

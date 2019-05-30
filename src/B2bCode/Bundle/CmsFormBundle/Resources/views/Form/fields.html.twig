@@ -1,0 +1,98 @@
+{% macro choice_option_collection_item_prototype(widget) %}
+    {% set form = widget %}
+    {% set name = widget.vars.full_name %}
+    <div class="cms-choice__option-container" data-content="{{ name }}" data-validation-optional-group>
+            <div class="cms-choice__option-name">
+                {{ form_widget(form.name) }}
+                {{ form_errors(form.name) }}
+            </div>
+            <div class="cms-choice__option-value">
+                {{ form_widget(form.value) }}
+                {{ form_errors(form.value) }}
+            </div>
+            <div class="cms-choice__option-remove">
+                <button class="removeRow btn btn-icon btn-square-default" type="button" data-related="{{ name }}">
+                    <span class="fa-close"></span>
+                </button>
+            </div>
+    </div>
+{% endmacro %}
+
+{% block choice_option_collection_widget %}
+    {% spaceless %}
+        {% if prototype is defined %}
+            {% set prototype_html = _self.choice_option_collection_item_prototype(form.vars.prototype) %}
+        {% endif %}
+        {% set attr = attr|merge({'class': (attr.class is defined ? attr.class ~ ' ' : '') ~ 'oro-item-collection collection-fields-list' }) %}
+        {% set id = id ~ '_collection' %}
+        <div class="row-oro">
+            {% set prototype_name = '__name__' %}
+            <div {{ block('widget_container_attributes') }} data-last-index="{{ form.children|length }}"
+                                                            data-prototype-name="{{ prototype_name }}"{% if prototype_html is defined %} data-prototype="{{ prototype_html|escape }}"{% endif %}>
+                <input type="hidden" name="validate_{{ full_name }}" data-collection-name="{{ full_name }}"
+                       data-name="collection-validation" disabled data-validate-element>
+                {% if form.children|length %}
+                    {% for child in form.children %}
+                        {{ _self.choice_option_collection_item_prototype(child) }}
+                    {% endfor %}
+                {% elseif prototype_html is defined %}
+                    {{ prototype_html|replace({(prototype_name): 0})|raw }}
+                {% endif %}
+            </div>
+            {% if allow_add %}
+                <a class="btn add-list-item"
+                   href="javascript: void(0);">{{ form.vars.add_label|default('oro.form.collection.add')|trans }}</a>
+            {% endif %}
+        </div>
+    {% endspaceless %}
+{% endblock %}
+
+{% macro form_notification_collection_item_prototype(widget) %}
+    {% set form = widget %}
+    {% set name = widget.vars.full_name %}
+    <div class="cms-notifications-container" data-content="{{ name }}" data-validation-optional-group>
+        <div class="cms-notifications__email">
+            {{ form_widget(form.email) }}
+            {{ form_errors(form.email) }}
+        </div>
+        <div class="cms-notifications__template">
+            {{ form_widget(form.template) }}
+            {{ form_errors(form.template) }}
+        </div>
+        <div class="cms-notifications__remove">
+            <button class="removeRow btn btn-icon btn-square-default" type="button" data-related="{{ name }}">
+                <span class="fa-close"></span>
+            </button>
+        </div>
+    </div>
+{% endmacro %}
+
+{% block _form_notifications_widget %}
+    {% spaceless %}
+        {% if prototype is defined %}
+            {% set prototype_html = _self.form_notification_collection_item_prototype(form.vars.prototype) %}
+        {% endif %}
+        {% set attr = attr|merge({'class': (attr.class is defined ? attr.class ~ ' ' : '') ~ 'oro-item-collection collection-fields-list' }) %}
+        {% set id = id ~ '_collection' %}
+        <div class="row-oro">
+            {% set prototype_name = '__name__' %}
+            <div {{ block('widget_container_attributes') }} data-last-index="{{ form.children|length }}"
+                                                            data-prototype-name="{{ prototype_name }}"{% if prototype_html is defined %} data-prototype="{{ prototype_html|escape }}"{% endif %}>
+                <input type="hidden" name="validate_{{ full_name }}" data-collection-name="{{ full_name }}"
+                       data-name="collection-validation" disabled data-validate-element>
+                {% if form.children|length %}
+                    {% for child in form.children %}
+                        {{ _self.form_notification_collection_item_prototype(child) }}
+                    {% endfor %}
+                {% elseif prototype_html is defined %}
+                    {{ prototype_html|replace({(prototype_name): 0})|raw }}
+                {% endif %}
+            </div>
+            {% if allow_add %}
+                <a class="btn add-list-item"
+                   href="javascript: void(0);">{{ form.vars.add_label|default('oro.form.collection.add')|trans }}</a>
+            {% endif %}
+        </div>
+    {% endspaceless %}
+{% endblock %}
+

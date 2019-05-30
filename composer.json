@@ -1,0 +1,23 @@
+{
+  "name": "b2bcodext/cms-form-builder",
+  "description": "B2Bcodext - CMS Form Builder for OroCommerce to easily create forms via UI",
+  "license": "OSL-3.0",
+  "authors": [
+    {
+      "name": "Daniel Nahrebecki",
+      "email": "daniel@b2bcodext.com"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "": "src/"
+    },
+    "exclude-from-classmap": [
+      "**/Tests/"
+    ]
+  },
+  "require": {
+    "oro/commerce": "3.1.*"
+  },
+  "minimum-stability": "dev"
+}

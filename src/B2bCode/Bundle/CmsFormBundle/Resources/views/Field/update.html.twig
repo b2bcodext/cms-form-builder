@@ -1,0 +1,83 @@
+{% extends 'OroUIBundle:actions:update.html.twig' %}
+{% import 'OroUIBundle::macros.html.twig' as UI %}
+
+{% oro_title_set({params : {"%name%": entity.name, "%entityName%": 'b2bcode.cmsform.cmsformfield.entity_label'|trans }}) %}
+{% set entityId = entity.id %}
+{% set formId = entity.form.id %}
+
+{% block stats %}
+    {% if entityId %}
+        {{ parent() }}
+    {% endif %}
+{% endblock stats %}
+
+{% block navButtons %}
+    {% set html = '' %}
+    {% if entityId is null %}
+        {% set html = html ~ UI.saveAndNewButton({
+            'route': 'b2b_code_cms_form_field_create',
+            'params': {'id': formId}
+        }) %}
+    {% endif %}
+    {% set html = html ~ UI.saveAndCloseButton({
+        'route': 'b2b_code_cms_form_view',
+        'params': {'id': formId}
+    }) %}
+    {{ UI.dropdownSaveButton({'html': html}) }}
+    {{ UI.cancelButton(path('b2b_code_cms_form_view', {id: formId})) }}
+{% endblock navButtons %}
+
+{% block pageHeader %}
+    {% set breadcrumbs = {
+        'entity':      entity,
+        'indexPath':   path('b2b_code_cms_form_view', {id: formId}),
+        'indexLabel':  entity.form.name,
+        'entityTitle': entity.id ? entity.name : 'oro.ui.create_entity'|trans({'%entityName%': 'b2bcode.cmsform.cmsformfield.entity_short_label'|trans})
+    } %}
+    {{ parent() }}
+{% endblock pageHeader %}
+
+{% block content_data %}
+    {% set id = 'b2b_code_form_field_form' %}
+
+    {% set formHtml %}
+        {% set updateableFields = b2b_code_form_updateable_fields() %}
+        {% for updateableField in updateableFields %}
+            {% set key = attribute(form, updateableField) %}
+            {{ form_row(key) }}
+        {% endfor %}
+    {% endset %}
+
+    {% set dynamicFields %}
+        <div id="form-view-target">
+            {{ form_rest(form) }}
+        </div>
+    {% endset %}
+
+    {% set dataBlocks = [{
+        'title': 'b2bcode.cmsform.cmsformfield.sections.general'|trans,
+        'subblocks': [
+            {'title': 'b2bcode.cmsform.cmsformfield.sections.common_options'|trans, 'data': [formHtml]},
+            {'title': 'b2bcode.cmsform.cmsformfield.sections.type_specific_options'|trans, 'data': [dynamicFields]},
+        ]
+    }] %}
+
+    {% set fieldPreview %}
+        <div class="alert alert-info">{{ 'b2bcode.cmsform.cmsformfield.sections.preview.notice'|trans }}</div>
+        <div class="cms-field-preview__target"></div>
+    {% endset %}
+
+    {% set dataBlocks = dataBlocks|merge([{
+        'title': 'b2bcode.cmsform.cmsformfield.sections.preview.title'|trans,
+        'priority': 50,
+        'subblocks': [{'data' : [fieldPreview]}]
+    }]) %}
+
+    {% set data = {
+        'formErrors': form_errors(form)? form_errors(form) : null,
+        'dataBlocks': dataBlocks,
+    } %}
+    <div data-page-component-module="b2bcodecmsform/js/app/components/field-options-component">
+        {{ parent() }}
+    </div>
+{% endblock content_data %}

@@ -1,0 +1,231 @@
+datagrids:
+    b2bcode-cms-forms-grid:
+        options:
+            entity_pagination: true
+        source:
+            acl_resource: b2b_code_cms_form_view
+            type: orm
+            query:
+                select:
+                    - cmsForm.id
+                    - cmsForm.name
+                    - cmsForm.alias
+                    - cmsForm.createdAt
+                    - cmsForm.updatedAt
+                from:
+                    - { table: B2bCodeCmsFormBundle:CmsForm, alias: cmsForm }
+        columns:
+            id:
+                label: b2bcode.cmsform.id.label
+            name:
+                label: b2bcode.cmsform.name.label
+            alias:
+                label: b2bcode.cmsform.alias.label
+            createdAt:
+                label:         oro.ui.created_at
+                frontend_type: datetime
+            updatedAt:
+                label:         oro.ui.updated_at
+                frontend_type: datetime
+        sorters:
+            columns:
+                id:
+                    data_name: cmsForm.id
+                name:
+                    data_name: cmsForm.name
+                alias:
+                    data_name: cmsForm.alias
+                createdAt:
+                    data_name: cmsForm.createdAt
+                updatedAt:
+                    data_name: cmsForm.updatedAt
+            default:
+                createdAt: DESC
+        filters:
+            columns:
+                name:
+                    type:      string
+                    data_name: cmsForm.name
+                alias:
+                    type:      string
+                    data_name: cmsForm.alias
+                createdAt:
+                    type:      datetime
+                    data_name: cmsForm.createdAt
+                updatedAt:
+                    type:      datetime
+                    data_name: cmsForm.updatedAt
+        properties:
+            id: ~
+            view_link:
+                route: b2b_code_cms_form_view
+                type:  url
+                params: [ id ]
+            update_link:
+                route: b2b_code_cms_form_update
+                type:  url
+                params: [ id ]
+            response_link:
+                route: b2b_code_cms_form_responses
+                type:  url
+                params: [ id ]
+        actions:
+            view:
+                type:          navigate
+                label:         oro.grid.action.view
+                link:          view_link
+                icon:          eye
+                rowAction:     true
+                acl_resource:  b2b_code_cms_form_view
+            update:
+                type:          navigate
+                label:         oro.grid.action.update
+                icon:          edit
+                link:          update_link
+                acl_resource:  b2b_code_cms_form_update
+            responses:
+                type:          navigate
+                label:         b2bcode.cmsform.sections.responses
+                link:          response_link
+                icon:          envelope-open
+                acl_resource:  b2b_code_cms_form_view
+
+    b2bcode-cms-form-fields-grid:
+        extended_entity_name: B2bCode\Bundle\CmsFormBundle\Entity\CmsFormField
+        source:
+            type:         orm
+            query:
+                select:
+                    - formField.id
+                    - formField.name
+                    - formField.label
+                    - formField.sortOrder
+                    - formField.type
+                    - formField.createdAt
+                    - formField.updatedAt
+                from:
+                    - { table: B2bCodeCmsFormBundle:CmsFormField, alias: formField }
+                join:
+                    inner:
+                        - { join: formField.form, alias: cmsForm }
+                where:
+                    and:
+                        - cmsForm.id = :cmsFormId
+            bind_parameters:
+                - cmsFormId
+        inline_editing:
+            enable: true
+        columns:
+            sortOrder:
+                label:         b2bcode.cmsform.cmsformfield.sort_order.label
+            name:
+                label:         b2bcode.cmsform.cmsformfield.name.label
+            label:
+                label:         b2bcode.cmsform.cmsformfield.label.label
+            type:
+                label:         b2bcode.cmsform.cmsformfield.type.label
+                inline_editing:
+                    enable: false
+            createdAt:
+                label:         oro.ui.created_at
+                frontend_type: datetime
+                inline_editing:
+                    enable: false
+            updatedAt:
+                label:         oro.ui.updated_at
+                frontend_type: datetime
+                inline_editing:
+                    enable: false
+        sorters:
+            columns:
+                sortOrder:
+                    data_name: formField.sortOrder
+                name:
+                    data_name: formField.name
+                label:
+                    data_name: formField.label
+                type:
+                    data_name: formField.type
+                createdAt:
+                    data_name: formField.createdAt
+                updatedAt:
+                    data_name: formField.updatedAt
+            default:
+                sortOrder: ASC
+        properties:
+            id: ~
+            update_link:
+                type:       url
+                route:      b2b_code_cms_form_field_update
+                params:     [ id ]
+            delete_link:
+                type: url
+                route: b2b_code_api_delete_formfield
+                params:
+                    - id
+        actions:
+            update:
+                type:          navigate
+                acl_resource:  b2b_code_cms_form_field_update
+                label:         oro.grid.action.update
+                icon:          edit
+                link:          update_link
+                rowAction:     true
+            delete:
+                type:          delete
+                label:         oro.grid.action.delete
+                link:          delete_link
+                icon:          trash-o
+                acl_resource:  b2b_code_cms_form_field_delete
+
+    b2bcode-cms-form-responses-grid:
+        options:
+            entity_pagination: true
+        source:
+            acl_resource: b2b_code_cms_form_view
+            type: orm
+            query:
+                select:
+                    - response.id
+#                    - response.visitor
+                    - response.createdAt
+                from:
+                    - { table: B2bCodeCmsFormBundle:CmsFormResponse, alias: response }
+                where:
+                    and:
+                        - response.form = :cmsFormId
+            bind_parameters:
+                - cmsFormId
+        columns:
+            id:
+                label: b2bcode.cmsformresponse.id.label
+            fieldResponses:
+                label: b2bcode.cmsformresponse.cmsfieldresponse.entity_plural_label
+                type: twig
+                frontend_type: html
+                template: B2bCodeCmsFormBundle:Datagrid:fieldResponses.html.twig
+#            visitor:
+#                label: b2bcode.cmsformresponse.visitor.label
+            createdAt:
+                label:         oro.ui.created_at
+                frontend_type: datetime
+        sorters:
+            columns:
+                id:
+                    data_name: response.id
+#                visitor:
+#                    data_name: response.visitor
+                createdAt:
+                    data_name: response.createdAt
+            default:
+                createdAt: DESC
+        filters:
+            columns:
+#                name:
+#                    type:      string
+#                    data_name: cmsForm.name
+                createdAt:
+                    type:      datetime
+                    data_name: response.createdAt
+        properties:
+            id: ~

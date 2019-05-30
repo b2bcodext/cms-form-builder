@@ -1,0 +1,9 @@
+b2bcode:
+    cmsform:
+        ajax:
+            form_view_error: Could not load field type options form
+            field_preview_error: Could not load field preview
+            form_respond:
+                success: Your form has been successfully submitted
+            reorder:
+                error: Error

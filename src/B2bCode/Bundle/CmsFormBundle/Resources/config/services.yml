@@ -1,0 +1,107 @@
+services:
+    B2bCode\Bundle\CmsFormBundle\Twig\FormExtension:
+        class: B2bCode\Bundle\CmsFormBundle\Twig\FormExtension
+        arguments:
+            - '@B2bCode\Bundle\CmsFormBundle\Builder\FormBuilderInterface'
+            - '@oro_layout.twig.renderer'
+            - '@B2bCode\Bundle\CmsFormBundle\Provider\GeneralFieldProvider'
+        tags:
+            - { name: twig.extension }
+
+    B2bCode\Bundle\CmsFormBundle\Twig\EmailExtension:
+        class: B2bCode\Bundle\CmsFormBundle\Twig\EmailExtension
+        tags:
+            - { name: twig.extension }
+
+    B2bCode\Bundle\CmsFormBundle\Provider\FieldTypeProvider:
+        class: B2bCode\Bundle\CmsFormBundle\Provider\FieldTypeProvider
+        tags:
+            - { name: b2b_code_cms_form.field_type_provider }
+
+    B2bCode\Bundle\CmsFormBundle\Provider\FieldTypeRegistry:
+        class: B2bCode\Bundle\CmsFormBundle\Provider\FieldTypeRegistry
+        arguments:
+            - !tagged b2b_code_cms_form.field_type_provider
+
+    B2bCode\Bundle\CmsFormBundle\Builder\FormBuilderInterface:
+        class: B2bCode\Bundle\CmsFormBundle\Builder\FormBuilder
+        arguments:
+            - '@form.factory'
+            - '@doctrine'
+            - '@B2bCode\Bundle\CmsFormBundle\Provider\FieldTypeRegistry'
+            - '@router'
+            - '@B2bCode\Bundle\CmsFormBundle\Validator\ConstraintProviderInterface'
+
+    B2bCode\Bundle\CmsFormBundle\Provider\GeneralFieldProvider:
+        class: B2bCode\Bundle\CmsFormBundle\Provider\GeneralFieldProvider
+
+    B2bCode\Bundle\CmsFormBundle\Form\Extension\FieldOptionsExtension:
+        class: B2bCode\Bundle\CmsFormBundle\Form\Extension\FieldOptionsExtension
+        tags:
+            - { name: form.type_extension, extended_type: B2bCode\Bundle\CmsFormBundle\Form\Type\FieldType}
+
+    B2bCode\Bundle\CmsFormBundle\Form\Extension\HiddenFieldExtension:
+        class: B2bCode\Bundle\CmsFormBundle\Form\Extension\HiddenFieldExtension
+        tags:
+            - { name: form.type_extension, extended_type: B2bCode\Bundle\CmsFormBundle\Form\Type\FieldType}
+
+    B2bCode\Bundle\CmsFormBundle\Form\Extension\ChoiceFieldExtension:
+        class: B2bCode\Bundle\CmsFormBundle\Form\Extension\ChoiceFieldExtension
+        tags:
+            - { name: form.type_extension, extended_type: B2bCode\Bundle\CmsFormBundle\Form\Type\FieldType}
+
+    B2bCode\Bundle\CmsFormBundle\Form\Type\FieldType:
+        class: B2bCode\Bundle\CmsFormBundle\Form\Type\FieldType
+        arguments:
+            - '@B2bCode\Bundle\CmsFormBundle\Provider\FieldTypeRegistry'
+            - '@translator'
+        tags:
+            - { name: form.type, alias: b2b_code_cms_form_field }
+
+    B2bCode\Bundle\CmsFormBundle\EventListener\Datagrid\FormResponseListener:
+        class: B2bCode\Bundle\CmsFormBundle\EventListener\Datagrid\FormResponseListener
+        arguments:
+            - '@doctrine'
+        tags:
+            - { name: kernel.event_listener, event: oro_datagrid.orm_datasource.result.after.b2bcode-cms-form-responses-grid, method: onResultAfter }
+
+    B2bCode\Bundle\CmsFormBundle\Notification\NotificationInterface:
+        class: B2bCode\Bundle\CmsFormBundle\Notification\SendEmailNotification
+        arguments:
+            - '@oro_message_queue.message_producer'
+            - '@oro_email.email_renderer'
+            - '@oro_config.global'
+            - '@doctrine'
+
+    B2bCode\Bundle\CmsFormBundle\Validator\ConstraintProviderInterface:
+        class: B2bCode\Bundle\CmsFormBundle\Validator\ConstraintProvider
+        arguments:
+            - '@B2bCode\Bundle\CmsFormBundle\Validator\Loader\ValidationRuleLoader'
+            - '@event_dispatcher'
+
+    B2bCode\Bundle\CmsFormBundle\Validator\Loader\ValidationRuleLoader:
+        class: B2bCode\Bundle\CmsFormBundle\Validator\Loader\ValidationRuleLoader
+        arguments:
+            - '@b2b_code_cms_form.validation.cache'
+
+    B2bCode\Bundle\CmsFormBundle\Cache\CacheClearer:
+        class: B2bCode\Bundle\CmsFormBundle\Cache\CacheClearer
+        arguments:
+            - '@B2bCode\Bundle\CmsFormBundle\Validator\Loader\ValidationRuleLoader'
+        tags:
+            - { name: kernel.cache_warmer }
+            - { name: kernel.cache_clearer }
+
+    b2b_code_cms_form.validation.cache:
+        parent: oro.cache.abstract
+        public: false
+        calls:
+            - [setNamespace, [ 'b2b_code_cms_form_validation' ] ]
+
+    # API
+    b2b_code_cms_form.field_manager.api:
+        class: Oro\Bundle\SoapBundle\Entity\Manager\ApiEntityManager
+        parent: oro_soap.manager.entity_manager.abstract
+        arguments:
+            - B2bCode\Bundle\CmsFormBundle\Entity\CmsFormField
+            - '@doctrine.orm.entity_manager'

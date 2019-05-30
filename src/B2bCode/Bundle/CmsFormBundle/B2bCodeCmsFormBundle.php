@@ -1,0 +1,29 @@
+<?php
+
+/*
+ * This file is part of the B2Bcodext CMS Form Builder.
+ *
+ * (c) Daniel Nahrebecki <daniel@b2bcodext.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+namespace B2bCode\Bundle\CmsFormBundle;
+
+use B2bCode\Bundle\CmsFormBundle\DependencyInjection\Compiler\TwigSandboxConfigurationPass;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\HttpKernel\Bundle\Bundle;
+
+class B2bCodeCmsFormBundle extends Bundle
+{
+    /**
+     * {@inheritdoc}
+     */
+    public function build(ContainerBuilder $container)
+    {
+        parent::build($container);
+
+        $container->addCompilerPass(new TwigSandboxConfigurationPass());
+    }
+}

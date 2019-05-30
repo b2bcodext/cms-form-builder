@@ -1,0 +1,22 @@
+layout:
+    actions:
+        - '@setBlockTheme':
+              themes: 'B2bCodeCmsFormBundle:layouts:blank/b2b_code_cms_form_frontend_form_preview/layout.html.twig'
+
+        -   '@setOption':
+                id: title
+                optionName: params
+                optionValue:
+                    '%name%': '=data["entity"].getName()'
+
+        - '@addTree':
+              items:
+                  cms_form_preview:
+                      blockType: block
+                      options:
+                          visible: '=data["entity"].isPreviewEnabled()'
+                          vars:
+                              entity: '=data["entity"]'
+              tree:
+                  page_content:
+                      cms_form_preview: ~

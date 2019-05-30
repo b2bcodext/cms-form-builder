@@ -1,0 +1,6 @@
+b2bcode:
+    cmsform:
+        validation:
+            cmsformfield:
+                unique:
+                    name: "Field name should be unique"

@@ -1,0 +1,10 @@
+forms:
+    # this is just an example of the validation rules configuration
+    feedback-form:
+        fields:
+            are-you-satisfied:
+                - Symfony\Component\Validator\Constraints\NotBlank: ~
+            rating:
+                - Symfony\Component\Validator\Constraints\NotBlank: ~
+            tell-us-more:
+                - Symfony\Component\Validator\Constraints\NotBlank: ~

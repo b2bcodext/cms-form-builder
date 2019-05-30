@@ -1,0 +1,40 @@
+acls:
+    b2b_code_cms_form_view:
+        type: entity
+        class: B2bCodeCmsFormBundle:CmsForm
+        permission: VIEW
+        group_name: ""
+    b2b_code_cms_form_create:
+        type: entity
+        class: B2bCodeCmsFormBundle:CmsForm
+        permission: CREATE
+        group_name: ""
+    b2b_code_cms_form_update:
+        type: entity
+        class: B2bCodeCmsFormBundle:CmsForm
+        permission: EDIT
+        group_name: ""
+    b2b_code_cms_form_delete:
+        type: entity
+        class: B2bCodeCmsFormBundle:CmsForm
+        permission: DELETE
+        group_name: ""
+    b2b_code_cms_form_field_create:
+        type: entity
+        class: B2bCodeCmsFormBundle:CmsFormField
+        permission: CREATE
+        group_name: ""
+    b2b_code_cms_form_field_update:
+        type: entity
+        class: B2bCodeCmsFormBundle:CmsFormField
+        permission: EDIT
+        group_name: ""
+    b2b_code_cms_form_field_delete:
+        type: entity
+        class: B2bCodeCmsFormBundle:CmsFormField
+        permission: DELETE
+        group_name: ""
+    b2b_code_cms_frontend_form_respond:
+        type: action
+        label: b2bcode.acl.b2b_code_cms_frontend_form_respond.label
+        group_name: "commerce"

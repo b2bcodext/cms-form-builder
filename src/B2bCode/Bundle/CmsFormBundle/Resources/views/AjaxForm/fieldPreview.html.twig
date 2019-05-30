@@ -1,0 +1,10 @@
+{% set entityAttr = entity.option('attr') %}
+{% set size = entityAttr["data-size"] is defined ? entityAttr["data-size"] : 'large' %}
+
+{% if form.children|length %}
+    {% for child in form %}
+        <div class="cms-field cms-field__{{ size }}">
+        {{ form_row(child) }}
+        </div>
+    {% endfor %}
+{% endif %}

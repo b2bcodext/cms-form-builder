@@ -1,0 +1,2 @@
+bundles:
+    - { name: B2bCode\Bundle\CmsFormBundle\B2bCodeCmsFormBundle, priority: 400 }

@@ -1,0 +1,39 @@
+{% extends 'OroUIBundle:actions:view.html.twig' %}
+{% import 'OroDataGridBundle::macros.html.twig' as dataGrid %}
+
+{% oro_title_set({params : {"%name%": entity.name }}) %}
+
+{% block pageHeader %}
+    {% set breadcrumbs = {
+        'entity': entity,
+        'indexPath': path('b2b_code_cms_form_index'),
+        'indexLabel': 'b2bcode.cmsform.entity_plural_label'|trans,
+        'entityTitle': entity.name|default('N/A'|trans)
+    } %}
+    {{ parent() }}
+{% endblock pageHeader %}
+
+{% block navButtons %}
+    {% include 'OroImportExportBundle:ImportExport:buttons_from_configuration.html.twig' with {
+        'alias': 'b2b_code_cms_form_response',
+        'options': {'form_id': entity.id}
+    } %}
+
+    {{ UI.button({
+        'path': path('b2b_code_cms_form_view', { id: entity.id }),
+        'label': 'b2bcode.cmsform.sections.view_page'|trans
+    }) }}
+{% endblock %}
+
+{% block content_data %}
+    {% set dataBlocks = [{
+        'title': 'b2bcode.cmsform.sections.responses'|trans,
+        'priority': -150,
+        'subblocks': [{'data' : [dataGrid.renderGrid('b2bcode-cms-form-responses-grid', {cmsFormId: entity.id })]}]
+    }] %}
+
+    {% set id = 'b2bcode-cms-form-responses' %}
+    {% set data = {'dataBlocks': dataBlocks} %}
+
+    {{ parent() }}
+{% endblock content_data %}

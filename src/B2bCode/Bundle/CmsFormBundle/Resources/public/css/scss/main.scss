@@ -1,0 +1,84 @@
+#cms-form-fields-sortable {
+  .ui-state-highlight {
+    background-color: #F0F0F1;
+  }
+
+  .sortable-item {
+    padding-top: 4px;
+  }
+
+  .sortable-icon {
+    float: left;
+    padding: 5px;
+    background-color: #F0F0F1;
+    -webkit-border-radius: 7px;
+    -moz-border-radius: 7px;
+    border-radius: 7px;
+  }
+}
+
+.cms-choice__option-container {
+  display: flex;
+
+  .cms-choice {
+    &__option-name {
+      padding-right: 5px;
+      margin-bottom: 7px;
+    }
+
+    &__option-value {
+      padding-right: 5px;
+      margin-bottom: 7px;
+    }
+
+    &__option-remove {
+      padding-right: 5px;
+      margin-bottom: 8px;
+    }
+  }
+}
+
+.cms-notifications-container {
+  display: flex;
+
+  .cms-notifications {
+    &__email {
+      padding-right: 5px;
+      margin-bottom: 7px;
+    }
+
+    &__template {
+      padding-right: 5px;
+      margin-bottom: 7px;
+    }
+
+    &__remove {
+      padding-right: 5px;
+      margin-bottom: 8px;
+    }
+  }
+}
+
+.cms-field-preview__target {
+  .cms-field {
+    .selector {
+      max-width: 100%;
+    }
+
+    &__large {
+      .controls > * {
+        width: 100%;
+      }
+    }
+    &__medium {
+      .controls > * {
+        width: 50%;
+      }
+    }
+    &__small {
+      .controls > * {
+        width: 25%;
+      }
+    }
+  }
+}

@@ -1,0 +1,138 @@
+{% extends 'OroUIBundle:actions:view.html.twig' %}
+{% import 'OroDataGridBundle::macros.html.twig' as dataGrid %}
+
+{% oro_title_set({params : {"%name%": entity.name }}) %}
+
+{% block pageHeader %}
+    {% set breadcrumbs = {
+        'entity': entity,
+        'indexPath': path('b2b_code_cms_form_index'),
+        'indexLabel': 'b2bcode.cmsform.entity_plural_label'|trans,
+        'entityTitle': entity.name|default('N/A'|trans)
+    } %}
+    {{ parent() }}
+{% endblock pageHeader %}
+
+{% block navButtons %}
+    {{ UI.button({
+        'path': path('b2b_code_cms_form_responses', { id: entity.id }),
+        'label': 'b2bcode.cmsform.sections.responses'|trans
+        }) }}
+    {% if is_granted('EDIT', entity) %}
+        {{ UI.editButton({
+                'path' : path('b2b_code_cms_form_update', { id: entity.id }),
+                'entity_label': 'b2bcode.cmsform.entity_label'|trans
+                }) }}
+    {% endif %}
+    {% placeholder view_navButtons with {entity: entity} %}
+    {% if is_granted('b2b_code_cms_form_field_create') %}
+        {{ UI.addButton({
+            'path' : path('b2b_code_cms_form_field_create', {id: entity.id}),
+            'entity_label': 'b2bcode.cmsform.cmsformfield.entity_short_label'|trans
+        }) }}
+    {% endif %}
+{% endblock %}
+
+{% block content_data %}
+    {% set updateLink = path('b2b_code_cms_form_update', { id: entity.id }) %}
+    {% set preview %}
+        {% if entity.previewEnabled %}
+            <a href="{{ path('b2b_code_cms_form_frontend_form_preview', {uuid: entity.uuid}) }}" target="_blank">
+                {{ 'b2bcode.cmsform.preview_enabled.link_label'|trans }}
+            </a>
+        {% else %}
+            {{ 'b2bcode.cmsform.preview_enabled.warning_message'|trans({'%link%': updateLink })|raw }}
+        {% endif %}
+    {% endset %}
+    {% set notifications %}
+        {% if entity.notificationsEnabled and entity.notifications is not empty %}
+            <ul class="extra-list">
+            {% for notification in entity.notifications %}
+                <li class="extra-list-element">{{ notification.email }}</li>
+            {% endfor %}
+            </ul>
+        {% else %}
+            {{ 'b2bcode.cmsform.notifications_enabled.warning_message'|trans({'%link%': updateLink })|raw }}
+        {% endif %}
+    {% endset %}
+    {% set codeMarkup %}
+        <div class="alert alert-info">{{ "{{ b2b_code_form('" ~ entity.alias ~ "') }}" }}</div>
+    {% endset %}
+    {% set generalSection %}
+        <div class="widget-content">
+            <div class="row-fluid form-horizontal">
+                <div class="responsive-block">
+                    {{ UI.renderProperty('b2bcode.cmsform.name.label'|trans, entity.name) }}
+                    {{ UI.renderProperty('b2bcode.cmsform.alias.label'|trans, entity.alias) }}
+                    {{ UI.renderHtmlProperty('b2bcode.cmsform.sections.preview'|trans, preview) }}
+                    {{ UI.renderProperty('b2bcode.cmsform.notifications_enabled.label'|trans, entity.notificationsEnabled ? 'Yes'|trans : 'No'|trans) }}
+                    {{ UI.renderHtmlProperty('b2bcode.cmsform.sections.notifications.label'|trans, notifications) }}
+                    {{ UI.renderHtmlProperty('b2bcode.cmsform.sections.code_markup'|trans, codeMarkup) }}
+                </div>
+            </div>
+        </div>
+    {% endset %}
+
+    {% set reorderBlock %}
+        <div class="widget-content">
+            <div class="row-fluid form-horizontal">
+                <div class="responsive-cell">
+                    <div class="box-type1">
+                        <div class="title">
+                            <span class="widget-title">{{ 'b2bcode.cmsform.sections.reorder'|trans }}</span>
+                        </div>
+
+                        <div class="row-fluid">
+                            <div data-page-component-module="b2bcodecmsform/js/app/components/sortable-fields-component">
+                                <form name="cms_form_reorder"
+                                      action="{{ path('b2b_code_cms_form_ajax_reorder', {id: entity.id}) }}">
+                                    <div id="cms-form-fields-sortable">
+                                        {% if form.children|length %}
+                                            {% for child in form %}
+                                                {# There's no other way of getting type from formView :: https://github.com/symfony/symfony/issues/5060 #}
+                                                {% if child.vars.block_prefixes.1 != 'hidden' %}
+                                                    <div class="sortable-item">
+                                                        <span data-name="sortable-handle" class="sortable-icon btn btn-icon btn-square-default">
+                                                            <i class="fa-arrows-v "></i>
+                                                        </span>
+                                                        {{ form_row(child) }}
+                                                        <input type="hidden"
+                                                               name="cms_form_reorder[fields][{{ child.vars.name }}][sortOrder]"
+                                                               value=""/>
+                                                    </div>
+                                                {% endif %}
+                                            {% endfor %}
+                                        {% endif %}
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endset %}
+
+    {% set dataBlocks = [
+        {
+            'title': 'b2bcode.cmsform.sections.general'|trans,
+            'class': 'active',
+            'priority': -200,
+            'subblocks': [
+            {'data' : [generalSection]},
+            {'data' : [reorderBlock]}
+        ]
+        }
+    ] %}
+
+    {% set dataBlocks = dataBlocks|merge([{
+        'title': 'b2bcode.cmsform.sections.fields'|trans,
+        'priority': -150,
+        'subblocks': [{'data' : [dataGrid.renderGrid('b2bcode-cms-form-fields-grid', {cmsFormId: entity.id })]}]
+    }]) %}
+
+    {% set id = 'b2bcode-cms-form-view' %}
+    {% set data = {'dataBlocks': dataBlocks} %}
+
+    {{ parent() }}
+{% endblock content_data %}

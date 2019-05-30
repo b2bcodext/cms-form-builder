@@ -1,0 +1,38 @@
+b2b_code_cms_form:
+    resource:     "@B2bCodeCmsFormBundle/Controller/FormController.php"
+    type:         annotation
+    prefix:       /cms-form
+
+b2b_code_cms_form_ajax_form:
+    resource: "@B2bCodeCmsFormBundle/Controller/AjaxFormController.php"
+    type: annotation
+    prefix: /cms-form/ajax
+    options:
+        expose: true
+
+b2b_code_cms_form_frontend_ajax_form:
+    resource: "@B2bCodeCmsFormBundle/Controller/Frontend/AjaxFormController.php"
+    type: annotation
+    prefix: /cms-form/ajax
+    options:
+        frontend: true
+        expose: true
+
+b2b_code_cms_form_frontend_form:
+    resource: "@B2bCodeCmsFormBundle/Controller/Frontend/FormController.php"
+    type: annotation
+    prefix: /cms-form
+    options:
+        frontend: true
+        expose: true
+
+# API
+b2b_code_cms_form_api_formfield:
+    resource:     "@B2bCodeCmsFormBundle/Controller/Api/Rest/FormFieldController.php"
+    type:         rest
+    prefix:       api/rest/{version}/
+    requirements:
+        version:  latest|v1
+        _format:  json
+    defaults:
+        version:  latest

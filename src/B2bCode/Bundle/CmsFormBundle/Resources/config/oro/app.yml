@@ -1,0 +1,3 @@
+twig:
+    form_themes:
+        - B2bCodeCmsFormBundle::Form/fields.html.twig

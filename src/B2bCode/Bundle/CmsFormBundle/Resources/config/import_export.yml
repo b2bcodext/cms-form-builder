@@ -1,0 +1,35 @@
+services:
+    # Converter
+    b2b_code_cms_form.importexport.data_converter.form_response:
+        parent: oro_importexport.data_converter.configurable
+
+    # Export processor
+    b2b_code_cms_form.importexport.processor.export.form_response:
+        parent: oro_importexport.processor.export_abstract
+        calls:
+            - [setDataConverter, ['@b2b_code_cms_form.importexport.data_converter.form_response']]
+        tags:
+            -   name: oro_importexport.processor
+                type: export
+                entity: B2bCode\Bundle\CmsFormBundle\Entity\CmsFormResponse
+                alias: b2b_code_cms_form_response
+
+    # Reader
+    b2b_code_cms_form.importexport.reader.form_response:
+        public: false
+        parent: oro_importexport.reader.entity
+        class: B2bCode\Bundle\CmsFormBundle\ImportExport\Reader\FormResponseReader
+
+    # Normalizer
+    b2b_code_cms_form.importexport.normalizer.field_response:
+        class: B2bCode\Bundle\CmsFormBundle\ImportExport\Serializer\FieldResponseNormalizer
+        public: false
+        parent: oro_importexport.serializer.configurable_entity_normalizer
+        tags:
+            - { name: oro_importexport.normalizer }
+
+    # Configuration
+    b2b_code_cms_form.importexport.configuration_provider.training_user_naming:
+        class: B2bCode\Bundle\CmsFormBundle\ImportExport\Configuration\FormResponseImportExportConfigurationProvider
+        tags:
+            - { name: oro_importexport.configuration, alias: b2b_code_cms_form_response }

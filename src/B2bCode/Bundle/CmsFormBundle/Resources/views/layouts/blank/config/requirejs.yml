@@ -1,0 +1,3 @@
+config:
+    paths:
+        'b2bcodecmsform/js/app/components/form-component': 'bundles/b2bcodecmsform/js/app/components/form-component.js'

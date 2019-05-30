@@ -1,0 +1,24 @@
+@name = B2bCodeCmsFormBundle:response_received
+@entityName = B2bCode\Bundle\CmsFormBundle\Entity\CmsFieldResponse
+@subject = Your form has new responses
+@isSystem = 1
+
+<h1>Your form {{ entity.form.name }} has new responses.</h1>
+
+{% set entityArray = b2b_code_form_response_array(entity) %}
+{% for fieldResponse in entityArray.fieldResponses %}
+    {% if fieldResponse.valueAsLabel is iterable %}
+        {% set value %}
+            <ul class="extra-list">
+                {% for item in fieldResponse.valueAsLabel %}
+                    <li>{{ item|escape }}</li>
+                {% endfor %}
+            </ul>
+        {% endset %}
+    {% else %}
+        {% set value = fieldResponse.valueAsLabel|escape %}
+    {% endif %}
+    <div>
+        <span>{{ fieldResponse.field.label }}:</span><span>{{ value }}</span>
+    </div>
+{% endfor %}

@@ -1,0 +1,24 @@
+navigation:
+    menu_config:
+        items:
+            cms_form_list:
+                label:           b2bcode.cmsform.entity_plural_label
+                route:           'b2b_code_cms_form_index'
+                position:        110
+
+        tree:
+            application_menu:
+                children:
+                    marketing_tab:
+                        children:
+                            cms_form_list: ~
+
+    titles:
+        b2b_code_cms_form_index: ~
+        b2b_code_cms_form_view: 'b2bcode.cmsform.navigation.view'
+        b2b_code_cms_form_create: oro.ui.create_entity
+        b2b_code_cms_form_update: 'b2bcode.cmsform.navigation.form_update'
+        b2b_code_cms_form_field_create: oro.ui.create_entity
+        b2b_code_cms_form_field_update: 'b2bcode.cmsform.navigation.field_update'
+        b2b_code_cms_form_responses: 'b2bcode.cmsform.navigation.responses'
+        b2b_code_cms_form_frontend_form_preview: 'b2bcode.cmsform.navigation.form_preview'

@@ -1,0 +1,15 @@
+connector:
+    name: oro_importexport
+    jobs:
+        b2b_code_cms_form_responses_export_to_csv:
+            title: "Export Form Responses to CSV"
+            type: export
+            steps:
+                export:
+                    title:     export
+                    class:     Oro\Bundle\BatchBundle\Step\ItemStep
+                    services:
+                        reader:    b2b_code_cms_form.importexport.reader.form_response
+                        processor: oro_importexport.processor.export_delegate
+                        writer:    oro_importexport.writer.csv
+                    parameters: ~

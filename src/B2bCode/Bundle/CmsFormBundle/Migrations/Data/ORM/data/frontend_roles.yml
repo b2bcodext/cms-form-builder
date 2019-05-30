@@ -1,0 +1,11 @@
+BUYER:
+    permissions:
+        action|b2b_code_cms_frontend_form_respond: [EXECUTE]
+
+ADMINISTRATOR:
+    permissions:
+        action|b2b_code_cms_frontend_form_respond: [EXECUTE]
+
+ANONYMOUS:
+    permissions:
+        action|b2b_code_cms_frontend_form_respond: [EXECUTE]

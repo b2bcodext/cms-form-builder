@@ -1,0 +1,58 @@
+{% block cms_form_widget %}
+    {% set options = {'formSelector': '#' ~ form.vars.id} %}
+    <div class="cms-form" data-focusable
+         data-page-component-module="b2bcodecmsform/js/app/components/form-component"
+         data-page-component-options="{{ options|json_encode }}">
+
+        {% set formAttr = {
+            'id': form.vars.id,
+            'novalidate': 'novalidate',
+        } %}
+
+        {{ form_start(form, {'attr': formAttr}) }}
+        <div class="grid">
+            {% if form.children|length %}
+                {# first row needs to be wrapped in row #}
+                <div class="grid__row grid__row--offset-none">
+                {% set rowSize = 0 %}
+                {% for child in form %}
+                    {% if child.vars.attr['data-size'] is defined %}
+                        {% set size = child.vars.attr['data-size'] %}
+                    {% else %}
+                        {% set size = 'large' %}
+                    {% endif %}
+
+                    {% if size is same as ('small') %}
+                        {% set gridColumnSize = '3' %}
+                    {% elseif size is same as ('medium') %}
+                        {% set gridColumnSize = '6' %}
+                    {% else %}
+                        {% set gridColumnSize = '12' %}
+                    {% endif %}
+
+                    {% set willFit = ((rowSize + gridColumnSize) <= 12) %}
+
+                    {% if willFit %}
+                        <div class="grid__column grid__column--{{ gridColumnSize }}">
+                            {{ form_row(child) }}
+                        </div>
+                        {% set rowSize = rowSize + gridColumnSize %}
+                    {% else %}
+                        </div>
+                        <div class="grid__row grid__row--offset-none">
+                            <div class="grid__column grid__column--{{ gridColumnSize }}">
+                                {{ form_row(child) }}
+                            </div>
+                        {% set rowSize = gridColumnSize %}
+                    {% endif %}
+                {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+        <div class="cms-form-actions">
+            <button class="role-submit btn btn--info" type="submit">{{ 'b2bcode.cmsform.submit.label'|trans }}</button>
+        </div>
+        {{ form_end(form) }}
+        {{ oro_form_js_validation(form, js_validation_options|default({})) }}
+    </div>
+{% endblock %}
