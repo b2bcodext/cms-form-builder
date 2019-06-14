@@ -223,6 +223,16 @@ class CmsForm extends ExtendCmsForm implements DatesAwareInterface
     }
 
     /**
+     * @param iterable $fields
+     */
+    public function setFields(iterable $fields)
+    {
+        foreach ($fields as $field) {
+            $this->addField($field);
+        }
+    }
+
+    /**
      * @param CmsFormField $field
      * @return $this
      */
@@ -311,7 +321,7 @@ class CmsForm extends ExtendCmsForm implements DatesAwareInterface
      * @param CmsFormNotification[] $notifications
      * @return CmsForm
      */
-    public function setNotifications(array $notifications)
+    public function setNotifications(iterable $notifications)
     {
         foreach ($notifications as $notification) {
             $this->addNotification($notification);
@@ -347,8 +357,11 @@ class CmsForm extends ExtendCmsForm implements DatesAwareInterface
             // may cause non-unique doctrine exception
             $this->alias = SlugifyHelper::slugify($this->getName());
         }
+        if ($this->uuid === null) {
+            $this->uuid = UUIDGenerator::v4();
+        }
+
         $this->updatedAt = new \DateTime('now', new \DateTimeZone('UTC'));
-        $this->uuid = UUIDGenerator::v4();
     }
 
     /**

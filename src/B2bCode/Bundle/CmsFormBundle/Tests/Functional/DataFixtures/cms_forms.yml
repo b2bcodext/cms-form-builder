@@ -1,0 +1,47 @@
+dependencies:
+    - B2bCode\Bundle\CmsFormBundle\Tests\Functional\DataFixtures\LoadCmsFormField
+
+B2bCode\Bundle\CmsFormBundle\Entity\CmsFormNotification:
+    email1:
+        email: daniel@b2bcodext.com
+
+Doctrine\Common\Collections\ArrayCollection(local):
+    notificationEmails:
+        __construct: [['@email1']]
+    form1_fields:
+        __construct: [['@first-name', '@last-name', '@email', '@organization']]
+
+B2bCode\Bundle\CmsFormBundle\Entity\CmsForm:
+    form_preview_enabled:
+        name: Form preview enabled
+        alias: preview-enabled
+        uuid: 4f7554f2-4442-4baf-8d86-84cb33e1a125
+        previewEnabled: true
+        notificationsEnabled: true
+        notifications: '@notificationEmails'
+        fields: '@form1_fields'
+
+    form_preview_disabled:
+        name: Form preview disabled
+        alias: preview-disabled
+        uuid: 4f7554f2-4442-4baf-8d86-84cb33e1a505
+        previewEnabled: false
+        notificationsEnabled: false
+
+B2bCode\Bundle\CmsFormBundle\Entity\CmsFormResponse:
+    form1_response:
+        form: '@form_preview_enabled'
+
+B2bCode\Bundle\CmsFormBundle\Entity\CmsFieldResponse:
+    form1_response_last_name:
+        field: '@last-name'
+        formResponse: '@form1_response'
+        value: 'NameDoe'
+    form1_response_email:
+        field: '@email'
+        formResponse: '@form1_response'
+        value: 'doe.xx@example.com'
+    form1_response_reason:
+        field: '@contact-reason'
+        formResponse: '@form1_response'
+        value: 'complaint'
