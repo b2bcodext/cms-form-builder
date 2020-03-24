@@ -50,6 +50,10 @@ services:
         tags:
             - { name: form.type_extension, extended_type: B2bCode\Bundle\CmsFormBundle\Form\Type\FieldType}
 
+    B2bCode\Bundle\CmsFormBundle\Form\Extension\ReCaptchaFieldExtension:
+        tags:
+            - { name: form.type_extension, extended_type: B2bCode\Bundle\CmsFormBundle\Form\Type\FieldType}
+
     B2bCode\Bundle\CmsFormBundle\Form\Type\FieldType:
         class: B2bCode\Bundle\CmsFormBundle\Form\Type\FieldType
         arguments:
