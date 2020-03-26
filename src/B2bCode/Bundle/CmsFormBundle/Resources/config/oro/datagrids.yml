@@ -187,6 +187,7 @@ datagrids:
             query:
                 select:
                     - response.id
+                    - response.resolved
 #                    - response.visitor
                     - response.createdAt
                 from:
@@ -209,10 +210,15 @@ datagrids:
             createdAt:
                 label:         oro.ui.created_at
                 frontend_type: datetime
+            resolved:
+                label: b2bcode.cmsformresponse.resolved.label
+                frontend_type: boolean
         sorters:
             columns:
                 id:
                     data_name: response.id
+                resolved:
+                    data_name: response.resolved
 #                visitor:
 #                    data_name: response.visitor
                 createdAt:
@@ -221,6 +227,9 @@ datagrids:
                 createdAt: DESC
         filters:
             columns:
+                resolved:
+                    type: boolean
+                    data_name: response.resolved
 #                name:
 #                    type:      string
 #                    data_name: cmsForm.name

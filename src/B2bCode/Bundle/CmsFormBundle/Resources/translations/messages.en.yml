@@ -135,6 +135,14 @@ b2bcode:
             form_update: 'Cms Form #%name% - Edit'
             field_update: 'Field #%name% - Edit'
 
+        actions:
+            resolve:
+                label: Resolve
+                success: Response sucessfully resolved
+            unresolve:
+                label: Unresolve
+                success: Response sucessfully unresolved
+
         field_type:
             text.label: Single Line Text
             textarea.label: Paragraph Text
@@ -183,6 +191,7 @@ b2bcode:
         entity_plural_label: Form Responses
 
         id.label: ID
+        resolved.label: Resolved
         visitor.label: Visitor ID
 
         cmsfieldresponse:

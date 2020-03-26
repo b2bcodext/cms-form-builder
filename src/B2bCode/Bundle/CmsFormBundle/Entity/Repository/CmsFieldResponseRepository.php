@@ -27,6 +27,10 @@ class CmsFieldResponseRepository extends EntityRepository
 
         $groupedByResponses = [];
         foreach ($records as $record) {
+            // @todo create option 'hide_from_response'
+            if ($record->getField()->getType() === 'oro-recaptcha-v3') {
+                continue;
+            }
             $responseId = $record->getFormResponse()->getId();
             if (array_key_exists($responseId, $groupedByResponses)) {
                 $groupedByResponses[$responseId][] = $record;

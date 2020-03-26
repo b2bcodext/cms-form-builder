@@ -16,7 +16,7 @@ use Oro\Bundle\MigrationBundle\Migration\Migration;
 use Oro\Bundle\MigrationBundle\Migration\QueryBag;
 
 /**
- * @todo make it up to date with Installer
+ * Version 1_0 doesn't need to be present. Left just for BC.
  */
 class CreateTables implements Migration
 {
@@ -25,12 +25,7 @@ class CreateTables implements Migration
      */
     public function up(Schema $schema, QueryBag $queries)
     {
-        /** Tables generation **/
-        $this->createB2BCodeCmsFormTable($schema);
-        $this->createB2BCodeCmsFormFieldTable($schema);
-
-        /** Foreign keys generation **/
-        $this->addB2BCodeCmsFormFieldForeignKeys($schema);
+        return;
     }
 
     /**
