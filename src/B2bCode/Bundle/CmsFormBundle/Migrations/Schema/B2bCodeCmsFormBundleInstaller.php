@@ -27,7 +27,7 @@ class B2bCodeCmsFormBundleInstaller implements Installation
      */
     public function getMigrationVersion()
     {
-        return 'v1_0';
+        return 'v1_1';
     }
 
     /**
@@ -62,6 +62,7 @@ class B2bCodeCmsFormBundleInstaller implements Installation
         $table->addColumn('visitor_id', 'integer', ['notnull' => false]);
         $table->addColumn('created_at', 'datetime', ['comment' => '(DC2Type:datetime)']);
         $table->addColumn('updated_at', 'datetime', ['comment' => '(DC2Type:datetime)']);
+        $table->addColumn('is_resolved', 'boolean', ['notnull' => false]);
         $table->addColumn('serialized_data', 'array', ['notnull' => false, 'comment' => '(DC2Type:array)']);
         $table->setPrimaryKey(['id']);
         $table->addIndex(['visitor_id'], 'idx_eab5a5270bee6d', []);

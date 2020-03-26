@@ -12,6 +12,8 @@
 namespace B2bCode\Bundle\CmsFormBundle\Provider;
 
 use B2bCode\Bundle\CmsFormBundle\ValueObject\CmsFieldType;
+use OroLab\Bundle\ReCaptchaBundle\Form\Type\ReCaptchaType;
+use OroLab\Bundle\ReCaptchaBundle\Validator\Constraints\IsVerified;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
@@ -26,7 +28,7 @@ class FieldTypeProvider implements FieldTypeProviderInterface
      */
     public function getAvailableTypes(): array
     {
-        return [
+        $fields = [
             new CmsFieldType('text', TextType::class),
             new CmsFieldType('textarea', TextareaType::class),
             new CmsFieldType('email', EmailType::class, ['constraints' => [new Email()]]),
@@ -34,5 +36,16 @@ class FieldTypeProvider implements FieldTypeProviderInterface
             new CmsFieldType('radio', ChoiceType::class, ['expanded' => true]),
             new CmsFieldType('hidden', HiddenType::class),
         ];
+
+        // works only with ORO recaptcha extension
+        if (class_exists('OroLab\Bundle\ReCaptchaBundle\Form\Type\ReCaptchaType')) {
+            $fields[] = new CmsFieldType('oro-recaptcha-v3', ReCaptchaType::class, [
+                'constraints' => [
+                    new IsVerified()
+                ],
+            ]);
+        }
+
+        return $fields;
     }
 }

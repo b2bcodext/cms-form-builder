@@ -98,6 +98,12 @@ b2bcode:
                         tooltip: |
                             Specifies a short hint that describes the expected value of a <i>Choice</i> field.
                             It works with e.g. Dropdown and Radio button fields.
+                oro-recaptcha:
+                    recaptcha-action:
+                        label: reCaptcha action
+                        tooltip: |
+                            Actions may only contain alphanumeric characters and slashes, and must not be user-specific.
+                            Read more: <a href="https://developers.google.com/recaptcha/docs/v3#actions" target="_blank">docs</a>
             sections:
                 general: General
                 common_options: Common options
@@ -129,6 +135,14 @@ b2bcode:
             form_update: 'Cms Form #%name% - Edit'
             field_update: 'Field #%name% - Edit'
 
+        actions:
+            resolve:
+                label: Resolve
+                success: Response sucessfully resolved
+            unresolve:
+                label: Unresolve
+                success: Response sucessfully unresolved
+
         field_type:
             text.label: Single Line Text
             textarea.label: Paragraph Text
@@ -136,6 +150,7 @@ b2bcode:
             dropdown.label: Dropdown
             radio.label: Radio button
             hidden.label: Hidden
+            oro-recaptcha-v3.label: reCaptcha
 
         submit.label: Submit
 
@@ -176,6 +191,7 @@ b2bcode:
         entity_plural_label: Form Responses
 
         id.label: ID
+        resolved.label: Resolved
         visitor.label: Visitor ID
 
         cmsfieldresponse:

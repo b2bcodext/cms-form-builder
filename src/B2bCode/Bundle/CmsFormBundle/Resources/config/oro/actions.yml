@@ -1,0 +1,34 @@
+operations:
+    b2b_code_cms_form.action.resolve:
+        label: b2bcode.cmsform.actions.resolve.label
+        enabled: true
+        applications: [default]
+        button_options:
+            icon: fa-check
+        datagrids:
+            - b2bcode-cms-form-responses-grid
+        preconditions:
+            '@equal': [$.data.resolved, 0]
+        actions:
+            -   '@assign_value': [$.data.resolved, 1]
+            -   '@flush_entity': [$.data]
+            -   '@flash_message':
+                    message: b2bcode.cmsform.actions.resolve.success
+                    type: 'success'
+
+    b2b_code_cms_form.action.unresolve:
+        label: b2bcode.cmsform.actions.unresolve.label
+        enabled: true
+        applications: [default]
+        button_options:
+            icon: fa-undo
+        datagrids:
+            - b2bcode-cms-form-responses-grid
+        preconditions:
+            '@equal': [$.data.resolved, 1]
+        actions:
+            -   '@assign_value': [$.data.resolved, 0]
+            -   '@flush_entity': [$.data]
+            -   '@flash_message':
+                    message: b2bcode.cmsform.actions.unresolve.success
+                    type: 'success'

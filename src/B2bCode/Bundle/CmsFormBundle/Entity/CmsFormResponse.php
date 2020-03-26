@@ -102,6 +102,13 @@ class CmsFormResponse extends ExtendCmsFormResponse implements DatesAwareInterfa
      */
     protected $visitor;
 
+    /**
+     * @var bool
+     *
+     * @ORM\Column(name="is_resolved", type="boolean", nullable=true)
+     */
+    protected $resolved = false;
+
     public function __construct()
     {
         $this->fieldResponses = new ArrayCollection();
@@ -174,6 +181,26 @@ class CmsFormResponse extends ExtendCmsFormResponse implements DatesAwareInterfa
         $this->visitor = $visitor;
 
         return $this;
+    }
+
+    /**
+     * @param bool $resolved
+     *
+     * @return $this
+     */
+    public function setResolved(?bool $resolved)
+    {
+        $this->resolved = (bool) $resolved;
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isResolved()
+    {
+        return (bool) $this->resolved;
     }
 
     /**
