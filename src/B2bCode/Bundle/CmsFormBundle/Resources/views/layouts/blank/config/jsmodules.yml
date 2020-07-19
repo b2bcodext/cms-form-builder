@@ -1,0 +1,3 @@
+dynamic-imports:
+    b2bcodecmsform:
+        - b2bcodecmsform/js/app/components/form-component

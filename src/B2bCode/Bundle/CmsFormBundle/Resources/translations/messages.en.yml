@@ -157,6 +157,8 @@ b2bcode:
         saved_message: Form saved
 
         cmsformresponse:
+            resolved:
+                label: Resolved
             field_responses:
                 label: Field response
             form:
