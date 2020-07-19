@@ -1,0 +1,6 @@
+app-modules:
+    - b2bcodecmsform/js/app/modules/grapesjs-module
+dynamic-imports:
+    b2bcodecmsform:
+        - b2bcodecmsform/js/app/components/field-options-component
+        - b2bcodecmsform/js/app/components/sortable-fields-component

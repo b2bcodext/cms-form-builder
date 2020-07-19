@@ -7,3 +7,10 @@ b2bcode:
                 success: Your form has been successfully submitted
             reorder:
                 error: Error
+        wysiwyg:
+            component:
+                cms_form:
+                    label: CMS Form
+                    dialog:
+                        title: Select CMS Form
+                    block_setting: Settings

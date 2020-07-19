@@ -24,6 +24,7 @@ services:
             - !tagged b2b_code_cms_form.field_type_provider
 
     B2bCode\Bundle\CmsFormBundle\Builder\FormBuilderInterface:
+        public: true
         class: B2bCode\Bundle\CmsFormBundle\Builder\FormBuilder
         arguments:
             - '@form.factory'
@@ -33,6 +34,7 @@ services:
             - '@B2bCode\Bundle\CmsFormBundle\Validator\ConstraintProviderInterface'
 
     B2bCode\Bundle\CmsFormBundle\Provider\GeneralFieldProvider:
+        public: true
         class: B2bCode\Bundle\CmsFormBundle\Provider\GeneralFieldProvider
 
     B2bCode\Bundle\CmsFormBundle\Form\Extension\FieldOptionsExtension:
@@ -70,6 +72,7 @@ services:
             - { name: kernel.event_listener, event: oro_datagrid.orm_datasource.result.after.b2bcode-cms-form-responses-grid, method: onResultAfter }
 
     B2bCode\Bundle\CmsFormBundle\Notification\NotificationInterface:
+        public: true
         class: B2bCode\Bundle\CmsFormBundle\Notification\SendEmailNotification
         arguments:
             - '@oro_message_queue.message_producer'
@@ -106,6 +109,7 @@ services:
     b2b_code_cms_form.field_manager.api:
         class: Oro\Bundle\SoapBundle\Entity\Manager\ApiEntityManager
         parent: oro_soap.manager.entity_manager.abstract
+        public: true
         arguments:
             - B2bCode\Bundle\CmsFormBundle\Entity\CmsFormField
             - '@doctrine.orm.entity_manager'
