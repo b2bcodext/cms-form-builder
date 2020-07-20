@@ -17,7 +17,7 @@
     ]
   },
   "require": {
-    "oro/commerce": "4.1.x-dev"
+    "oro/commerce": "4.1.*"
   },
   "minimum-stability": "dev"
 }
