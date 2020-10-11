@@ -39,4 +39,12 @@ class FieldResponseNormalizer extends ConfigurableEntityNormalizer
 
         return $result;
     }
+    
+     /**
+     * {@inheritdoc}
+     */
+    public function supportsDenormalization($data, $type, $format = null, array $context = [])
+    {
+        return $type === CmsFieldResponse::class;
+    }
 }
