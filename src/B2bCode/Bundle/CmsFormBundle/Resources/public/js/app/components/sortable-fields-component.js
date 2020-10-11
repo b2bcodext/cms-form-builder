@@ -8,7 +8,7 @@ define(function(require) {
     var mediator = require('oroui/js/mediator');
     var LoadingMaskView = require('oroui/js/app/views/loading-mask-view');
     var BaseComponent = require('oroui/js/app/components/base/component');
-    require('jquery-ui');
+    require('jquery-ui/widgets/sortable');
 
     SortableFieldsComponent = BaseComponent.extend({
         options: {
