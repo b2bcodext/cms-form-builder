@@ -14,7 +14,7 @@ namespace B2bCode\Bundle\CmsFormBundle\Migrations\Data\Demo\ORM;
 use B2bCode\Bundle\CmsFormBundle\Entity\CmsForm;
 use B2bCode\Bundle\CmsFormBundle\Entity\CmsFormField;
 use Doctrine\Common\DataFixtures\AbstractFixture;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 
 class LoadDemoCmsForm extends AbstractFixture
 {

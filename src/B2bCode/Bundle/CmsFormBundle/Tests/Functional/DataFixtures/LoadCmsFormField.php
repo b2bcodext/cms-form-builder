@@ -4,7 +4,7 @@ namespace B2bCode\Bundle\CmsFormBundle\Tests\Functional\DataFixtures;
 
 use B2bCode\Bundle\CmsFormBundle\Entity\CmsFormField;
 use Doctrine\Common\DataFixtures\AbstractFixture;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 
 class LoadCmsFormField extends AbstractFixture
 {

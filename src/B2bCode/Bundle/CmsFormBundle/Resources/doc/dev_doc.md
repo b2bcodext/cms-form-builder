@@ -174,7 +174,7 @@ use to inject your own constraints to the form.
 
 ```php
 $event = new ConstraintBuild($collection, $form);
-$this->eventDispatcher->dispatch(ConstraintBuild::NAME, $event);
+$this->eventDispatcher->dispatch($event);
 
 return $event->getConstraintCollection();
 ```

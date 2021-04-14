@@ -12,7 +12,7 @@
 namespace B2bCode\Bundle\CmsFormBundle\Notification;
 
 use B2bCode\Bundle\CmsFormBundle\Entity\CmsFormResponse;
-use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ManagerRegistry;
 use Oro\Bundle\ConfigBundle\Config\ConfigManager;
 use Oro\Bundle\EmailBundle\Entity\EmailTemplate;
 use Oro\Bundle\EmailBundle\Provider\EmailRenderer;

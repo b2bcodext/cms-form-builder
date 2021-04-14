@@ -63,7 +63,7 @@ class ConstraintProvider implements ConstraintProviderInterface
         }
 
         $event = new ConstraintBuild($collection, $form);
-        $this->eventDispatcher->dispatch(ConstraintBuild::NAME, $event);
+        $this->eventDispatcher->dispatch($event);
 
         return $event->getConstraintCollection();
     }
