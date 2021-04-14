@@ -13,7 +13,7 @@ namespace B2bCode\Bundle\CmsFormBundle\Event;
 
 use B2bCode\Bundle\CmsFormBundle\Entity\CmsForm;
 use B2bCode\Bundle\CmsFormBundle\Validator\Config\FormConstraintCollection;
-use Symfony\Component\EventDispatcher\Event;
+use Symfony\Contracts\EventDispatcher\Event;
 
 class ConstraintBuild extends Event
 {

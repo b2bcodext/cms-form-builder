@@ -27,9 +27,9 @@ class FieldOptionsExtension extends AbstractTypeExtension
     /**
      * {@inheritdoc}
      */
-    public function getExtendedType()
+    public static function getExtendedTypes(): iterable
     {
-        return FieldType::class;
+        return [FieldType::class];
     }
 
     /**

@@ -13,7 +13,7 @@ namespace B2bCode\Bundle\CmsFormBundle\EventListener\Datagrid;
 
 use B2bCode\Bundle\CmsFormBundle\Entity\CmsFieldResponse;
 use B2bCode\Bundle\CmsFormBundle\Entity\Repository\CmsFieldResponseRepository;
-use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ManagerRegistry;
 use Oro\Bundle\DataGridBundle\Datasource\ResultRecord;
 use Oro\Bundle\DataGridBundle\Event\OrmResultAfter;
 

@@ -11,7 +11,7 @@
 
 namespace B2bCode\Bundle\CmsFormBundle\Migrations\Data\ORM;
 
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 use Oro\Bundle\EmailBundle\Migrations\Data\ORM\AbstractEmailFixture;
 
 class LoadEmailTemplates extends AbstractEmailFixture

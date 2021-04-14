@@ -18,7 +18,7 @@ use B2bCode\Bundle\CmsFormBundle\Form\Type\CmsFormType;
 use B2bCode\Bundle\CmsFormBundle\Provider\FieldTypeRegistry;
 use B2bCode\Bundle\CmsFormBundle\Validator\Config\FormConstraintCollection;
 use B2bCode\Bundle\CmsFormBundle\Validator\ConstraintProviderInterface;
-use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Form\FormBuilderInterface as SymfonyFormBuilderInterface;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Form\FormInterface;
