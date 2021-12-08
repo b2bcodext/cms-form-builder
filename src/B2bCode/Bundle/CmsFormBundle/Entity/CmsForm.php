@@ -120,8 +120,7 @@ class CmsForm extends ExtendCmsForm implements DatesAwareInterface
      * @ORM\Column(name="notifications_enabled", type="boolean", nullable=true)
      */
     protected $notificationsEnabled = false;
-
-
+    
     /**
      * @var Collection|CmsFormNotification[]
      *
@@ -136,6 +135,13 @@ class CmsForm extends ExtendCmsForm implements DatesAwareInterface
      */
     protected $notifications;
 
+    /**
+     * @var string|null
+     *
+     * @ORM\Column(name="redirect_url", type="string", length=1024, nullable=true)
+     */
+    protected $redirectUrl;
+    
     public function __construct()
     {
         $this->fields = new ArrayCollection();
@@ -330,6 +336,22 @@ class CmsForm extends ExtendCmsForm implements DatesAwareInterface
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
+    public function getRedirectUrl(): ?string
+    {
+        return $this->redirectUrl;
+    }
+
+    /**
+     * @param string|null $redirectUrl
+     */
+    public function setRedirectUrl(?string $redirectUrl): void
+    {
+        $this->redirectUrl = $redirectUrl;
+    }
+    
     /**
      * @param CmsFormNotification $notification
      * @return $this

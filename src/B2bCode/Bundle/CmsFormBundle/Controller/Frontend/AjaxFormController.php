@@ -67,7 +67,11 @@ class AjaxFormController extends Controller
             // @todo extract
             $this->get(NotificationInterface::class)->process($formResponse);
 
-            return new JsonResponse(['success' => true, 'message' => '@todo']);
+            return new JsonResponse([
+                'success'     => true,
+                'message'     => '@todo',
+                'redirectUrl' => $cmsForm->getRedirectUrl()
+            ]);
         }
 
         $errors = [];
@@ -77,7 +81,7 @@ class AjaxFormController extends Controller
 
         return new JsonResponse([
             'success' => false,
-            'errors'    => $errors
+            'errors'  => $errors
         ]);
     }
 }

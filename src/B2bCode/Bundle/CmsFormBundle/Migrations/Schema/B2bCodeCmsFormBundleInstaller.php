@@ -27,7 +27,7 @@ class B2bCodeCmsFormBundleInstaller implements Installation
      */
     public function getMigrationVersion()
     {
-        return 'v1_1';
+        return 'v1_2';
     }
 
     /**
@@ -144,6 +144,7 @@ class B2bCodeCmsFormBundleInstaller implements Installation
         $table->addColumn('uuid', 'string', ['length' => 255]);
         $table->addColumn('preview_enabled', 'boolean', ['notnull' => false]);
         $table->addColumn('notifications_enabled', 'boolean', ['notnull' => false]);
+        $table->addColumn('redirect_url', 'string', ['length' => 1024, 'notnull' => false]);
         $table->setPrimaryKey(['id']);
         $table->addUniqueIndex(['alias'], 'uniq_e042b376e16c6b94');
         $table->addUniqueIndex(['uuid'], 'uniq_e042b376d17f50a6');
