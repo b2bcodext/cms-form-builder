@@ -27,6 +27,8 @@ B2bCode\Bundle\CmsFormBundle\Entity\CmsForm:
             - NotBlank: ~
             # Slugs are used for simplicity
             - Oro\Bundle\ValidationBundle\Validator\Constraints\UrlSafe: ~
+        redirectUrl:
+            - Oro\Bundle\ValidationBundle\Validator\Constraints\Url: ~
 
 B2bCode\Bundle\CmsFormBundle\Entity\CmsFormNotification:
     properties:
