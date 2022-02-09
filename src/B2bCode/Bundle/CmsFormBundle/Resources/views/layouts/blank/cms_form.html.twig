@@ -34,14 +34,14 @@
 
                     {% if willFit %}
                         <div class="grid__column grid__column--{{ gridColumnSize }}">
-                            {{ block('_form_row_with_raw_label') }}
+                            {{ form_row(child, {raw_label: 1}) }}
                         </div>
                         {% set rowSize = rowSize + gridColumnSize %}
                     {% else %}
                         </div>
                         <div class="grid__row grid__row--offset-none">
                             <div class="grid__column grid__column--{{ gridColumnSize }}">
-                                {{ block('_form_row_with_raw_label') }}
+                                {{ form_row(child, {raw_label: 1}) }}
                             </div>
                         {% set rowSize = gridColumnSize %}
                     {% endif %}
@@ -56,19 +56,3 @@
         {{ oro_form_js_validation(form, js_validation_options|default({})) }}
     </div>
 {% endblock %}
-
-{%- block _form_row_with_raw_label -%}
-    <div class="form-row">
-        <div class="form-row__label">
-            {{- form_label(child, null, { 'raw_label': 1, 'label_attr': {'class': 'label'}}) -}}
-        </div>
-        <div class="form-row__content">
-            {{- form_widget(child, {
-                attr: {
-                    'class': 'input input--full'
-                }
-            }) -}}
-        </div>
-        {{- form_errors(child) -}}
-    </div>
-{%- endblock -%}
