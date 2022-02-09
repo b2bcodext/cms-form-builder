@@ -1,0 +1,6 @@
+{% extends 'OroFormBundle:Form:fields.html.twig' %}
+
+{%- block form_label -%}
+    {% set raw_label = 1 %}
+    {{ parent() }}
+{%- endblock form_label -%}
