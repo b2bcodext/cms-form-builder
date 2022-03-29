@@ -14,9 +14,9 @@ class FormControllerTest extends WebTestCase
     protected const FIELDS_GRID = 'b2bcode-cms-form-fields-grid';
     protected const RESPONSES_GRID = 'b2bcode-cms-form-responses-grid';
 
-    protected function setUp()
+    protected function setUp(): void
     {
-        $this->initClient([], static::generateBasicAuthHeader());
+        $this->initClient([], $this->generateBasicAuthHeader());
         $this->client->useHashNavigation(true);
         $this->loadFixtures(['@B2bCodeCmsFormBundle/Tests/Functional/DataFixtures/cms_forms.yml']);
     }
@@ -26,8 +26,8 @@ class FormControllerTest extends WebTestCase
         $crawler = $this->client->request(Request::METHOD_GET, $this->getUrl('b2b_code_cms_form_index'));
         $response = $this->client->getResponse();
         self::assertHtmlResponseStatusCodeEquals($response, Response::HTTP_OK);
-        self::assertContains(static::GRID, $crawler->html());
-        self::assertContains('Create Cms Form', $response->getContent());
+        self::assertStringContainsString(static::GRID, $crawler->html());
+        self::assertStringContainsString('Create Cms Form', $response->getContent());
 
         $response = $this->client->requestGrid(static::GRID);
         $gridRecords = self::getJsonResponseContent($response, Response::HTTP_OK);
@@ -49,15 +49,15 @@ class FormControllerTest extends WebTestCase
         $response = $this->client->getResponse();
 
         self::assertHtmlResponseStatusCodeEquals($response, Response::HTTP_OK);
-        self::assertContains('General', $response->getContent());
-        self::assertContains('Fields', $response->getContent());
-        self::assertContains('Reorder fields', $response->getContent());
+        self::assertStringContainsString('General', $response->getContent());
+        self::assertStringContainsString('Fields', $response->getContent());
+        self::assertStringContainsString('Reorder fields', $response->getContent());
 
-        self::assertContains('preview/4f7554f2-4442-4baf-8d86-84cb33e1a125', $response->getContent());
+        self::assertStringContainsString('preview/4f7554f2-4442-4baf-8d86-84cb33e1a125', $response->getContent());
         // Notifications are enabled and has at least one email set
-        self::assertContains('daniel@b2bcodext.com', $response->getContent());
-        self::assertContains('Generated code', $response->getContent());
-        self::assertContains('{{ b2b_code_form(&#039;preview-enabled&#039;) }}', $response->getContent());
+        self::assertStringContainsString('daniel@b2bcodext.com', $response->getContent());
+        self::assertStringContainsString('Generated code', $response->getContent());
+        self::assertStringContainsString('{{ b2b_code_form(&#039;preview-enabled&#039;) }}', $response->getContent());
 
         // Fields grid
         $response = $this->client->requestGrid([
@@ -83,10 +83,10 @@ class FormControllerTest extends WebTestCase
         $response = $this->client->getResponse();
 
         self::assertHtmlResponseStatusCodeEquals($response, Response::HTTP_OK);
-        self::assertContains('Preview is not enabled. To enable it', $response->getContent());
-        self::assertContains('Notifications are disabled or empty. To enable them', $response->getContent());
-        self::assertContains('Generated code', $response->getContent());
-        self::assertContains('{{ b2b_code_form(&#039;preview-disabled&#039;) }}', $response->getContent());
+        self::assertStringContainsString('Preview is not enabled. To enable it', $response->getContent());
+        self::assertStringContainsString('Notifications are disabled or empty. To enable them', $response->getContent());
+        self::assertStringContainsString('Generated code', $response->getContent());
+        self::assertStringContainsString('{{ b2b_code_form(&#039;preview-disabled&#039;) }}', $response->getContent());
     }
 
     public function testCreateForm()
@@ -107,7 +107,7 @@ class FormControllerTest extends WebTestCase
         $cmsForm = $this->getEntityBy(CmsForm::class, ['alias' => 'contact-us']);
 
         self::assertHtmlResponseStatusCodeEquals($response, Response::HTTP_OK);
-        self::assertContains('Form saved', $crawler->html());
+        self::assertStringContainsString('Form saved', $crawler->html());
         self::assertNotNull($cmsForm);
         self::assertTrue($cmsForm->isPreviewEnabled());
         self::assertTrue($cmsForm->isNotificationsEnabled());
@@ -137,7 +137,7 @@ class FormControllerTest extends WebTestCase
         $cmsForm = $this->getEntityBy(CmsForm::class, ['alias' => 'preview-now-enabled']);
 
         self::assertHtmlResponseStatusCodeEquals($response, Response::HTTP_OK);
-        self::assertContains('Form saved', $crawler->html());
+        self::assertStringContainsString('Form saved', $crawler->html());
         self::assertNotNull($cmsForm);
         self::assertTrue($cmsForm->isPreviewEnabled());
         self::assertTrue($cmsForm->isNotificationsEnabled());
@@ -168,7 +168,7 @@ class FormControllerTest extends WebTestCase
         $field = $this->getEntityBy(CmsFormField::class, ['name' => 'simple-text-field']);
 
         self::assertHtmlResponseStatusCodeEquals($response, Response::HTTP_OK);
-        self::assertContains('Field saved', $crawler->html());
+        self::assertStringContainsString('Field saved', $crawler->html());
         self::assertNotNull($field);
         self::assertEquals('Simple text field', $field->getLabel());
         self::assertEquals('text', $field->getType());
@@ -203,7 +203,7 @@ class FormControllerTest extends WebTestCase
         $field = $this->getEntityBy(CmsFormField::class, ['name' => 'first-name-edited']);
 
         self::assertHtmlResponseStatusCodeEquals($response, Response::HTTP_OK);
-        self::assertContains('Field saved', $crawler->html());
+        self::assertStringContainsString('Field saved', $crawler->html());
         self::assertNotNull($field);
         self::assertEquals('First name edited', $field->getLabel());
         self::assertEquals('textarea', $field->getType());
@@ -223,9 +223,9 @@ class FormControllerTest extends WebTestCase
         );
         $response = $this->client->getResponse();
         self::assertHtmlResponseStatusCodeEquals($response, Response::HTTP_OK);
-        self::assertContains(static::RESPONSES_GRID, $crawler->html());
-        self::assertContains('View Form', $response->getContent());
-        self::assertContains('Export', $response->getContent());
+        self::assertStringContainsString(static::RESPONSES_GRID, $crawler->html());
+        self::assertStringContainsString('View Form', $response->getContent());
+        self::assertStringContainsString('Export', $response->getContent());
 
         $response = $this->client->requestGrid([
             'gridName' => static::RESPONSES_GRID,
@@ -236,12 +236,12 @@ class FormControllerTest extends WebTestCase
         self::assertCount(1, $gridRecords['data']);
         $firstRow = reset($gridRecords['data']);
         self::assertArrayHasKey('fieldResponses', $firstRow);
-        self::assertContains('Last name', $firstRow['fieldResponses']);
-        self::assertContains('NameDoe', $firstRow['fieldResponses']);
-        self::assertContains('Email', $firstRow['fieldResponses']);
-        self::assertContains('doe.xx@example.com', $firstRow['fieldResponses']);
-        self::assertContains('Contact reason', $firstRow['fieldResponses']);
-        self::assertContains('Have a complaint', $firstRow['fieldResponses']);
+        self::assertStringContainsString('Last name', $firstRow['fieldResponses']);
+        self::assertStringContainsString('NameDoe', $firstRow['fieldResponses']);
+        self::assertStringContainsString('Email', $firstRow['fieldResponses']);
+        self::assertStringContainsString('doe.xx@example.com', $firstRow['fieldResponses']);
+        self::assertStringContainsString('Contact reason', $firstRow['fieldResponses']);
+        self::assertStringContainsString('Have a complaint', $firstRow['fieldResponses']);
     }
 
     /**

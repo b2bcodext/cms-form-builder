@@ -26,13 +26,18 @@ b2b_code_cms_form_frontend_form:
         frontend: true
         expose: true
 
-# API
-b2b_code_cms_form_api_formfield:
-    resource:     "@B2bCodeCmsFormBundle/Controller/Api/Rest/FormFieldController.php"
-    type:         rest
-    prefix:       api/rest/{version}/
-    requirements:
-        version:  latest|v1
-        _format:  json
+#
+# OLD REST API ROUTES
+#
+
+b2b_code_cms_form_api_formfield_delete:
+    path: '/api/rest/{version}/formfield/{id}.{_format}'
+    methods: [DELETE]
     defaults:
-        version:  latest
+        _controller: 'B2bCode\Bundle\CmsFormBundle\Controller\Api\Rest\FormFieldController::deleteAction'
+        _format: json
+        version: latest
+    requirements:
+        id: \d+
+        _format: json|html
+        version: latest|v1

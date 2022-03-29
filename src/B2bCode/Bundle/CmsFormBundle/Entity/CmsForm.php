@@ -140,6 +140,8 @@ class CmsForm extends ExtendCmsForm implements DatesAwareInterface
     {
         $this->fields = new ArrayCollection();
         $this->notifications = new ArrayCollection();
+
+        parent::__construct();
     }
 
     /**

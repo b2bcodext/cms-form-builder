@@ -16,27 +16,29 @@ use B2bCode\Bundle\CmsFormBundle\Entity\CmsFieldResponse;
 use B2bCode\Bundle\CmsFormBundle\Entity\CmsForm;
 use B2bCode\Bundle\CmsFormBundle\Entity\CmsFormResponse;
 use B2bCode\Bundle\CmsFormBundle\Notification\NotificationInterface;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Oro\Bundle\SecurityBundle\Annotation\AclAncestor;
-use Symfony\Component\HttpFoundation\Response;
 
-class AjaxFormController extends Controller
+class AjaxFormController extends AbstractController
 {
     /**
      * @Route("/respond/{uuid}", name="b2b_code_cms_frontend_ajax_respond")
      * @AclAncestor("b2b_code_cms_frontend_form_respond")
-     * @param Request $request
-     * @param CmsForm $cmsForm
-     * @return array|Response
      */
-    public function respondAction(Request $request, CmsForm $cmsForm)
-    {
+    public function respondAction(
+        Request $request,
+        CmsForm $cmsForm,
+        FormBuilderInterface $formBuilder,
+        ManagerRegistry $registry,
+        NotificationInterface $notification
+    ) {
         // build CmsFormType and map it to CmsFieldResponse
         // @todo daniel extract
-        $form = $this->get(FormBuilderInterface::class)->getForm($cmsForm->getAlias());
+        $form = $formBuilder->getForm($cmsForm->getAlias());
 
         $form->handleRequest($request);
 
@@ -60,12 +62,12 @@ class AjaxFormController extends Controller
                 }
             }
 
-            $manager = $this->get('doctrine')->getManagerForClass(CmsFormResponse::class);
+            $manager = $registry->getManagerForClass(CmsFormResponse::class);
             $manager->persist($formResponse);
             $manager->flush();
 
             // @todo extract
-            $this->get(NotificationInterface::class)->process($formResponse);
+            $notification->process($formResponse);
 
             return new JsonResponse(['success' => true, 'message' => '@todo']);
         }

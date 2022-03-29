@@ -14,8 +14,10 @@ namespace B2bCode\Bundle\CmsFormBundle\Twig;
 use B2bCode\Bundle\CmsFormBundle\Builder\FormBuilderInterface;
 use B2bCode\Bundle\CmsFormBundle\Provider\GeneralFieldProvider;
 use Symfony\Component\Form\FormRendererInterface;
+use Twig\Extension\AbstractExtension;
+use Twig\TwigFunction;
 
-class FormExtension extends \Twig_Extension
+class FormExtension extends AbstractExtension
 {
     /** @var FormBuilderInterface */
     protected $formBuilder;
@@ -47,8 +49,8 @@ class FormExtension extends \Twig_Extension
     public function getFunctions()
     {
         return [
-            new \Twig_SimpleFunction('b2b_code_form', [$this, 'renderForm'], ['is_safe' => ['html']]),
-            new \Twig_SimpleFunction('b2b_code_form_updateable_fields', [$this, 'getUpdateableFields']),
+            new TwigFunction('b2b_code_form', [$this, 'renderForm'], ['is_safe' => ['html']]),
+            new TwigFunction('b2b_code_form_updateable_fields', [$this, 'getUpdateableFields']),
         ];
     }
 
@@ -66,7 +68,7 @@ class FormExtension extends \Twig_Extension
 
         $formView = $this->formBuilder->getForm($alias, $options)->createView();
         // @todo evaluate this approach
-        $this->formRenderer->setTheme($formView, 'B2bCodeCmsFormBundle:layouts:blank/cms_form.html.twig');
+        $this->formRenderer->setTheme($formView, '@B2bCodeCmsForm/layouts/blank/cms_form.html.twig');
 
         // @todo evaluate this approach
         return $this->formRenderer->renderBlock($formView, 'cms_form_widget');

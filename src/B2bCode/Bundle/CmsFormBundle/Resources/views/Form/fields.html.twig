@@ -19,7 +19,7 @@
 {% endmacro %}
 
 {% block choice_option_collection_widget %}
-    {% spaceless %}
+    {% apply spaceless %}
         {% if prototype is defined %}
             {% set prototype_html = _self.choice_option_collection_item_prototype(form.vars.prototype) %}
         {% endif %}
@@ -44,7 +44,7 @@
                    href="javascript: void(0);">{{ form.vars.add_label|default('oro.form.collection.add')|trans }}</a>
             {% endif %}
         </div>
-    {% endspaceless %}
+    {% endapply %}
 {% endblock %}
 
 {% macro form_notification_collection_item_prototype(widget) %}
@@ -68,7 +68,7 @@
 {% endmacro %}
 
 {% block _form_notifications_widget %}
-    {% spaceless %}
+    {% apply spaceless %}
         {% if prototype is defined %}
             {% set prototype_html = _self.form_notification_collection_item_prototype(form.vars.prototype) %}
         {% endif %}
@@ -93,6 +93,6 @@
                    href="javascript: void(0);">{{ form.vars.add_label|default('oro.form.collection.add')|trans }}</a>
             {% endif %}
         </div>
-    {% endspaceless %}
+    {% endapply %}
 {% endblock %}
 

@@ -19,7 +19,7 @@ class FieldResponseNormalizer extends ConfigurableEntityNormalizer
     /**
      * {@inheritdoc}
      */
-    public function supportsNormalization($data, $format = null, array $context = array())
+    public function supportsNormalization($data, $format = null, array $context = array()): bool
     {
         return $data instanceof CmsFieldResponse;
     }
@@ -43,7 +43,7 @@ class FieldResponseNormalizer extends ConfigurableEntityNormalizer
      /**
      * {@inheritdoc}
      */
-    public function supportsDenormalization($data, $type, $format = null, array $context = [])
+    public function supportsDenormalization($data, $type, $format = null, array $context = []): bool
     {
         return $type === CmsFieldResponse::class;
     }

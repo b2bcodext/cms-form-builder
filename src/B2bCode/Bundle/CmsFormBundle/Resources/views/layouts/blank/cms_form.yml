@@ -1,4 +1,4 @@
 layout:
     actions:
         - '@setFormTheme':
-            themes: 'B2bCodeCmsFormBundle:layouts:blank/cms_form.html.twig'
+            themes: '@B2bCodeCmsForm/layouts/blank/cms_form.html.twig'

@@ -13,10 +13,10 @@ namespace B2bCode\Bundle\CmsFormBundle\Controller\Frontend;
 
 use B2bCode\Bundle\CmsFormBundle\Entity\CmsForm;
 use Oro\Bundle\LayoutBundle\Annotation\Layout;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Routing\Annotation\Route;
 
-class FormController extends Controller
+class FormController extends AbstractController
 {
     /**
      * @Route("/preview/{uuid}", name="b2b_code_cms_form_frontend_form_preview")

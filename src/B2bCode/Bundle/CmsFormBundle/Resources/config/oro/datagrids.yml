@@ -160,7 +160,7 @@ datagrids:
                 params:     [ id ]
             delete_link:
                 type: url
-                route: b2b_code_api_delete_formfield
+                route: b2b_code_cms_form_api_formfield_delete
                 params:
                     - id
         actions:
@@ -204,7 +204,7 @@ datagrids:
                 label: b2bcode.cmsformresponse.cmsfieldresponse.entity_plural_label
                 type: twig
                 frontend_type: html
-                template: B2bCodeCmsFormBundle:Datagrid:fieldResponses.html.twig
+                template: '@B2bCodeCmsForm/Datagrid/fieldResponses.html.twig'
 #            visitor:
 #                label: b2bcode.cmsformresponse.visitor.label
             createdAt:

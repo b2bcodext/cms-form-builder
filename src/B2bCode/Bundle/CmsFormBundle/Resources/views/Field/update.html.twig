@@ -1,5 +1,5 @@
-{% extends 'OroUIBundle:actions:update.html.twig' %}
-{% import 'OroUIBundle::macros.html.twig' as UI %}
+{% extends '@OroUI/actions/update.html.twig' %}
+{% import '@OroUI/macros.html.twig' as UI %}
 
 {% oro_title_set({params : {"%name%": entity.name, "%entityName%": 'b2bcode.cmsform.cmsformfield.entity_label'|trans }}) %}
 {% set entityId = entity.id %}

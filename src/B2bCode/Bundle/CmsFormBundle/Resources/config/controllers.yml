@@ -1,0 +1,31 @@
+services:
+    _defaults:
+        public: true
+
+    B2bCode\Bundle\CmsFormBundle\Controller\Frontend\AjaxFormController:
+        calls:
+            - [setContainer, ['@Psr\Container\ContainerInterface']]
+        tags:
+            - { name: container.service_subscriber }
+            - { name: controller.service_arguments }
+
+    B2bCode\Bundle\CmsFormBundle\Controller\Frontend\FormController:
+        calls:
+            - [setContainer, ['@Psr\Container\ContainerInterface']]
+        tags:
+            - { name: container.service_subscriber }
+            - { name: controller.service_arguments }
+
+    B2bCode\Bundle\CmsFormBundle\Controller\AjaxFormController:
+        calls:
+            - [setContainer, ['@Psr\Container\ContainerInterface']]
+        tags:
+            - { name: container.service_subscriber }
+            - { name: controller.service_arguments }
+
+    B2bCode\Bundle\CmsFormBundle\Controller\FormController:
+        calls:
+            - [setContainer, ['@Psr\Container\ContainerInterface']]
+        tags:
+            - { name: container.service_subscriber }
+            - { name: controller.service_arguments }

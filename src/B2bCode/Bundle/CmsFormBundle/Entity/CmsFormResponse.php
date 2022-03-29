@@ -112,6 +112,8 @@ class CmsFormResponse extends ExtendCmsFormResponse implements DatesAwareInterfa
     public function __construct()
     {
         $this->fieldResponses = new ArrayCollection();
+
+        parent::__construct();
     }
 
     /**
