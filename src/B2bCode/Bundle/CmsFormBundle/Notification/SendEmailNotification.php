@@ -16,7 +16,7 @@ use Doctrine\Persistence\ManagerRegistry;
 use Oro\Bundle\ConfigBundle\Config\ConfigManager;
 use Oro\Bundle\EmailBundle\Entity\EmailTemplate;
 use Oro\Bundle\EmailBundle\Provider\EmailRenderer;
-use Oro\Bundle\NotificationBundle\Async\Topics;
+use Oro\Bundle\NotificationBundle\Async\Topic\SendEmailNotificationTopic;
 use Oro\Component\MessageQueue\Client\MessageProducerInterface;
 
 class SendEmailNotification implements NotificationInterface
@@ -87,8 +87,8 @@ class SendEmailNotification implements NotificationInterface
                     ['entity' => $formResponse]
                 );
 
-                $this->messageProducer->send(Topics::SEND_NOTIFICATION_EMAIL, [
-                    'sender'      => $this->getSender(),
+                $this->messageProducer->send(SendEmailNotificationTopic::getName(), [
+                    'from'        => $this->configManager->get('oro_notification.email_notification_sender_email'),
                     'toEmail'     => $notification->getEmail(),
                     'subject'     => $subject,
                     'body'        => $body,
@@ -98,16 +98,5 @@ class SendEmailNotification implements NotificationInterface
                 // @todo error log
             }
         }
-    }
-
-    /**
-     * @return array
-     */
-    private function getSender(): array
-    {
-        $email = $this->configManager->get('oro_notification.email_notification_sender_email');
-        $name = $this->configManager->get('oro_notification.email_notification_sender_name');
-
-        return [$email, $name];
     }
 }

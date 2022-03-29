@@ -5,12 +5,6 @@ B2bCode\Bundle\CmsFormBundle\Entity\CmsFormNotification:
     email1:
         email: daniel@b2bcodext.com
 
-Doctrine\Common\Collections\ArrayCollection(local):
-    notificationEmails:
-        __construct: [['@email1']]
-    form1_fields:
-        __construct: [['@first-name', '@last-name', '@email', '@organization']]
-
 B2bCode\Bundle\CmsFormBundle\Entity\CmsForm:
     form_preview_enabled:
         name: Form preview enabled
@@ -18,8 +12,8 @@ B2bCode\Bundle\CmsFormBundle\Entity\CmsForm:
         uuid: 4f7554f2-4442-4baf-8d86-84cb33e1a125
         previewEnabled: true
         notificationsEnabled: true
-        notifications: '@notificationEmails'
-        fields: '@form1_fields'
+        notifications: ['@email1']
+        fields: ['@first-name', '@last-name', '@email', '@organization']
 
     form_preview_disabled:
         name: Form preview disabled

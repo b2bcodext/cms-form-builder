@@ -16,15 +16,17 @@ use B2bCode\Bundle\CmsFormBundle\Entity\CmsForm;
 use B2bCode\Bundle\CmsFormBundle\Entity\CmsFormField;
 use B2bCode\Bundle\CmsFormBundle\Form\Type\FieldType;
 use B2bCode\Bundle\CmsFormBundle\Form\Type\FormType;
+use Oro\Bundle\FormBundle\Model\UpdateHandlerFacade;
 use Oro\Bundle\SecurityBundle\Annotation\AclAncestor;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
-class FormController extends Controller
+class FormController extends AbstractController
 {
     /**
      * @Route("/", name="b2b_code_cms_form_index")
@@ -41,9 +43,9 @@ class FormController extends Controller
      * @AclAncestor("b2b_code_cms_form_view")
      * @Template
      */
-    public function viewAction(CmsForm $cmsForm)
+    public function viewAction(CmsForm $cmsForm, FormBuilderInterface $formBuilder)
     {
-        $form = $this->get(FormBuilderInterface::class)->getForm($cmsForm->getAlias());
+        $form = $formBuilder->getForm($cmsForm->getAlias());
 
         return ['entity' => $cmsForm, 'form' => $form->createView()];
     }
@@ -51,15 +53,18 @@ class FormController extends Controller
     /**
      * @Route("/create", name="b2b_code_cms_form_create")
      * @AclAncestor("b2b_code_cms_form_create")
-     * @Template("B2bCodeCmsFormBundle:Form:update.html.twig")
-     * @param Request $request
+     * @Template("@B2bCodeCmsForm/Form/update.html.twig")
+     *
      * @return array|Response
      */
-    public function createAction(Request $request)
-    {
+    public function createAction(
+        Request             $request,
+        UpdateHandlerFacade $formHandler,
+        TranslatorInterface $translator
+    ) {
         $form = new CmsForm();
 
-        $result = $this->update($request, $form);
+        $result = $this->update($request, $form, $formHandler, $translator);
 
         // for better UX redirect directly to field creation page
         if ($result instanceof RedirectResponse && $form->getId()) {
@@ -72,27 +77,32 @@ class FormController extends Controller
     /**
      * @Route("/update/{id}", name="b2b_code_cms_form_update", requirements={"id"="\d+"})
      * @AclAncestor("b2b_code_cms_form_update")
-     * @Template("B2bCodeCmsFormBundle:Form:update.html.twig")
-     * @param Request $request
-     * @param CmsForm $form
+     * @Template("@B2bCodeCmsForm/Form/update.html.twig")
+     *
      * @return array|Response
      */
-    public function updateAction(Request $request, CmsForm $form)
-    {
-        return $this->update($request, $form);
+    public function updateAction(
+        Request             $request,
+        CmsForm             $form,
+        UpdateHandlerFacade $formHandler,
+        TranslatorInterface $translator
+    ) {
+        return $this->update($request, $form, $formHandler, $translator);
     }
 
     /**
-     * @param Request $request
-     * @param CmsForm $form
      * @return Response|array
      */
-    protected function update(Request $request, CmsForm $form)
-    {
-        $updateResult = $this->get('oro_form.update_handler')->update(
+    protected function update(
+        Request             $request,
+        CmsForm             $form,
+        UpdateHandlerFacade $formHandler,
+        TranslatorInterface $translator
+    ) {
+        $updateResult = $formHandler->update(
             $form,
             $this->createForm(FormType::class, $form),
-            $this->get('translator')->trans('b2bcode.cmsform.saved_message'),
+            $translator->trans('b2bcode.cmsform.saved_message'),
             $request
         );
 
@@ -112,44 +122,51 @@ class FormController extends Controller
     /**
      * @Route("/{id}/field/create", name="b2b_code_cms_form_field_create", requirements={"id"="\d+"})
      * @AclAncestor("b2b_code_cms_form_field_create")
-     * @Template("B2bCodeCmsFormBundle:Field:update.html.twig")
-     * @param Request $request
-     * @param CmsForm $cmsForm
+     * @Template("@B2bCodeCmsForm/Field/update.html.twig")
+     *
      * @return array|Response
      */
-    public function createFieldAction(Request $request, CmsForm $cmsForm)
-    {
+    public function createFieldAction(
+        Request             $request,
+        CmsForm             $cmsForm,
+        UpdateHandlerFacade $formHandler,
+        TranslatorInterface $translator
+    ) {
         $field = new CmsFormField();
         $field->setForm($cmsForm);
 
-        return $this->updateField($request, $field);
+        return $this->updateField($request, $field, $formHandler, $translator);
     }
 
     /**
      * @Route("/field/update/{id}", name="b2b_code_cms_form_field_update", requirements={"id"="\d+"})
      * @AclAncestor("b2b_code_cms_form_field_update")
-     * @Template("B2bCodeCmsFormBundle:Field:update.html.twig")
-     * @param Request      $request
-     * @param CmsFormField $field
+     * @Template("@B2bCodeCmsForm/Field/update.html.twig")
+     *
      * @return array|Response
      */
-    public function updateFieldAction(Request $request, CmsFormField $field)
-    {
-        return $this->updateField($request, $field);
+    public function updateFieldAction(
+        Request             $request,
+        CmsFormField        $field,
+        UpdateHandlerFacade $formHandler,
+        TranslatorInterface $translator
+    ) {
+        return $this->updateField($request, $field, $formHandler, $translator);
     }
 
     /**
-     * @param Request      $request
-     *
-     * @param CmsFormField $formField
      * @return Response|array
      */
-    protected function updateField(Request $request, CmsFormField $formField)
-    {
-        $updateResult = $this->get('oro_form.update_handler')->update(
+    protected function updateField(
+        Request             $request,
+        CmsFormField        $formField,
+        UpdateHandlerFacade $formHandler,
+        TranslatorInterface $translator
+    ) {
+        $updateResult = $formHandler->update(
             $formField,
             $this->createForm(FieldType::class, $formField),
-            $this->get('translator')->trans('b2bcode.cmsform.cmsformfield.saved_message'),
+            $translator->trans('b2bcode.cmsform.cmsformfield.saved_message'),
             $request
         );
 

@@ -64,7 +64,7 @@ class GeneralFieldProvider
     {
         foreach ($this->generalFields as $renderedField) {
             if ($formView->offsetExists($renderedField)) {
-                $formView[$renderedField]->setRendered();
+                $formView->offsetUnset($renderedField);
             }
         }
     }

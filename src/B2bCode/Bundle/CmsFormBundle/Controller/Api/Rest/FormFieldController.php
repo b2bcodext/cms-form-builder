@@ -11,8 +11,6 @@
 
 namespace B2bCode\Bundle\CmsFormBundle\Controller\Api\Rest;
 
-use FOS\RestBundle\Controller\Annotations\NamePrefix;
-use FOS\RestBundle\Controller\Annotations\RouteResource;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Oro\Bundle\SecurityBundle\Annotation\AclAncestor;
 use Oro\Bundle\SoapBundle\Controller\Api\Rest\RestController;
@@ -20,8 +18,7 @@ use Oro\Bundle\SoapBundle\Entity\Manager\ApiEntityManager;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * @RouteResource("formfield")
- * @NamePrefix("b2b_code_api_")
+ * REST API controller for FormField entity.
  */
 class FormFieldController extends RestController
 {

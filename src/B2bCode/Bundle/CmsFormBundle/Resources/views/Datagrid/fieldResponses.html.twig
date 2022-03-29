@@ -1,7 +1,7 @@
 {% set fieldResponses = record.getValue('fieldResponses') %}
 
 {% if fieldResponses and fieldResponses|length > 0 %}
-    {% import 'OroUIBundle::macros.html.twig' as UI %}
+    {% import '@OroUI/macros.html.twig' as UI %}
     {% for fieldResponse in fieldResponses %}
         {% set value = fieldResponse.value(true) %}
         {% if value is iterable %}

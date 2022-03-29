@@ -1,6 +1,6 @@
-{% extends 'OroUIBundle:actions:view.html.twig' %}
-{% import 'OroDataGridBundle::macros.html.twig' as dataGrid %}
-{% import 'OroUIBundle::macros.html.twig' as UI %}
+{% extends '@OroUI/actions/view.html.twig' %}
+{% import '@OroDataGrid/macros.html.twig' as dataGrid %}
+{% import '@OroUI/macros.html.twig' as UI %}
 
 {% oro_title_set({params : {"%name%": entity.name }}) %}
 
@@ -15,7 +15,7 @@
 {% endblock pageHeader %}
 
 {% block navButtons %}
-    {% include 'OroImportExportBundle:ImportExport:buttons_from_configuration.html.twig' with {
+    {% include '@OroImportExport/ImportExport/buttons_from_configuration.html.twig' with {
         'alias': 'b2b_code_cms_form_response',
         'options': {'form_id': entity.id}
     } %}
