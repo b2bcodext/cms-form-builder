@@ -63,7 +63,6 @@ class B2bCodeCmsFormBundleInstaller implements Installation
         $table->addColumn('created_at', 'datetime', ['comment' => '(DC2Type:datetime)']);
         $table->addColumn('updated_at', 'datetime', ['comment' => '(DC2Type:datetime)']);
         $table->addColumn('is_resolved', 'boolean', ['notnull' => false]);
-        $table->addColumn('serialized_data', 'array', ['notnull' => false, 'comment' => '(DC2Type:array)']);
         $table->setPrimaryKey(['id']);
         $table->addIndex(['visitor_id'], 'idx_eab5a5270bee6d', []);
         $table->addIndex(['form_id'], 'idx_eab5a525ff69b7d', []);
@@ -81,7 +80,6 @@ class B2bCodeCmsFormBundleInstaller implements Installation
         $table->addColumn('field_id', 'integer', []);
         $table->addColumn('form_response_id', 'integer', []);
         $table->addColumn('value', 'text', ['notnull' => false]);
-        $table->addColumn('serialized_data', 'array', ['notnull' => false, 'comment' => '(DC2Type:array)']);
         $table->setPrimaryKey(['id']);
         $table->addIndex(['form_response_id'], 'idx_3679f827c98b851', []);
         $table->addIndex(['field_id'], 'idx_3679f827443707b0', []);
@@ -104,7 +102,6 @@ class B2bCodeCmsFormBundleInstaller implements Installation
         $table->addColumn('options', 'array', ['notnull' => false, 'comment' => '(DC2Type:array)']);
         $table->addColumn('created_at', 'datetime', ['comment' => '(DC2Type:datetime)']);
         $table->addColumn('updated_at', 'datetime', ['comment' => '(DC2Type:datetime)']);
-        $table->addColumn('serialized_data', 'array', ['notnull' => false, 'comment' => '(DC2Type:array)']);
         $table->addIndex(['form_id'], 'idx_c32e75ca5ff69b7d', []);
         $table->setPrimaryKey(['id']);
         $table->addUniqueIndex(['form_id', 'name'], 'uidx_b2b_code_field_form_name');
@@ -140,7 +137,6 @@ class B2bCodeCmsFormBundleInstaller implements Installation
         $table->addColumn('alias', 'string', ['length' => 255]);
         $table->addColumn('created_at', 'datetime', ['comment' => '(DC2Type:datetime)']);
         $table->addColumn('updated_at', 'datetime', ['comment' => '(DC2Type:datetime)']);
-        $table->addColumn('serialized_data', 'array', ['notnull' => false, 'comment' => '(DC2Type:array)']);
         $table->addColumn('uuid', 'string', ['length' => 255]);
         $table->addColumn('preview_enabled', 'boolean', ['notnull' => false]);
         $table->addColumn('notifications_enabled', 'boolean', ['notnull' => false]);
