@@ -69,7 +69,11 @@ class AjaxFormController extends AbstractController
             // @todo extract
             $notification->process($formResponse);
 
-            return new JsonResponse(['success' => true, 'message' => '@todo']);
+            return new JsonResponse([
+                'success'     => true,
+                'message'     => '@todo',
+                'redirectUrl' => $cmsForm->getRedirectUrl()
+            ]);
         }
 
         $errors = [];

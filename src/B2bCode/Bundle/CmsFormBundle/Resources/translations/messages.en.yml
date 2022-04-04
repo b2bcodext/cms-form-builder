@@ -35,7 +35,9 @@ b2bcode:
                 label: Template
             email:
                 label: Email
-
+        redirect_url:
+            label: Redirect URL
+            tooltip: URL to be redirected to after form is submitted successfully
 
         cmsformfield:
             entity_label: Cms Form Field
