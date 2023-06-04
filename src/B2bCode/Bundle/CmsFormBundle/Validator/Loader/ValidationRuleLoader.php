@@ -11,36 +11,30 @@
 
 namespace B2bCode\Bundle\CmsFormBundle\Validator\Loader;
 
-use Doctrine\Common\Cache\CacheProvider;
 use Oro\Component\Config\Loader\CumulativeConfigLoader;
 use Oro\Component\Config\Loader\YamlCumulativeFileLoader;
 use Oro\Component\PhpUtils\ArrayUtil;
+use Psr\Cache\CacheItemPoolInterface;
 
 class ValidationRuleLoader
 {
     public const CONFIG_ID = 'b2b_code_cms_form_validation';
 
-    /** @var CacheProvider */
-    protected $cacheProvider;
-
-    /**
-     * @param CacheProvider $cacheProvider
-     */
-    public function __construct(CacheProvider $cacheProvider)
+    public function __construct(protected CacheItemPoolInterface $cacheProvider)
     {
-        $this->cacheProvider = $cacheProvider;
     }
 
-    /**
-     * @param string $alias
-     * @return array
-     */
     public function getForForm(string $alias): array
     {
         $this->ensureConfigurationLoaded();
 
-        $configuration = $this->cacheProvider->fetch(static::CONFIG_ID);
+        $cacheItem = $this->cacheProvider->getItem(static::CONFIG_ID);
 
+        if (!$cacheItem->isHit()) {
+            return [];
+        }
+
+        $configuration = $cacheItem->get();
         if (is_array($configuration) && array_key_exists($alias, $configuration)) {
             return $configuration[$alias];
         }
@@ -50,7 +44,7 @@ class ValidationRuleLoader
 
     public function clearCache(): void
     {
-        $this->cacheProvider->delete(static::CONFIG_ID);
+        $this->cacheProvider->deleteItem(static::CONFIG_ID);
     }
 
     /**
@@ -58,7 +52,8 @@ class ValidationRuleLoader
      */
     protected function ensureConfigurationLoaded(): void
     {
-        if ($this->cacheProvider->contains(static::CONFIG_ID)) {
+        $cacheItem = $this->cacheProvider->getItem(static::CONFIG_ID);
+        if ($cacheItem->isHit()) {
             return;
         }
 
@@ -77,7 +72,7 @@ class ValidationRuleLoader
                 $config = ArrayUtil::arrayMergeRecursiveDistinct($config, $rules);
             }
         }
-
-        $this->cacheProvider->save(static::CONFIG_ID, $config);
+        $cacheItem->set($config);
+        $this->cacheProvider->save($cacheItem);
     }
 }

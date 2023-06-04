@@ -11,7 +11,6 @@
 
 namespace B2bCode\Bundle\CmsFormBundle\Entity;
 
-use B2bCode\Bundle\CmsFormBundle\Model\ExtendCmsFormResponse;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -20,7 +19,8 @@ use Oro\Bundle\EntityBundle\EntityProperty\DatesAwareInterface;
 use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\Config;
 use Oro\Bundle\EntityBundle\EntityProperty\DatesAwareTrait;
 use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\ConfigField;
-
+use Oro\Bundle\EntityExtendBundle\Entity\ExtendEntityInterface;
+use Oro\Bundle\EntityExtendBundle\Entity\ExtendEntityTrait;
 
 /**
  * @ORM\Entity
@@ -34,9 +34,10 @@ use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\ConfigField;
  * )
  * @ORM\HasLifecycleCallbacks()
  */
-class CmsFormResponse extends ExtendCmsFormResponse implements DatesAwareInterface
+class CmsFormResponse implements DatesAwareInterface, ExtendEntityInterface
 {
     use DatesAwareTrait;
+    use ExtendEntityTrait;
 
     /**
      * @var int
@@ -112,8 +113,6 @@ class CmsFormResponse extends ExtendCmsFormResponse implements DatesAwareInterfa
     public function __construct()
     {
         $this->fieldResponses = new ArrayCollection();
-
-        parent::__construct();
     }
 
     /**

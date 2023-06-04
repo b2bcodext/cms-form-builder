@@ -1,7 +1,7 @@
 layout:
     actions:
         - '@setBlockTheme':
-              themes: '@B2bCodeCmsForm/layouts/blank/b2b_code_cms_form_frontend_form_preview/layout.html.twig'
+              themes: 'layout.html.twig'
 
         -   '@setOption':
                 id: title

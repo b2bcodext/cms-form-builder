@@ -27,7 +27,6 @@ class AjaxFormController extends AbstractController
 {
     /**
      * @Route("/respond/{uuid}", name="b2b_code_cms_frontend_ajax_respond")
-     * @AclAncestor("b2b_code_cms_frontend_form_respond")
      */
     public function respondAction(
         Request $request,

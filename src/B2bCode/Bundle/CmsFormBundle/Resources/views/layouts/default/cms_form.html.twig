@@ -10,10 +10,10 @@
         } %}
 
         {{ form_start(form, {'attr': formAttr}) }}
-        <div class="grid">
+        <div class="grid__container">
             {% if form.children|length %}
                 {# first row needs to be wrapped in row #}
-                <div class="grid__row grid__row--offset-none">
+                <div class="grid">
                 {% set rowSize = 0 %}
                 {% for child in form %}
                     {% if child.vars.attr['data-size'] is defined %}
@@ -33,14 +33,14 @@
                     {% set willFit = ((rowSize + gridColumnSize) <= 12) %}
 
                     {% if willFit %}
-                        <div class="grid__column grid__column--{{ gridColumnSize }}">
+                        <div class="grid-col-{{ gridColumnSize }}">
                             {{ form_row(child) }}
                         </div>
                         {% set rowSize = rowSize + gridColumnSize %}
                     {% else %}
                         </div>
-                        <div class="grid__row grid__row--offset-none">
-                            <div class="grid__column grid__column--{{ gridColumnSize }}">
+                        <div class="grid">
+                            <div class="grid-col-{{ gridColumnSize }}">
                                 {{ form_row(child) }}
                             </div>
                         {% set rowSize = gridColumnSize %}

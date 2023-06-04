@@ -1,14 +1,11 @@
 import _ from 'underscore';
 import __ from 'orotranslation/js/translator';
-import BaseTypeBuilder from 'orocms/js/app/grapesjs/type-builders/base-type-builder';
+import BaseType from 'orocms/js/app/grapesjs/types/base-type';
 import DialogWidget from 'oro/dialog-widget';
 import template from 'tpl-loader!b2bcodecmsform/templates/grapesjs-cms-form.html';
 import routing from 'routing';
 
-/**
- * CMS form type builder
- */
-const CmsFormTypeBuilder = BaseTypeBuilder.extend({
+const CmsFormType = BaseType.extend({
     button: {
         label: __('b2bcode.cmsform.wysiwyg.component.cms_form.label'),
         category: 'Basic',
@@ -69,7 +66,7 @@ const CmsFormTypeBuilder = BaseTypeBuilder.extend({
         }
     },
 
-    modelMixin: {
+    modelProps: {
         defaults: {
             tagName: 'div',
             classes: ['cms-form', 'content-placeholder'],
@@ -77,9 +74,7 @@ const CmsFormTypeBuilder = BaseTypeBuilder.extend({
             droppable: false
         },
 
-        initialize(...args) {
-            this.constructor.__super__.initialize.call(this, ...args);
-
+        init() {
             const toolbar = this.get('toolbar');
             const commandExists = _.some(toolbar, {
                 command: 'cms-form-settings'
@@ -110,7 +105,7 @@ const CmsFormTypeBuilder = BaseTypeBuilder.extend({
         }
     },
 
-    viewMixin: {
+    viewProps: {
         onRender() {
             let title;
             const cmsForm = this.model.get('cmsForm');
@@ -133,7 +128,7 @@ const CmsFormTypeBuilder = BaseTypeBuilder.extend({
     },
 
     onDrop(DataTransfer, model) {
-        if (model instanceof this.Model) {
+        if (this.isOwnModel(model)) {
             this.editor.runCommand('cms-form-settings', model);
         }
     },
@@ -151,4 +146,4 @@ const CmsFormTypeBuilder = BaseTypeBuilder.extend({
     }
 });
 
-export default CmsFormTypeBuilder;
+export default CmsFormType;

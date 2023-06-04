@@ -1,0 +1,4 @@
+layout:
+    actions:
+        - '@setFormTheme':
+            themes: 'cms_form.html.twig'

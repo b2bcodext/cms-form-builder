@@ -68,7 +68,7 @@ class FormExtension extends AbstractExtension
 
         $formView = $this->formBuilder->getForm($alias, $options)->createView();
         // @todo evaluate this approach
-        $this->formRenderer->setTheme($formView, '@B2bCodeCmsForm/layouts/blank/cms_form.html.twig');
+        $this->formRenderer->setTheme($formView, '@B2bCodeCmsForm/layouts/default/cms_form.html.twig');
 
         // @todo evaluate this approach
         return $this->formRenderer->renderBlock($formView, 'cms_form_widget');

@@ -12,7 +12,6 @@
 namespace B2bCode\Bundle\CmsFormBundle\Entity;
 
 use B2bCode\Bundle\CmsFormBundle\Helper\SlugifyHelper;
-use B2bCode\Bundle\CmsFormBundle\Model\ExtendCmsForm;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -20,6 +19,8 @@ use Oro\Bundle\EntityBundle\EntityProperty\DatesAwareInterface;
 use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\Config;
 use Oro\Bundle\EntityBundle\EntityProperty\DatesAwareTrait;
 use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\ConfigField;
+use Oro\Bundle\EntityExtendBundle\Entity\ExtendEntityInterface;
+use Oro\Bundle\EntityExtendBundle\Entity\ExtendEntityTrait;
 use Oro\Bundle\SecurityBundle\Tools\UUIDGenerator;
 
 /**
@@ -39,9 +40,10 @@ use Oro\Bundle\SecurityBundle\Tools\UUIDGenerator;
  * )
  * @ORM\HasLifecycleCallbacks()
  */
-class CmsForm extends ExtendCmsForm implements DatesAwareInterface
+class CmsForm implements DatesAwareInterface, ExtendEntityInterface
 {
     use DatesAwareTrait;
+    use ExtendEntityTrait;
 
     /**
      * @var int
@@ -147,8 +149,6 @@ class CmsForm extends ExtendCmsForm implements DatesAwareInterface
     {
         $this->fields = new ArrayCollection();
         $this->notifications = new ArrayCollection();
-
-        parent::__construct();
     }
 
     /**

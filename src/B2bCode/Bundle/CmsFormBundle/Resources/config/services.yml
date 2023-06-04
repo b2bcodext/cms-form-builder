@@ -100,10 +100,9 @@ services:
             - { name: kernel.cache_clearer }
 
     b2b_code_cms_form.validation.cache:
-        parent: oro.cache.abstract
-        public: false
-        calls:
-            - [setNamespace, [ 'b2b_code_cms_form_validation' ] ]
+        parent: oro.data.cache
+        tags:
+            - { name: 'cache.pool', namespace: 'b2b_code_cms_form_validation' }
 
     # API
     b2b_code_cms_form.field_manager.api:

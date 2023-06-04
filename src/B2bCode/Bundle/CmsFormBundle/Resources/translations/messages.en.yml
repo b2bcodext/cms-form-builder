@@ -2,10 +2,14 @@ b2bcode:
     cmsform:
         entity_label: Cms Form
         entity_plural_label: Cms Forms
+        entity_grid_all_view_label: 'All Cms Forms'
 
         id.label: ID
         uuid.label: UUID
         name.label: Name
+        fields:
+            label: 'Fields'
+
         alias:
             label: Alias
             tooltip: |
@@ -43,6 +47,7 @@ b2bcode:
             entity_label: Cms Form Field
             entity_short_label: Field
             entity_plural_label: Cms Form Fields
+            entity_grid_all_view_label: 'All Fields'
 
             id.label: ID
             name:
@@ -58,6 +63,7 @@ b2bcode:
             sort_order.label: Order
 
             options:
+                label: 'Options'
                 required.label: Required
                 data.label: Data value
                 label.label: Label
@@ -167,6 +173,7 @@ b2bcode:
                 label: Form
             entity_plural_label: Form Responses
             entity_label: Form Response
+            entity_grid_all_view_label: 'All Responses'
             id.label: ID
             visitor.label: Visitor ID
 
@@ -184,9 +191,19 @@ b2bcode:
                 label: Value
             entity_label: Field Response
             entity_plural_label: Field Responses
+            entity_grid_all_view_label: 'All Responses'
         cmsformnotification:
             entity_label: Form Notification
             entity_plural_label: Form Notifications
+            entity_grid_all_view_label: 'All notifications'
+            id:
+                label: 'Id'
+            email:
+                label: 'Email'
+            form:
+                label: 'Form'
+            template:
+                label: 'Template'
     acl:
         b2b_code_cms_frontend_form_respond.label: Respond to CMS forms
 

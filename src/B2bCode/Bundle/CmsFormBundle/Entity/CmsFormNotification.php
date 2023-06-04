@@ -11,10 +11,11 @@
 
 namespace B2bCode\Bundle\CmsFormBundle\Entity;
 
-use B2bCode\Bundle\CmsFormBundle\Model\ExtendCmsFormNotification;
 use Doctrine\ORM\Mapping as ORM;
 use Oro\Bundle\EmailBundle\Entity\EmailTemplate;
 use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\Config;
+use Oro\Bundle\EntityExtendBundle\Entity\ExtendEntityInterface;
+use Oro\Bundle\EntityExtendBundle\Entity\ExtendEntityTrait;
 
 /**
  * @ORM\Entity
@@ -29,8 +30,10 @@ use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\Config;
  *     }
  * )
  */
-class CmsFormNotification extends ExtendCmsFormNotification
+class CmsFormNotification implements ExtendEntityInterface
 {
+    use ExtendEntityTrait;
+
     /**
      * @var int
      *

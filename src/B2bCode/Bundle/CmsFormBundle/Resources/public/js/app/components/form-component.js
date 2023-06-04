@@ -67,14 +67,13 @@ define(function(require) {
         onSuccessHandler: function(response) {
             messenger.notificationFlashMessage(
                 'success',
-                __('b2bcode.cmsform.ajax.form_respond.success'),
-                {flash: true}
+                __('b2bcode.cmsform.ajax.form_respond.success')
             );
             if (response.redirectUrl) {
                 window.location.href = response.redirectUrl;
             } else {
                 // to reset form
-                mediator.execute('refreshPage');
+                setTimeout(() => mediator.execute('refreshPage'), 1000);
             }
         },
 

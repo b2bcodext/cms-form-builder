@@ -12,12 +12,13 @@
 namespace B2bCode\Bundle\CmsFormBundle\Entity;
 
 use B2bCode\Bundle\CmsFormBundle\Helper\SlugifyHelper;
-use B2bCode\Bundle\CmsFormBundle\Model\ExtendCmsFormField;
 use Doctrine\ORM\Mapping as ORM;
 use Oro\Bundle\EntityBundle\EntityProperty\DatesAwareInterface;
 use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\Config;
 use Oro\Bundle\EntityBundle\EntityProperty\DatesAwareTrait;
 use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\ConfigField;
+use Oro\Bundle\EntityExtendBundle\Entity\ExtendEntityInterface;
+use Oro\Bundle\EntityExtendBundle\Entity\ExtendEntityTrait;
 
 /**
  * @ORM\Entity
@@ -42,9 +43,10 @@ use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\ConfigField;
  * )
  * @ORM\HasLifecycleCallbacks()
  */
-class CmsFormField extends ExtendCmsFormField implements DatesAwareInterface
+class CmsFormField implements DatesAwareInterface, ExtendEntityInterface
 {
     use DatesAwareTrait;
+    use ExtendEntityTrait;
 
     /**
      * @var int

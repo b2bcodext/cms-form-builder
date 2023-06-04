@@ -3,8 +3,7 @@ about:
     title: 'Feedback form'
     content: >
         <div class="grid contact-us-form">
-            <div class="grid__row">
-                <div class="grid__column grid__column--6"><img src="/bundles/b2bcodecmsform/images/feedbackform.jpg" alt="feedbackform.jpg"></div>
-                <div class="grid__column grid__column--6">{{ b2b_code_form("feedback-form") }}</div>
+                <div class="grid-col-6"><img src="/bundles/b2bcodecmsform/images/feedbackform.jpg" alt="feedbackform.jpg"></div>
+                <div class="grid-col-6">{{ b2b_code_form("feedback-form") }}</div>
             </div>
         </div>

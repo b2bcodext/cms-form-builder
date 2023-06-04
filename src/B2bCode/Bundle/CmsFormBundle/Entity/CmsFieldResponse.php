@@ -11,10 +11,11 @@
 
 namespace B2bCode\Bundle\CmsFormBundle\Entity;
 
-use B2bCode\Bundle\CmsFormBundle\Model\ExtendCmsFieldResponse;
 use Doctrine\ORM\Mapping as ORM;
 use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\Config;
 use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\ConfigField;
+use Oro\Bundle\EntityExtendBundle\Entity\ExtendEntityInterface;
+use Oro\Bundle\EntityExtendBundle\Entity\ExtendEntityTrait;
 
 /**
  * @ORM\Entity(repositoryClass="B2bCode\Bundle\CmsFormBundle\Entity\Repository\CmsFieldResponseRepository")
@@ -27,8 +28,10 @@ use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\ConfigField;
  *     }
  * )
  */
-class CmsFieldResponse extends ExtendCmsFieldResponse
+class CmsFieldResponse implements ExtendEntityInterface
 {
+    use ExtendEntityTrait;
+
     /**
      * @var int
      *
