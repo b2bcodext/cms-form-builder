@@ -22,18 +22,14 @@ use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Oro\Bundle\SecurityBundle\Annotation\AclAncestor;
+use Oro\Bundle\SecurityBundle\Attribute\AclAncestor;
 use Symfony\Component\HttpFoundation\Response;
 
 class AjaxFormController extends AbstractController
 {
-    /**
-     * @Route("/form-view}", name="b2b_code_cms_form_frontend_ajax_form_view")
-     * @AclAncestor("b2b_code_cms_form_field_create")
-     * @Template
-     *
-     * @return array
-     */
+    #[Route(path: '/form-view}', name: 'b2b_code_cms_form_frontend_ajax_form_view')]
+    #[AclAncestor('b2b_code_cms_form_field_create')]
+    #[Template]
     public function formViewAction(Request $request, GeneralFieldProvider $fieldProvider)
     {
         $form = $this->createForm(FieldType::class, new CmsFormField());
@@ -47,13 +43,9 @@ class AjaxFormController extends AbstractController
         ];
     }
 
-    /**
-     * @Route("/form-preview}", name="b2b_code_cms_form_frontend_ajax_field_preview")
-     * @AclAncestor("b2b_code_cms_form_field_create")
-     * @Template
-     *
-     * @return array
-     */
+    #[Route(path: '/form-preview}', name: 'b2b_code_cms_form_frontend_ajax_field_preview')]
+    #[AclAncestor('b2b_code_cms_form_field_create')]
+    #[Template]
     public function fieldPreviewAction(Request $request, FormBuilderInterface $formBuilder)
     {
         $cmsField =  new CmsFormField();
@@ -66,12 +58,8 @@ class AjaxFormController extends AbstractController
         ];
     }
 
-    /**
-     * @Route("/{id}/reorder", name="b2b_code_cms_form_ajax_reorder")
-     * @AclAncestor("b2b_code_cms_form_create")
-     *
-     * @return array|Response
-     */
+    #[Route(path: '/{id}/reorder', name: 'b2b_code_cms_form_ajax_reorder')]
+    #[AclAncestor('b2b_code_cms_form_create')]
     public function reorderAction(Request $request, CmsForm $cmsForm, ManagerRegistry $registry)
     {
         /** @var array $data */

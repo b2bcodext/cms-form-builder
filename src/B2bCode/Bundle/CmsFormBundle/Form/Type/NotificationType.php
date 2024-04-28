@@ -12,6 +12,7 @@
 namespace B2bCode\Bundle\CmsFormBundle\Form\Type;
 
 use B2bCode\Bundle\CmsFormBundle\Entity\CmsFormNotification;
+use Oro\Bundle\EmailBundle\Entity\EmailTemplate;
 use Oro\Bundle\TranslationBundle\Form\Type\Select2TranslatableEntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -42,7 +43,7 @@ class NotificationType extends AbstractType
                 Select2TranslatableEntityType::class,
                 [
                     'label'        => 'oro.notification.emailnotification.template.label',
-                    'class'        => 'OroEmailBundle:EmailTemplate',
+                    'class'        => EmailTemplate::class,
                     'choice_label' => 'name',
                     'configs'      => [
                         'allowClear'  => true,

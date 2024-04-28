@@ -16,30 +16,21 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Oro\Bundle\EntityBundle\EntityProperty\DatesAwareInterface;
-use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\Config;
+use Oro\Bundle\EntityConfigBundle\Metadata\Attribute\Config;
 use Oro\Bundle\EntityBundle\EntityProperty\DatesAwareTrait;
-use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\ConfigField;
+use Oro\Bundle\EntityConfigBundle\Metadata\Attribute\ConfigField;
 use Oro\Bundle\EntityExtendBundle\Entity\ExtendEntityInterface;
 use Oro\Bundle\EntityExtendBundle\Entity\ExtendEntityTrait;
 use Oro\Bundle\SecurityBundle\Tools\UUIDGenerator;
 
-/**
- * @ORM\Entity
- * @ORM\Table(name="b2b_code_cms_form")
- * @Config(
- *      routeName="b2b_code_cms_form_index",
- *      routeView="b2b_code_cms_form_view",
- *      defaultValues={
- *          "entity"={
- *              "icon"="fa-wpforms"
- *          },
- *          "grid"={
- *              "default"="b2bcode-cms-forms-grid"
- *          }
- *     }
- * )
- * @ORM\HasLifecycleCallbacks()
- */
+#[ORM\Entity]
+#[Config(
+    routeName: 'b2b_code_cms_form_index',
+    routeView: 'b2b_code_cms_form_view',
+    defaultValues: ['entity' => ['icon' => 'fa-wpforms'], 'grid' => ['default' => 'b2bcode-cms-forms-grid']]
+)]
+#[ORM\HasLifecycleCallbacks]
+#[ORM\Table(name: 'b2b_code_cms_form')]
 class CmsForm implements DatesAwareInterface, ExtendEntityInterface
 {
     use DatesAwareTrait;
@@ -47,102 +38,66 @@ class CmsForm implements DatesAwareInterface, ExtendEntityInterface
 
     /**
      * @var int
-     *
-     * @ORM\Column(type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
      */
+    #[ORM\Column(type: 'integer')]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'AUTO')]
     protected $id;
 
     /**
      * @var int
-     *
-     * @ORM\Column(name="name", type="string", length=255)
-     * @ConfigField(
-     *      defaultValues={
-     *          "dataaudit"={
-     *              "auditable"=true
-     *          }
-     *      }
-     * )
      */
+    #[ORM\Column(name: 'name', type: 'string', length: 255)]
+    #[ConfigField(defaultValues: ['dataaudit' => ['auditable' => true]])]
     protected $name;
 
     /**
      * This value should start with a symbol and contain only alphabetic symbols, underscore and numbers.
      *
      * @var string
-     *
-     * @ORM\Column(name="alias", type="string", unique=true, length=255)
-     * @ConfigField(
-     *      defaultValues={
-     *          "dataaudit"={
-     *              "auditable"=true
-     *          },
-     *          "importexport"={
-     *              "identity"=true
-     *          }
-     *      }
-     * )
      */
+    #[ORM\Column(name: 'alias', type: 'string', unique: true, length: 255)]
+    #[ConfigField(defaultValues: ['dataaudit' => ['auditable' => true], 'importexport' => ['identity' => true]])]
     protected $alias;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="uuid", type="string", unique=true)
      */
+    #[ORM\Column(name: 'uuid', type: 'string', unique: true)]
     protected $uuid;
 
     /**
      * @var bool
-     *
-     * @ORM\Column(name="preview_enabled", type="boolean", nullable=true)
      */
+    #[ORM\Column(name: 'preview_enabled', type: 'boolean', nullable: true)]
     protected $previewEnabled = false;
 
     /**
      * @var Collection|CmsFormField[]
-     *
-     * @ORM\OneToMany(targetEntity="CmsFormField", mappedBy="form", cascade={"persist"})
-     * @ORM\OrderBy({"sortOrder" = "ASC"})
-     * @ConfigField(
-     *      defaultValues={
-     *          "dataaudit"={
-     *              "auditable"=true
-     *          }
-     *      }
-     * )
      */
+    #[ORM\OneToMany(targetEntity: CmsFormField::class, mappedBy: 'form', cascade: ['persist'])]
+    #[ORM\OrderBy(['sortOrder' => 'ASC'])]
+    #[ConfigField(defaultValues: ['dataaudit' => ['auditable' => true]])]
     protected $fields;
 
     /**
      * @var bool
-     *
-     * @ORM\Column(name="notifications_enabled", type="boolean", nullable=true)
      */
+    #[ORM\Column(name: 'notifications_enabled', type: 'boolean', nullable: true)]
     protected $notificationsEnabled = false;
 
 
     /**
      * @var Collection|CmsFormNotification[]
-     *
-     * @ORM\OneToMany(targetEntity="CmsFormNotification", mappedBy="form", cascade={"all"}, orphanRemoval=true)
-     * @ConfigField(
-     *      defaultValues={
-     *          "dataaudit"={
-     *              "auditable"=true
-     *          }
-     *      }
-     * )
      */
+    #[ORM\OneToMany(targetEntity: CmsFormNotification::class, mappedBy: 'form', cascade: ['all'], orphanRemoval: true)]
+    #[ConfigField(defaultValues: ['dataaudit' => ['auditable' => true]])]
     protected $notifications;
 
     /**
      * @var string|null
-     *
-     * @ORM\Column(name="redirect_url", type="string", length=1024, nullable=true)
      */
+    #[ORM\Column(name: 'redirect_url', type: 'string', length: 1024, nullable: true)]
     protected $redirectUrl;
 
     public function __construct()
@@ -368,9 +323,8 @@ class CmsForm implements DatesAwareInterface, ExtendEntityInterface
 
     /**
      * Pre persist event handler.
-     *
-     * @ORM\PrePersist
      */
+    #[ORM\PrePersist]
     public function prePersist()
     {
         if ($this->createdAt === null) {
@@ -391,9 +345,8 @@ class CmsForm implements DatesAwareInterface, ExtendEntityInterface
 
     /**
      * Pre update event handler.
-     *
-     * @ORM\PreUpdate
      */
+    #[ORM\PreUpdate]
     public function preUpdate()
     {
         $this->updatedAt = new \DateTime('now', new \DateTimeZone('UTC'));

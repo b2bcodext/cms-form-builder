@@ -20,9 +20,6 @@ class B2bCodeCmsFormExtension extends Extension
 {
     const ALIAS = 'b2b_code_cms_form';
 
-    /**
-     * {@inheritDoc}
-     */
     public function load(array $configs, ContainerBuilder $container)
     {
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
@@ -32,10 +29,7 @@ class B2bCodeCmsFormExtension extends Extension
         $loader->load('import_export.yml');
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    public function getAlias()
+    public function getAlias(): string
     {
         return self::ALIAS;
     }

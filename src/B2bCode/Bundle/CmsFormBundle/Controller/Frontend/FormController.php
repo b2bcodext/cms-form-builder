@@ -12,18 +12,18 @@
 namespace B2bCode\Bundle\CmsFormBundle\Controller\Frontend;
 
 use B2bCode\Bundle\CmsFormBundle\Entity\CmsForm;
-use Oro\Bundle\LayoutBundle\Annotation\Layout;
+use Oro\Bundle\LayoutBundle\Attribute\Layout;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 
 class FormController extends AbstractController
 {
     /**
-     * @Route("/preview/{uuid}", name="b2b_code_cms_form_frontend_form_preview")
-     * @Layout
      * @param CmsForm $form
      * @return array
      */
+    #[Route(path: '/preview/{uuid}', name: 'b2b_code_cms_form_frontend_form_preview')]
+    #[Layout]
     public function formViewAction(CmsForm $form)
     {
         return [

@@ -12,7 +12,7 @@
 namespace B2bCode\Bundle\CmsFormBundle\Controller\Api\Rest;
 
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use Oro\Bundle\SecurityBundle\Annotation\AclAncestor;
+use Oro\Bundle\SecurityBundle\Attribute\AclAncestor;
 use Oro\Bundle\SoapBundle\Controller\Api\Rest\RestController;
 use Oro\Bundle\SoapBundle\Entity\Manager\ApiEntityManager;
 use Symfony\Component\HttpFoundation\Response;
@@ -31,9 +31,9 @@ class FormFieldController extends RestController
      *      description="Delete CMS Form Field",
      *      resource=true
      * )
-     * @AclAncestor("b2b_code_cms_form_field_delete")
      * @return Response
      */
+    #[AclAncestor('b2b_code_cms_form_field_delete')]
     public function deleteAction($id)
     {
         return $this->handleDeleteRequest($id);
@@ -46,7 +46,7 @@ class FormFieldController extends RestController
      */
     public function getManager()
     {
-        return $this->get('b2b_code_cms_form.field_manager.api');
+        return $this->container->get('b2b_code_cms_form.field_manager.api');
     }
 
     /**

@@ -16,24 +16,16 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Oro\Bundle\CustomerBundle\Entity\CustomerVisitor;
 use Oro\Bundle\EntityBundle\EntityProperty\DatesAwareInterface;
-use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\Config;
+use Oro\Bundle\EntityConfigBundle\Metadata\Attribute\Config;
 use Oro\Bundle\EntityBundle\EntityProperty\DatesAwareTrait;
-use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\ConfigField;
+use Oro\Bundle\EntityConfigBundle\Metadata\Attribute\ConfigField;
 use Oro\Bundle\EntityExtendBundle\Entity\ExtendEntityInterface;
 use Oro\Bundle\EntityExtendBundle\Entity\ExtendEntityTrait;
 
-/**
- * @ORM\Entity
- * @ORM\Table(name="b2b_code_cms_form_response")
- * @Config(
- *      defaultValues={
- *          "entity"={
- *              "icon"="fa-envelope-open"
- *          }
- *     }
- * )
- * @ORM\HasLifecycleCallbacks()
- */
+#[ORM\Entity]
+#[Config(defaultValues: ['entity' => ['icon' => 'fa-envelope-open']])]
+#[ORM\HasLifecycleCallbacks]
+#[ORM\Table(name: 'b2b_code_cms_form_response')]
 class CmsFormResponse implements DatesAwareInterface, ExtendEntityInterface
 {
     use DatesAwareTrait;
@@ -41,73 +33,40 @@ class CmsFormResponse implements DatesAwareInterface, ExtendEntityInterface
 
     /**
      * @var int
-     *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     * @ConfigField(
-     *      defaultValues={
-     *          "importexport"={
-     *              "order"=10
-     *          }
-     *      }
-     * )
      */
+    #[ORM\Column(name: 'id', type: 'integer')]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'AUTO')]
+    #[ConfigField(defaultValues: ['importexport' => ['order' => 10]])]
     protected $id;
 
     /**
      * @var CmsForm
-     *
-     * @ORM\ManyToOne(targetEntity="CmsForm")
-     * @ORM\JoinColumn(name="form_id", referencedColumnName="id", onDelete="CASCADE", nullable=false)
-     * @ConfigField(
-     *      defaultValues={
-     *          "importexport"={
-     *              "order"=20
-     *          }
-     *      }
-     * )
      */
+    #[ORM\ManyToOne(targetEntity: CmsForm::class)]
+    #[ORM\JoinColumn(name: 'form_id', referencedColumnName: 'id', onDelete: 'CASCADE', nullable: false)]
+    #[ConfigField(defaultValues: ['importexport' => ['order' => 20]])]
     protected $form;
 
     /**
      * @var Collection|CmsFieldResponse[]
-     *
-     * @ORM\OneToMany(targetEntity="CmsFieldResponse", mappedBy="formResponse", cascade={"persist"})
-     * @ConfigField(
-     *      defaultValues={
-     *          "dataaudit"={
-     *              "auditable"=true
-     *          },
-     *          "importexport"={
-     *              "full"=true,
-     *              "order"=30
-     *          }
-     *      }
-     * )
      */
+    #[ORM\OneToMany(targetEntity: CmsFieldResponse::class, mappedBy: 'formResponse', cascade: ['persist'])]
+    #[ConfigField(defaultValues: ['dataaudit' => ['auditable' => true], 'importexport' => ['full' => true, 'order' => 30]])]
     protected $fieldResponses;
 
     /**
      * @var CustomerVisitor|null
-     *
-     * @ORM\ManyToOne(targetEntity="Oro\Bundle\CustomerBundle\Entity\CustomerVisitor")
-     * @ORM\JoinColumn(name="visitor_id", referencedColumnName="id", onDelete="SET NULL")
-     * @ConfigField(
-     *      defaultValues={
-     *          "importexport"={
-     *              "order"=40
-     *          }
-     *      }
-     * )
      */
+    #[ORM\ManyToOne(targetEntity: CustomerVisitor::class)]
+    #[ORM\JoinColumn(name: 'visitor_id', referencedColumnName: 'id', onDelete: 'SET NULL')]
+    #[ConfigField(defaultValues: ['importexport' => ['order' => 40]])]
     protected $visitor;
 
     /**
      * @var bool
-     *
-     * @ORM\Column(name="is_resolved", type="boolean", nullable=true)
      */
+    #[ORM\Column(name: 'is_resolved', type: 'boolean', nullable: true)]
     protected $resolved = false;
 
     public function __construct()

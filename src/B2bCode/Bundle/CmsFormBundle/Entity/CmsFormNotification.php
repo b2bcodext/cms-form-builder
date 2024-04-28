@@ -13,57 +13,43 @@ namespace B2bCode\Bundle\CmsFormBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Oro\Bundle\EmailBundle\Entity\EmailTemplate;
-use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\Config;
+use Oro\Bundle\EntityConfigBundle\Metadata\Attribute\Config;
 use Oro\Bundle\EntityExtendBundle\Entity\ExtendEntityInterface;
 use Oro\Bundle\EntityExtendBundle\Entity\ExtendEntityTrait;
 
-/**
- * @ORM\Entity
- * @ORM\Table(
- *     name="b2b_code_cms_form_notification"
- * )
- * @Config(
- *      defaultValues={
- *          "entity"={
- *              "icon"="fa-bell"
- *          }
- *     }
- * )
- */
+#[ORM\Entity]
+#[Config(defaultValues: ['entity' => ['icon' => 'fa-bell']])]
+#[ORM\Table(name: 'b2b_code_cms_form_notification')]
 class CmsFormNotification implements ExtendEntityInterface
 {
     use ExtendEntityTrait;
 
     /**
      * @var int
-     *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
      */
+    #[ORM\Column(name: 'id', type: 'integer')]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'AUTO')]
     protected $id;
 
     /**
      * @var CmsForm
-     *
-     * @ORM\ManyToOne(targetEntity="CmsForm", inversedBy="notifications")
-     * @ORM\JoinColumn(name="form_id", referencedColumnName="id", onDelete="CASCADE", nullable=false)
      */
+    #[ORM\ManyToOne(targetEntity: CmsForm::class, inversedBy: 'notifications')]
+    #[ORM\JoinColumn(name: 'form_id', referencedColumnName: 'id', onDelete: 'CASCADE', nullable: false)]
     protected $form;
 
     /**
      * @var EmailTemplate
-     *
-     * @ORM\ManyToOne(targetEntity="Oro\Bundle\EmailBundle\Entity\EmailTemplate")
-     * @ORM\JoinColumn(name="template_id", referencedColumnName="id", onDelete="SET NULL", nullable=true)
      */
+    #[ORM\ManyToOne(targetEntity: EmailTemplate::class)]
+    #[ORM\JoinColumn(name: 'template_id', referencedColumnName: 'id', onDelete: 'SET NULL', nullable: true)]
     protected $template;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="email", type="string", nullable=true)
      */
+    #[ORM\Column(name: 'email', type: 'string', nullable: true)]
     protected $email;
 
     /**

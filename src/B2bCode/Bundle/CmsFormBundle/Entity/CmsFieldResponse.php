@@ -11,85 +11,50 @@
 
 namespace B2bCode\Bundle\CmsFormBundle\Entity;
 
+use B2bCode\Bundle\CmsFormBundle\Entity\Repository\CmsFieldResponseRepository;
 use Doctrine\ORM\Mapping as ORM;
-use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\Config;
-use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\ConfigField;
+use Oro\Bundle\EntityConfigBundle\Metadata\Attribute\Config;
+use Oro\Bundle\EntityConfigBundle\Metadata\Attribute\ConfigField;
 use Oro\Bundle\EntityExtendBundle\Entity\ExtendEntityInterface;
 use Oro\Bundle\EntityExtendBundle\Entity\ExtendEntityTrait;
 
-/**
- * @ORM\Entity(repositoryClass="B2bCode\Bundle\CmsFormBundle\Entity\Repository\CmsFieldResponseRepository")
- * @ORM\Table(name="b2b_code_cms_field_response")
- * @Config(
- *      defaultValues={
- *          "entity"={
- *              "icon"="fa-envelope-open"
- *          }
- *     }
- * )
- */
+#[ORM\Entity(repositoryClass: CmsFieldResponseRepository::class)]
+#[Config(defaultValues: ['entity' => ['icon' => 'fa-envelope-open']])]
+#[ORM\Table(name: 'b2b_code_cms_field_response')]
 class CmsFieldResponse implements ExtendEntityInterface
 {
     use ExtendEntityTrait;
 
     /**
      * @var int
-     *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     * @ConfigField(
-     *      defaultValues={
-     *          "importexport"={
-     *              "excluded"=true
-     *          }
-     *      }
-     * )
      */
+    #[ORM\Column(name: 'id', type: 'integer')]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'AUTO')]
+    #[ConfigField(defaultValues: ['importexport' => ['excluded' => true]])]
     protected $id;
 
     /**
      * @var CmsFormField
-     *
-     * @ORM\ManyToOne(targetEntity="CmsFormField")
-     * @ORM\JoinColumn(name="field_id", referencedColumnName="id", onDelete="CASCADE", nullable=false)
-     * @ConfigField(
-     *      defaultValues={
-     *          "importexport"={
-     *              "order"=10
-     *          }
-     *      }
-     * )
      */
+    #[ORM\ManyToOne(targetEntity: CmsFormField::class)]
+    #[ORM\JoinColumn(name: 'field_id', referencedColumnName: 'id', onDelete: 'CASCADE', nullable: false)]
+    #[ConfigField(defaultValues: ['importexport' => ['order' => 10]])]
     protected $field;
 
     /**
      * @var CmsFormResponse
-     *
-     * @ORM\ManyToOne(targetEntity="CmsFormResponse", inversedBy="fieldResponses")
-     * @ORM\JoinColumn(name="form_response_id", referencedColumnName="id", onDelete="CASCADE", nullable=false)
-     * @ConfigField(
-     *      defaultValues={
-     *          "importexport"={
-     *              "excluded"=true
-     *          }
-     *      }
-     * )
      */
+    #[ORM\ManyToOne(targetEntity: CmsFormResponse::class, inversedBy: 'fieldResponses')]
+    #[ORM\JoinColumn(name: 'form_response_id', referencedColumnName: 'id', onDelete: 'CASCADE', nullable: false)]
+    #[ConfigField(defaultValues: ['importexport' => ['excluded' => true]])]
     protected $formResponse;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="value", type="text", nullable=true)
-     * @ConfigField(
-     *      defaultValues={
-     *          "importexport"={
-     *              "order"=20
-     *          }
-     *      }
-     * )
      */
+    #[ORM\Column(name: 'value', type: 'text', nullable: true)]
+    #[ConfigField(defaultValues: ['importexport' => ['order' => 20]])]
     protected $value;
 
     /**

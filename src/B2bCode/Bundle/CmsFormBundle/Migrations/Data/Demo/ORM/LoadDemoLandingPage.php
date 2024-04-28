@@ -19,7 +19,7 @@ class LoadDemoLandingPage extends AbstractLoadPageData implements DependentFixtu
     /**
      * {@inheritdoc}
      */
-    public function getDependencies()
+    public function getDependencies(): array
     {
         return [LoadDemoCmsForm::class];
     }
@@ -27,7 +27,7 @@ class LoadDemoLandingPage extends AbstractLoadPageData implements DependentFixtu
     /**
      * @return string
      */
-    protected function getFilePaths()
+    protected function getFilePaths(): string
     {
         return $this->getFilePathsFromLocator('@B2bCodeCmsFormBundle/Migrations/Data/Demo/ORM/data/pages.yml');
     }

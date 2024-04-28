@@ -23,7 +23,7 @@ class EmailExtension extends AbstractExtension
     public function getFunctions()
     {
         return [
-            new TwigFunction('b2b_code_form_response_array', [$this, 'getResponse'], ['is_safe' => ['html']]),
+            new TwigFunction('b2b_code_form_response_array', $this->getResponse(...), ['is_safe' => ['html']]),
         ];
     }
 

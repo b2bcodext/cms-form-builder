@@ -39,7 +39,7 @@ class CacheClearer implements CacheWarmerInterface, CacheClearerInterface
     /**
      * {@inheritdoc}
      */
-    public function isOptional()
+    public function isOptional(): bool
     {
         return true;
     }
@@ -47,7 +47,7 @@ class CacheClearer implements CacheWarmerInterface, CacheClearerInterface
     /**
      * {@inheritdoc}
      */
-    public function clear($cacheDir)
+    public function clear(string $cacheDir)
     {
         $this->ruleLoader->clearCache();
     }

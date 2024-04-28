@@ -21,13 +21,10 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Oro\Bundle\SecurityBundle\Annotation\AclAncestor;
 
 class AjaxFormController extends AbstractController
 {
-    /**
-     * @Route("/respond/{uuid}", name="b2b_code_cms_frontend_ajax_respond")
-     */
+    #[Route(path: '/respond/{uuid}', name: 'b2b_code_cms_frontend_ajax_respond')]
     public function respondAction(
         Request $request,
         CmsForm $cmsForm,

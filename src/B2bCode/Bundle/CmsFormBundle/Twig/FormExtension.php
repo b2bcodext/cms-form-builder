@@ -49,8 +49,8 @@ class FormExtension extends AbstractExtension
     public function getFunctions()
     {
         return [
-            new TwigFunction('b2b_code_form', [$this, 'renderForm'], ['is_safe' => ['html']]),
-            new TwigFunction('b2b_code_form_updateable_fields', [$this, 'getUpdateableFields']),
+            new TwigFunction('b2b_code_form', $this->renderForm(...), ['is_safe' => ['html']]),
+            new TwigFunction('b2b_code_form_updateable_fields', $this->getUpdateableFields(...)),
         ];
     }
 

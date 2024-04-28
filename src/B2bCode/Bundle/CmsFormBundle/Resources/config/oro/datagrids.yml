@@ -13,7 +13,7 @@ datagrids:
                     - cmsForm.createdAt
                     - cmsForm.updatedAt
                 from:
-                    - { table: B2bCodeCmsFormBundle:CmsForm, alias: cmsForm }
+                    - { table: B2bCode\Bundle\CmsFormBundle\Entity\CmsForm, alias: cmsForm }
         columns:
             id:
                 label: b2bcode.cmsform.id.label
@@ -104,7 +104,7 @@ datagrids:
                     - formField.createdAt
                     - formField.updatedAt
                 from:
-                    - { table: B2bCodeCmsFormBundle:CmsFormField, alias: formField }
+                    - { table: B2bCode\Bundle\CmsFormBundle\Entity\CmsFormField, alias: formField }
                 join:
                     inner:
                         - { join: formField.form, alias: cmsForm }
@@ -191,7 +191,7 @@ datagrids:
 #                    - response.visitor
                     - response.createdAt
                 from:
-                    - { table: B2bCodeCmsFormBundle:CmsFormResponse, alias: response }
+                    - { table: B2bCode\Bundle\CmsFormBundle\Entity\CmsFormResponse, alias: response }
                 where:
                     and:
                         - response.form = :cmsFormId

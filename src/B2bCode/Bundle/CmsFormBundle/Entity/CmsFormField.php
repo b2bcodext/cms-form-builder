@@ -14,35 +14,17 @@ namespace B2bCode\Bundle\CmsFormBundle\Entity;
 use B2bCode\Bundle\CmsFormBundle\Helper\SlugifyHelper;
 use Doctrine\ORM\Mapping as ORM;
 use Oro\Bundle\EntityBundle\EntityProperty\DatesAwareInterface;
-use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\Config;
+use Oro\Bundle\EntityConfigBundle\Metadata\Attribute\Config;
 use Oro\Bundle\EntityBundle\EntityProperty\DatesAwareTrait;
-use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\ConfigField;
+use Oro\Bundle\EntityConfigBundle\Metadata\Attribute\ConfigField;
 use Oro\Bundle\EntityExtendBundle\Entity\ExtendEntityInterface;
 use Oro\Bundle\EntityExtendBundle\Entity\ExtendEntityTrait;
 
-/**
- * @ORM\Entity
- * @ORM\Table(
- *     name="b2b_code_cms_form_field",
- *     uniqueConstraints={
- *          @ORM\UniqueConstraint(
- *              name="uidx_b2b_code_field_form_name",
- *              columns={"form_id", "name"}
- *          )
- *      }
- * )
- * @Config(
- *     defaultValues={
- *          "entity"={
- *              "icon"="fa-wpforms"
- *          },
- *          "grid"={
- *              "default"="b2bcode-cms-form-fields-grid"
- *          }
- *     }
- * )
- * @ORM\HasLifecycleCallbacks()
- */
+#[ORM\Entity]
+#[Config(defaultValues: ['entity' => ['icon' => 'fa-wpforms'], 'grid' => ['default' => 'b2bcode-cms-form-fields-grid']])]
+#[ORM\HasLifecycleCallbacks]
+#[ORM\Table(name: 'b2b_code_cms_form_field')]
+#[ORM\UniqueConstraint(name: 'uidx_b2b_code_field_form_name', columns: ['form_id', 'name'])]
 class CmsFormField implements DatesAwareInterface, ExtendEntityInterface
 {
     use DatesAwareTrait;
@@ -50,63 +32,50 @@ class CmsFormField implements DatesAwareInterface, ExtendEntityInterface
 
     /**
      * @var int
-     *
-     * @ORM\Column(type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
      */
+    #[ORM\Column(type: 'integer')]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'AUTO')]
     protected $id;
 
     /**
      * This value should start with a symbol and contain only alphabetic symbols, underscore and numbers.
      *
      * @var string
-     *
-     * @ORM\Column(name="name", type="string", nullable=false)
-     * @ConfigField(
-     *      defaultValues={
-     *          "importexport"={
-     *              "identity"=true
-     *          }
-     *      }
-     * )
      */
+    #[ORM\Column(name: 'name', type: 'string', nullable: false)]
+    #[ConfigField(defaultValues: ['importexport' => ['identity' => true]])]
     protected $name;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="label", type="string", nullable=false)
      */
+    #[ORM\Column(name: 'label', type: 'string', nullable: false)]
     protected $label;
 
     /**
      * @var CmsForm
-     *
-     * @ORM\ManyToOne(targetEntity="CmsForm", inversedBy="fields")
-     * @ORM\JoinColumn(name="form_id", referencedColumnName="id", onDelete="CASCADE")
      */
+    #[ORM\ManyToOne(targetEntity: CmsForm::class, inversedBy: 'fields')]
+    #[ORM\JoinColumn(name: 'form_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
     protected $form;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="sort_order", type="smallint")
      */
+    #[ORM\Column(name: 'sort_order', type: 'smallint')]
     protected $sortOrder;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="type", type="string", nullable=false)
      */
+    #[ORM\Column(name: 'type', type: 'string', nullable: false)]
     protected $type;
 
     /**
      * @var array
-     *
-     * @ORM\Column(name="options", type="array", nullable=true)
      */
+    #[ORM\Column(name: 'options', type: 'array', nullable: true)]
     protected $options = [];
 
     /**
@@ -265,9 +234,8 @@ class CmsFormField implements DatesAwareInterface, ExtendEntityInterface
 
     /**
      * Pre persist event handler.
-     *
-     * @ORM\PrePersist
      */
+    #[ORM\PrePersist]
     public function prePersist()
     {
         if ($this->getSortOrder() === null) {
@@ -303,9 +271,8 @@ class CmsFormField implements DatesAwareInterface, ExtendEntityInterface
 
     /**
      * Pre update event handler.
-     *
-     * @ORM\PreUpdate
      */
+    #[ORM\PreUpdate]
     public function preUpdate()
     {
         $this->updatedAt = new \DateTime('now', new \DateTimeZone('UTC'));

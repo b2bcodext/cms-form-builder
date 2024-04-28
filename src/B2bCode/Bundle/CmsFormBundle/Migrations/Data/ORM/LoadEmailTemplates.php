@@ -12,6 +12,7 @@
 namespace B2bCode\Bundle\CmsFormBundle\Migrations\Data\ORM;
 
 use Doctrine\Persistence\ObjectManager;
+use Oro\Bundle\EmailBundle\Entity\EmailTemplate;
 use Oro\Bundle\EmailBundle\Migrations\Data\ORM\AbstractEmailFixture;
 
 class LoadEmailTemplates extends AbstractEmailFixture
@@ -37,7 +38,7 @@ class LoadEmailTemplates extends AbstractEmailFixture
             return null;
         }
 
-        return $manager->getRepository('OroEmailBundle:EmailTemplate')->findOneBy([
+        return $manager->getRepository(EmailTemplate::class)->findOneBy([
             'name'       => $template['params']['name'],
             'entityName' => $template['params']['entityName'],
         ]);

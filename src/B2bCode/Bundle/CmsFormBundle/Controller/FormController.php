@@ -17,7 +17,7 @@ use B2bCode\Bundle\CmsFormBundle\Entity\CmsFormField;
 use B2bCode\Bundle\CmsFormBundle\Form\Type\FieldType;
 use B2bCode\Bundle\CmsFormBundle\Form\Type\FormType;
 use Oro\Bundle\FormBundle\Model\UpdateHandlerFacade;
-use Oro\Bundle\SecurityBundle\Annotation\AclAncestor;
+use Oro\Bundle\SecurityBundle\Attribute\AclAncestor;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -28,21 +28,17 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class FormController extends AbstractController
 {
-    /**
-     * @Route("/", name="b2b_code_cms_form_index")
-     * @AclAncestor("b2b_code_cms_form_view")
-     * @Template
-     */
+    #[Route(path: '/', name: 'b2b_code_cms_form_index')]
+    #[AclAncestor('b2b_code_cms_form_view')]
+    #[Template]
     public function indexAction()
     {
         return [];
     }
 
-    /**
-     * @Route("/view/{id}", name="b2b_code_cms_form_view", requirements={"id"="\d+"})
-     * @AclAncestor("b2b_code_cms_form_view")
-     * @Template
-     */
+    #[Route(path: '/view/{id}', name: 'b2b_code_cms_form_view', requirements: ['id' => '\d+'])]
+    #[AclAncestor('b2b_code_cms_form_view')]
+    #[Template]
     public function viewAction(CmsForm $cmsForm, FormBuilderInterface $formBuilder)
     {
         $form = $formBuilder->getForm($cmsForm->getAlias());
@@ -50,13 +46,9 @@ class FormController extends AbstractController
         return ['entity' => $cmsForm, 'form' => $form->createView()];
     }
 
-    /**
-     * @Route("/create", name="b2b_code_cms_form_create")
-     * @AclAncestor("b2b_code_cms_form_create")
-     * @Template("@B2bCodeCmsForm/Form/update.html.twig")
-     *
-     * @return array|Response
-     */
+    #[Route(path: '/create', name: 'b2b_code_cms_form_create')]
+    #[AclAncestor('b2b_code_cms_form_create')]
+    #[Template('@B2bCodeCmsForm/Form/update.html.twig')]
     public function createAction(
         Request             $request,
         UpdateHandlerFacade $formHandler,
@@ -74,13 +66,9 @@ class FormController extends AbstractController
         return $result;
     }
 
-    /**
-     * @Route("/update/{id}", name="b2b_code_cms_form_update", requirements={"id"="\d+"})
-     * @AclAncestor("b2b_code_cms_form_update")
-     * @Template("@B2bCodeCmsForm/Form/update.html.twig")
-     *
-     * @return array|Response
-     */
+    #[Route(path: '/update/{id}', name: 'b2b_code_cms_form_update', requirements: ['id' => '\d+'])]
+    #[AclAncestor('b2b_code_cms_form_update')]
+    #[Template('@B2bCodeCmsForm/Form/update.html.twig')]
     public function updateAction(
         Request             $request,
         CmsForm             $form,
@@ -90,9 +78,6 @@ class FormController extends AbstractController
         return $this->update($request, $form, $formHandler, $translator);
     }
 
-    /**
-     * @return Response|array
-     */
     protected function update(
         Request             $request,
         CmsForm             $form,
@@ -109,23 +94,17 @@ class FormController extends AbstractController
         return $updateResult;
     }
 
-    /**
-     * @Route("/responses/{id}", name="b2b_code_cms_form_responses", requirements={"id"="\d+"})
-     * @AclAncestor("b2b_code_cms_form_view")
-     * @Template
-     */
+    #[Route(path: '/responses/{id}', name: 'b2b_code_cms_form_responses', requirements: ['id' => '\d+'])]
+    #[AclAncestor('b2b_code_cms_form_view')]
+    #[Template]
     public function responsesAction(CmsForm $cmsForm)
     {
         return ['entity' => $cmsForm];
     }
 
-    /**
-     * @Route("/{id}/field/create", name="b2b_code_cms_form_field_create", requirements={"id"="\d+"})
-     * @AclAncestor("b2b_code_cms_form_field_create")
-     * @Template("@B2bCodeCmsForm/Field/update.html.twig")
-     *
-     * @return array|Response
-     */
+    #[Route(path: '/{id}/field/create', name: 'b2b_code_cms_form_field_create', requirements: ['id' => '\d+'])]
+    #[AclAncestor('b2b_code_cms_form_field_create')]
+    #[Template('@B2bCodeCmsForm/Field/update.html.twig')]
     public function createFieldAction(
         Request             $request,
         CmsForm             $cmsForm,
@@ -138,13 +117,9 @@ class FormController extends AbstractController
         return $this->updateField($request, $field, $formHandler, $translator);
     }
 
-    /**
-     * @Route("/field/update/{id}", name="b2b_code_cms_form_field_update", requirements={"id"="\d+"})
-     * @AclAncestor("b2b_code_cms_form_field_update")
-     * @Template("@B2bCodeCmsForm/Field/update.html.twig")
-     *
-     * @return array|Response
-     */
+    #[Route(path: '/field/update/{id}', name: 'b2b_code_cms_form_field_update', requirements: ['id' => '\d+'])]
+    #[AclAncestor('b2b_code_cms_form_field_update')]
+    #[Template('@B2bCodeCmsForm/Field/update.html.twig')]
     public function updateFieldAction(
         Request             $request,
         CmsFormField        $field,
@@ -154,9 +129,6 @@ class FormController extends AbstractController
         return $this->updateField($request, $field, $formHandler, $translator);
     }
 
-    /**
-     * @return Response|array
-     */
     protected function updateField(
         Request             $request,
         CmsFormField        $formField,
