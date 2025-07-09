@@ -17,12 +17,12 @@
     ]
   },
   "require": {
-    "oro/commerce": "6.0.*"
+    "oro/commerce": "6.1.*"
   },
   "minimum-stability": "dev",
   "extra": {
     "branch-alias": {
-      "dev-master": "6.0-dev"
+      "dev-master": "6.1-dev"
     }
   }
 }
