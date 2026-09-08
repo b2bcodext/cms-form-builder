@@ -95,10 +95,10 @@ Declared in `Resources/config/oro/acls.yml`:
   (CREATE / EDIT / DELETE), governing the back-office UI.
 - An action ACL `b2b_code_cms_frontend_form_respond` in the `commerce` group, granted to the
   `BUYER`, `ADMINISTRATOR` and `ANONYMOUS` frontend roles by the data migration
-  `Migrations/Data/ORM/data/frontend_roles.yml`. Note that **nothing enforces it**: the storefront
-  submit endpoint (`Controller/Frontend/AjaxFormController::respondAction()`) carries no ACL
-  attribute and performs no access check, so revoking the permission does not block submission.
-  See Known Issues.
+  `Migrations/Data/ORM/data/frontend_roles.yml`, and enforced on the storefront submit endpoint
+  (`Controller/Frontend/AjaxFormController::respondAction()`). Revoking it stops submission: an
+  authenticated customer user then gets 403, an anonymous visitor 401. The default grant to
+  `ANONYMOUS` keeps storefront forms open to unauthenticated visitors out of the box.
 
 ## Extension Points
 
@@ -165,9 +165,6 @@ so the checks above are run locally and are not re-run automatically on push or 
   argument but does not apply it, so a batched async export re-reads the whole form's responses
   instead of the requested slice. Current behavior is pinned by a unit test; changing it is a
   maintainer decision.
-- The storefront submit endpoint does not check the `b2b_code_cms_frontend_form_respond` action ACL
-  it ships (see Access Control). The permission is declarative only; anyone who can reach the route
-  can submit, regardless of role.
 - Sixteen `@todo` occurrences remain in non-test source (one of them inside a string literal).
   The largest clusters are `Form/Extension/ChoiceFieldExtension.php` (3 — two asking for the
   choice-field handling to be reworked into data transformers or data mappers, which the bundle

@@ -19,6 +19,7 @@ use B2bCode\Bundle\CmsFormBundle\Entity\CmsForm;
 use B2bCode\Bundle\CmsFormBundle\Entity\CmsFormResponse;
 use B2bCode\Bundle\CmsFormBundle\Notification\NotificationInterface;
 use Doctrine\Persistence\ManagerRegistry;
+use Oro\Bundle\SecurityBundle\Attribute\AclAncestor;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -30,6 +31,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class AjaxFormController extends AbstractController
 {
     #[Route(path: '/respond/{uuid}', name: 'b2b_code_cms_frontend_ajax_respond')]
+    #[AclAncestor('b2b_code_cms_frontend_form_respond')]
     public function respondAction(
         Request $request,
         CmsForm $cmsForm,
