@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the B2Bcodext CMS Form Builder.
  *
@@ -14,14 +16,19 @@ namespace B2bCode\Bundle\CmsFormBundle\Entity;
 use B2bCode\Bundle\CmsFormBundle\Helper\SlugifyHelper;
 use Doctrine\ORM\Mapping as ORM;
 use Oro\Bundle\EntityBundle\EntityProperty\DatesAwareInterface;
-use Oro\Bundle\EntityConfigBundle\Metadata\Attribute\Config;
 use Oro\Bundle\EntityBundle\EntityProperty\DatesAwareTrait;
+use Oro\Bundle\EntityConfigBundle\Metadata\Attribute\Config;
 use Oro\Bundle\EntityConfigBundle\Metadata\Attribute\ConfigField;
 use Oro\Bundle\EntityExtendBundle\Entity\ExtendEntityInterface;
 use Oro\Bundle\EntityExtendBundle\Entity\ExtendEntityTrait;
 
+/**
+ * A single field of a CMS form (name, label, type, options and sort order).
+ */
 #[ORM\Entity]
-#[Config(defaultValues: ['entity' => ['icon' => 'fa-wpforms'], 'grid' => ['default' => 'b2bcode-cms-form-fields-grid']])]
+#[Config(
+    defaultValues: ['entity' => ['icon' => 'fa-wpforms'], 'grid' => ['default' => 'b2bcode-cms-form-fields-grid']]
+)]
 #[ORM\HasLifecycleCallbacks]
 #[ORM\Table(name: 'b2b_code_cms_form_field')]
 #[ORM\UniqueConstraint(name: 'uidx_b2b_code_field_form_name', columns: ['form_id', 'name'])]
@@ -31,7 +38,7 @@ class CmsFormField implements DatesAwareInterface, ExtendEntityInterface
     use ExtendEntityTrait;
 
     /**
-     * @var int
+     * @var int|null
      */
     #[ORM\Column(type: 'integer')]
     #[ORM\Id]
@@ -41,27 +48,27 @@ class CmsFormField implements DatesAwareInterface, ExtendEntityInterface
     /**
      * This value should start with a symbol and contain only alphabetic symbols, underscore and numbers.
      *
-     * @var string
+     * @var string|null
      */
     #[ORM\Column(name: 'name', type: 'string', nullable: false)]
     #[ConfigField(defaultValues: ['importexport' => ['identity' => true]])]
     protected $name;
 
     /**
-     * @var string
+     * @var string|null
      */
     #[ORM\Column(name: 'label', type: 'string', nullable: false)]
     protected $label;
 
     /**
-     * @var CmsForm
+     * @var CmsForm|null
      */
     #[ORM\ManyToOne(targetEntity: CmsForm::class, inversedBy: 'fields')]
     #[ORM\JoinColumn(name: 'form_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
     protected $form;
 
     /**
-     * @var string
+     * @var int|null
      */
     #[ORM\Column(name: 'sort_order', type: 'smallint')]
     protected $sortOrder;
@@ -73,13 +80,13 @@ class CmsFormField implements DatesAwareInterface, ExtendEntityInterface
     protected $type;
 
     /**
-     * @var array
+     * @var array<string, mixed>
      */
     #[ORM\Column(name: 'options', type: 'array', nullable: true)]
     protected $options = [];
 
     /**
-     * @return int
+     * @return int|null
      */
     public function getId()
     {
@@ -87,7 +94,7 @@ class CmsFormField implements DatesAwareInterface, ExtendEntityInterface
     }
 
     /**
-     * @return string
+     * @return string|null
      */
     public function getName()
     {
@@ -96,9 +103,9 @@ class CmsFormField implements DatesAwareInterface, ExtendEntityInterface
 
     /**
      * @param string $name
-     * @return CmsFormField
+     * @return static
      */
-    public function setName(string $name)
+    public function setName(string $name): static
     {
         $this->name = $name;
 
@@ -106,7 +113,7 @@ class CmsFormField implements DatesAwareInterface, ExtendEntityInterface
     }
 
     /**
-     * @return string
+     * @return string|null
      */
     public function getLabel()
     {
@@ -115,9 +122,9 @@ class CmsFormField implements DatesAwareInterface, ExtendEntityInterface
 
     /**
      * @param string $label
-     * @return CmsFormField
+     * @return static
      */
-    public function setLabel(string $label)
+    public function setLabel(string $label): static
     {
         $this->label = $label;
 
@@ -125,7 +132,7 @@ class CmsFormField implements DatesAwareInterface, ExtendEntityInterface
     }
 
     /**
-     * @return CmsForm
+     * @return CmsForm|null
      */
     public function getForm()
     {
@@ -134,9 +141,9 @@ class CmsFormField implements DatesAwareInterface, ExtendEntityInterface
 
     /**
      * @param CmsForm $form
-     * @return CmsFormField
+     * @return static
      */
-    public function setForm(CmsForm $form)
+    public function setForm(CmsForm $form): static
     {
         $this->form = $form;
 
@@ -144,7 +151,7 @@ class CmsFormField implements DatesAwareInterface, ExtendEntityInterface
     }
 
     /**
-     * @return int
+     * @return int|null
      */
     public function getSortOrder()
     {
@@ -154,9 +161,9 @@ class CmsFormField implements DatesAwareInterface, ExtendEntityInterface
     /**
      * @param int $sortOrder
      *
-     * @return CmsFormField
+     * @return static
      */
-    public function setSortOrder(int $sortOrder)
+    public function setSortOrder(int $sortOrder): static
     {
         $this->sortOrder = $sortOrder;
 
@@ -174,9 +181,9 @@ class CmsFormField implements DatesAwareInterface, ExtendEntityInterface
     /**
      * @param string $type
      *
-     * @return CmsFormField
+     * @return static
      */
-    public function setType(string $type)
+    public function setType(string $type): static
     {
         $this->type = $type;
 
@@ -184,10 +191,10 @@ class CmsFormField implements DatesAwareInterface, ExtendEntityInterface
     }
 
     /**
-     * @param array $options
-     * @return CmsFormField
+     * @param array<string, mixed> $options
+     * @return static
      */
-    public function setOptions(array $options)
+    public function setOptions(array $options): static
     {
         foreach ($options as $name => $value) {
             $this->addOption($name, $value);
@@ -198,10 +205,10 @@ class CmsFormField implements DatesAwareInterface, ExtendEntityInterface
 
     /**
      * @param string $name
-     * @param        $value
+     * @param mixed $value
      * @return $this
      */
-    public function addOption(string $name, $value)
+    public function addOption(string $name, $value): static
     {
         if (is_scalar($value) || is_array($value) || is_null($value)) {
             $this->options[$name] = $value;
@@ -225,7 +232,7 @@ class CmsFormField implements DatesAwareInterface, ExtendEntityInterface
     }
 
     /**
-     * @return array
+     * @return array<string, mixed>
      */
     public function getOptions()
     {
@@ -236,16 +243,16 @@ class CmsFormField implements DatesAwareInterface, ExtendEntityInterface
      * Pre persist event handler.
      */
     #[ORM\PrePersist]
-    public function prePersist()
+    public function prePersist(): void
     {
         if ($this->getSortOrder() === null) {
             $this->incrementSortOrder();
         }
         // just in case...
-        if ($this->getName() === null && !($this->getLabel() === null)) {
+        if ($this->getName() === null && $this->getLabel() !== null) {
             $this->setName(SlugifyHelper::slugify($this->getLabel()));
         }
-        if ($this->createdAt === null) {
+        if (!$this->createdAt instanceof \DateTimeInterface) {
             $this->createdAt = new \DateTime('now', new \DateTimeZone('UTC'));
         }
         $this->updatedAt = new \DateTime('now', new \DateTimeZone('UTC'));
@@ -273,13 +280,13 @@ class CmsFormField implements DatesAwareInterface, ExtendEntityInterface
      * Pre update event handler.
      */
     #[ORM\PreUpdate]
-    public function preUpdate()
+    public function preUpdate(): void
     {
         $this->updatedAt = new \DateTime('now', new \DateTimeZone('UTC'));
     }
 
     /**
-     * @return array
+     * @return array<string, mixed>
      */
     public function toArray(): array
     {

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the B2Bcodext CMS Form Builder.
  *
@@ -14,19 +16,25 @@ namespace B2bCode\Bundle\CmsFormBundle\ImportExport\Serializer;
 use B2bCode\Bundle\CmsFormBundle\Entity\CmsFieldResponse;
 use Oro\Bundle\ImportExportBundle\Serializer\Normalizer\ConfigurableEntityNormalizer;
 
+/**
+ * Normalizes a CMS field response to its exported value.
+ */
 class FieldResponseNormalizer extends ConfigurableEntityNormalizer
 {
     /**
-     * {@inheritdoc}
+     * @param array<string, mixed> $context
      */
+    #[\Override]
     public function supportsNormalization($data, $format = null, array $context = array()): bool
     {
         return $data instanceof CmsFieldResponse;
     }
 
     /**
-     * {@inheritdoc}
+     * @param array<string, mixed> $context
+     * @return array<string, mixed>|string|int|float|bool|null
      */
+    #[\Override]
     public function normalize($object, $format = null, array $context = [])
     {
         $result = parent::normalize($object, $format, $context);
@@ -39,10 +47,11 @@ class FieldResponseNormalizer extends ConfigurableEntityNormalizer
 
         return $result;
     }
-    
-     /**
-     * {@inheritdoc}
+
+    /**
+     * @param array<string, mixed> $context
      */
+    #[\Override]
     public function supportsDenormalization($data, $type, $format = null, array $context = []): bool
     {
         return $type === CmsFieldResponse::class;

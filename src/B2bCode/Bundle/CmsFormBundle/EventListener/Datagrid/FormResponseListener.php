@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the B2Bcodext CMS Form Builder.
  *
@@ -17,10 +19,12 @@ use Doctrine\Persistence\ManagerRegistry;
 use Oro\Bundle\DataGridBundle\Datasource\ResultRecord;
 use Oro\Bundle\DataGridBundle\Event\OrmResultAfter;
 
+/**
+ * Fills the CMS form responses datagrid rows with the submitted field values.
+ */
 class FormResponseListener
 {
-    /** @var ManagerRegistry */
-    protected $managerRegistry;
+    protected ManagerRegistry $managerRegistry;
 
     /**
      * @param ManagerRegistry $managerRegistry
@@ -33,7 +37,7 @@ class FormResponseListener
     /**
      * @param OrmResultAfter $event
      */
-    public function onResultAfter(OrmResultAfter $event)
+    public function onResultAfter(OrmResultAfter $event): void
     {
         /** @var ResultRecord[] $records */
         $records = $event->getRecords();
@@ -58,9 +62,12 @@ class FormResponseListener
      */
     protected function getRepository()
     {
-        return $this
+        /** @var CmsFieldResponseRepository $repository */
+        $repository = $this
             ->managerRegistry
             ->getManagerForClass(CmsFieldResponse::class)
             ->getRepository(CmsFieldResponse::class);
+
+        return $repository;
     }
 }

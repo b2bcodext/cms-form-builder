@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the B2Bcodext CMS Form Builder.
  *
@@ -16,11 +18,12 @@ use Oro\Bundle\ImportExportBundle\Configuration\ImportExportConfiguration;
 use Oro\Bundle\ImportExportBundle\Configuration\ImportExportConfigurationInterface;
 use Oro\Bundle\ImportExportBundle\Configuration\ImportExportConfigurationProviderInterface;
 
+/**
+ * Provides the import/export configuration used to export CMS form responses.
+ */
 class FormResponseImportExportConfigurationProvider implements ImportExportConfigurationProviderInterface
 {
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function get(): ImportExportConfigurationInterface
     {
         return new ImportExportConfiguration([

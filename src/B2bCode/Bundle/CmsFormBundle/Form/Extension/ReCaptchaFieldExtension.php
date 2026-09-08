@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace B2bCode\Bundle\CmsFormBundle\Form\Extension;
 
 use B2bCode\Bundle\CmsFormBundle\Entity\CmsFormField;
@@ -11,20 +13,19 @@ use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormInterface;
 
+/**
+ * Adds the reCAPTCHA field to a CMS form when the form has reCAPTCHA protection enabled.
+ */
 class ReCaptchaFieldExtension extends AbstractTypeExtension
 {
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public static function getExtendedTypes(): iterable
     {
         return [FieldType::class];
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    #[\Override]
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         // works only with ORO recaptcha extension
         if (!class_exists('OroLab\Bundle\ReCaptchaBundle\Form\Type\ReCaptchaType')) {
@@ -33,20 +34,20 @@ class ReCaptchaFieldExtension extends AbstractTypeExtension
 
         $builder->addEventListener(
             FormEvents::PRE_SET_DATA,
-            function (FormEvent $event) {
+            function (FormEvent $event): void {
                 $form = $event->getForm();
-                /** @var CmsFormField $formField */
+                /** @var CmsFormField|null $formField */
                 $formField = $event->getData();
 
                 if ($formField && $formField->getType() === 'oro-recaptcha-v3') {
                     $this->addField($form);
                 }
-            });
+            }
+        );
 
         $builder->get('type')->addEventListener(
             FormEvents::POST_SUBMIT,
-            function (FormEvent $event) {
-                /** @var CmsFormField $formField */
+            function (FormEvent $event): void {
                 $form = $event->getForm()->getParent();
                 $formType = $event->getData();
 
@@ -57,10 +58,7 @@ class ReCaptchaFieldExtension extends AbstractTypeExtension
         );
     }
 
-    /**
-     * @param FormInterface $form
-     */
-    protected function addField(FormInterface $form)
+    protected function addField(FormInterface $form): void
     {
         $form
             ->add(

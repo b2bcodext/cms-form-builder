@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the B2Bcodext CMS Form Builder.
  *
@@ -13,6 +15,9 @@ namespace B2bCode\Bundle\CmsFormBundle\Provider;
 
 use B2bCode\Bundle\CmsFormBundle\ValueObject\CmsFieldType;
 
+/**
+ * Provides CMS form field types to the field type registry.
+ */
 interface FieldTypeProviderInterface
 {
     /**

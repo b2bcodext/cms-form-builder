@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the B2Bcodext CMS Form Builder.
  *
@@ -11,7 +13,9 @@
 
 namespace B2bCode\Bundle\CmsFormBundle\Exception;
 
+/**
+ * Thrown when a CMS form cannot be found by its alias.
+ */
 class CmsFormNotFound extends \InvalidArgumentException
 {
-
 }

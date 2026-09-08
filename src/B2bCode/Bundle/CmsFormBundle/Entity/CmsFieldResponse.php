@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the B2Bcodext CMS Form Builder.
  *
@@ -18,6 +20,9 @@ use Oro\Bundle\EntityConfigBundle\Metadata\Attribute\ConfigField;
 use Oro\Bundle\EntityExtendBundle\Entity\ExtendEntityInterface;
 use Oro\Bundle\EntityExtendBundle\Entity\ExtendEntityTrait;
 
+/**
+ * The submitted value of one CMS form field within a form response.
+ */
 #[ORM\Entity(repositoryClass: CmsFieldResponseRepository::class)]
 #[Config(defaultValues: ['entity' => ['icon' => 'fa-envelope-open']])]
 #[ORM\Table(name: 'b2b_code_cms_field_response')]
@@ -26,7 +31,7 @@ class CmsFieldResponse implements ExtendEntityInterface
     use ExtendEntityTrait;
 
     /**
-     * @var int
+     * @var int|null
      */
     #[ORM\Column(name: 'id', type: 'integer')]
     #[ORM\Id]
@@ -35,30 +40,30 @@ class CmsFieldResponse implements ExtendEntityInterface
     protected $id;
 
     /**
-     * @var CmsFormField
+     * @var CmsFormField|null
      */
     #[ORM\ManyToOne(targetEntity: CmsFormField::class)]
-    #[ORM\JoinColumn(name: 'field_id', referencedColumnName: 'id', onDelete: 'CASCADE', nullable: false)]
+    #[ORM\JoinColumn(name: 'field_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
     #[ConfigField(defaultValues: ['importexport' => ['order' => 10]])]
     protected $field;
 
     /**
-     * @var CmsFormResponse
+     * @var CmsFormResponse|null
      */
     #[ORM\ManyToOne(targetEntity: CmsFormResponse::class, inversedBy: 'fieldResponses')]
-    #[ORM\JoinColumn(name: 'form_response_id', referencedColumnName: 'id', onDelete: 'CASCADE', nullable: false)]
+    #[ORM\JoinColumn(name: 'form_response_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
     #[ConfigField(defaultValues: ['importexport' => ['excluded' => true]])]
     protected $formResponse;
 
     /**
-     * @var string
+     * @var string|null
      */
     #[ORM\Column(name: 'value', type: 'text', nullable: true)]
     #[ConfigField(defaultValues: ['importexport' => ['order' => 20]])]
     protected $value;
 
     /**
-     * @return int
+     * @return int|null
      */
     public function getId()
     {
@@ -75,9 +80,9 @@ class CmsFieldResponse implements ExtendEntityInterface
 
     /**
      * @param CmsFormField $field
-     * @return CmsFieldResponse
+     * @return static
      */
-    public function setField(CmsFormField $field)
+    public function setField(CmsFormField $field): static
     {
         $this->field = $field;
 
@@ -94,9 +99,9 @@ class CmsFieldResponse implements ExtendEntityInterface
 
     /**
      * @param CmsFormResponse $formResponse
-     * @return CmsFieldResponse
+     * @return static
      */
-    public function setFormResponse(CmsFormResponse $formResponse)
+    public function setFormResponse(CmsFormResponse $formResponse): static
     {
         $this->formResponse = $formResponse;
 
@@ -104,7 +109,7 @@ class CmsFieldResponse implements ExtendEntityInterface
     }
 
     /**
-     * @return string
+     * @return string|null
      */
     public function getRawValue()
     {
@@ -115,7 +120,7 @@ class CmsFieldResponse implements ExtendEntityInterface
      * @param bool $asLabel When true labels will be returned instead of values. Useful in case of having dropdown
      *                      with Label => value generated options. E.g. Country (Poland => pl). When $asLabel is set
      *                      to `true` "Poland" will be returned. When $asLabel is false, "pl" will be returned.
-     * @return string|array
+     * @return string|mixed[]|null
      */
     public function getValue(bool $asLabel = false)
     {
@@ -139,9 +144,9 @@ class CmsFieldResponse implements ExtendEntityInterface
 
     /**
      * @param string $value
-     * @return CmsFieldResponse
+     * @return static
      */
-    public function setValue(?string $value)
+    public function setValue(?string $value): static
     {
         $this->value = $value;
 
@@ -149,7 +154,7 @@ class CmsFieldResponse implements ExtendEntityInterface
     }
 
     /**
-     * @return array
+     * @return array<string, mixed>
      */
     public function toArray(): array
     {

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the B2Bcodext CMS Form Builder.
  *
@@ -14,6 +16,9 @@ namespace B2bCode\Bundle\CmsFormBundle\Migrations\Data\Demo\ORM;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Oro\Bundle\CMSBundle\Migrations\Data\AbstractLoadPageData;
 
+/**
+ * Loads the demo landing page that embeds a CMS form.
+ */
 class LoadDemoLandingPage extends AbstractLoadPageData implements DependentFixtureInterface
 {
     /**

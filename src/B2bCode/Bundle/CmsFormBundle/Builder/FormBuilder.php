@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the B2Bcodext CMS Form Builder.
  *
@@ -18,36 +20,28 @@ use B2bCode\Bundle\CmsFormBundle\Form\Type\CmsFormType;
 use B2bCode\Bundle\CmsFormBundle\Provider\FieldTypeRegistry;
 use B2bCode\Bundle\CmsFormBundle\Validator\Config\FormConstraintCollection;
 use B2bCode\Bundle\CmsFormBundle\Validator\ConstraintProviderInterface;
+use B2bCode\Bundle\CmsFormBundle\ValueObject\CmsFieldType;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Form\FormBuilderInterface as SymfonyFormBuilderInterface;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Routing\RouterInterface;
 
+/**
+ * Builds the Symfony form (and single fields) of a CMS form, applying its validation constraints.
+ */
 class FormBuilder implements FormBuilderInterface
 {
-    /** @var FormFactoryInterface */
-    protected $formFactory;
+    protected FormFactoryInterface $formFactory;
 
-    /** @var ManagerRegistry */
-    protected $managerRegistry;
+    protected ManagerRegistry $managerRegistry;
 
-    /** @var FieldTypeRegistry */
-    protected $fieldTypeRegistry;
+    protected FieldTypeRegistry $fieldTypeRegistry;
 
-    /** @var RouterInterface */
-    protected $router;
+    protected RouterInterface $router;
 
-    /** @var ConstraintProviderInterface */
-    protected $constraintProvider;
+    protected ConstraintProviderInterface $constraintProvider;
 
-    /**
-     * @param FormFactoryInterface        $formFactory
-     * @param ManagerRegistry             $managerRegistry
-     * @param FieldTypeRegistry  $fieldTypeRegistry
-     * @param RouterInterface             $router
-     * @param ConstraintProviderInterface $constraintProvider
-     */
     public function __construct(
         FormFactoryInterface $formFactory,
         ManagerRegistry $managerRegistry,
@@ -63,12 +57,13 @@ class FormBuilder implements FormBuilderInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @param array<string, mixed> $options
      */
+    #[\Override]
     public function getForm(string $alias, array $options = []): FormInterface
     {
         $repository = $this->managerRegistry->getManagerForClass(CmsForm::class)->getRepository(CmsForm::class);
-        /** @var CmsForm $cmsForm */
+        /** @var CmsForm|null $cmsForm */
         $cmsForm = $repository->findOneBy(['alias' => $alias]);
 
         if ($cmsForm === null) {
@@ -87,9 +82,8 @@ class FormBuilder implements FormBuilderInterface
     /**
      * Builds form containing only one field. Useful for the field preview.
      *
-     * @param CmsFormField $field
-     * @return FormInterface
      */
+    #[\Override]
     public function buildField(CmsFormField $field): FormInterface
     {
         $formBuilder = $this->formFactory->createBuilder(CmsFormType::class, null, ['csrf_protection' => false]);
@@ -99,10 +93,7 @@ class FormBuilder implements FormBuilderInterface
     }
 
     /**
-     * @param CmsForm $cmsForm
-     * @param array   $options
-     *
-     * @return FormInterface
+     * @param array<string, mixed> $options
      */
     protected function buildForm(CmsForm $cmsForm, array $options = []): FormInterface
     {
@@ -117,22 +108,17 @@ class FormBuilder implements FormBuilderInterface
         return $formBuilder->getForm();
     }
 
-    /**
-     * @param SymfonyFormBuilderInterface $formBuilder
-     * @param CmsFormField                $field
-     * @param FormConstraintCollection    $constraintCollection
-     */
     protected function addField(
         SymfonyFormBuilderInterface $formBuilder,
         CmsFormField $field,
         ?FormConstraintCollection $constraintCollection = null
     ): void {
-        if ($constraintCollection === null) {
+        if (!$constraintCollection instanceof FormConstraintCollection) {
             $constraintCollection = new FormConstraintCollection(new CmsForm());
         }
 
         $formType = $this->fieldTypeRegistry->getByKey($field->getType());
-        if ($formType === null) {
+        if (!$formType instanceof CmsFieldType) {
             return;
         }
         $fieldOptions = array_merge($formType->getFormOptions(), $field->getOptions());
@@ -145,10 +131,8 @@ class FormBuilder implements FormBuilderInterface
     }
 
     /**
-     * @param CmsFormField             $field
-     * @param FormConstraintCollection $constraintCollection
-     * @param array                    $fieldOptions
-     * @return array
+     * @param array<string, mixed> $fieldOptions
+     * @return array<int, object> constraint objects that apply to the field
      */
     protected function buildConstraintsForField(
         CmsFormField $field,

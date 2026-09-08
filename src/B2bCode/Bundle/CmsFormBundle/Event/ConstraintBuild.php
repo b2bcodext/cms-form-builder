@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the B2Bcodext CMS Form Builder.
  *
@@ -15,15 +17,16 @@ use B2bCode\Bundle\CmsFormBundle\Entity\CmsForm;
 use B2bCode\Bundle\CmsFormBundle\Validator\Config\FormConstraintCollection;
 use Symfony\Contracts\EventDispatcher\Event;
 
+/**
+ * Dispatched while the validation constraints of a CMS form are being built, so listeners can extend them.
+ */
 class ConstraintBuild extends Event
 {
     public const NAME = 'b2b_code_cms_form.constraints.build';
 
-    /** @var FormConstraintCollection */
-    protected $constraintCollection;
+    protected FormConstraintCollection $constraintCollection;
 
-    /** @var CmsForm */
-    protected $form;
+    protected CmsForm $form;
 
     /**
      * @param FormConstraintCollection $constraintCollection

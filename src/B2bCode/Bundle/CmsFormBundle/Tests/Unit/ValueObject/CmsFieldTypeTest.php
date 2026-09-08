@@ -6,8 +6,8 @@ namespace B2bCode\Bundle\CmsFormBundle\Tests\Unit\ValueObject;
 
 use B2bCode\Bundle\CmsFormBundle\ValueObject\CmsFieldType;
 use PHPUnit\Framework\TestCase;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class CmsFieldTypeTest extends TestCase
 {

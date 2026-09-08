@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the B2Bcodext CMS Form Builder.
  *
@@ -17,11 +19,14 @@ use B2bCode\Bundle\CmsFormBundle\Entity\CmsForm;
 use B2bCode\Bundle\CmsFormBundle\Entity\CmsFormResponse;
 use B2bCode\Bundle\CmsFormBundle\Notification\NotificationInterface;
 use Doctrine\Persistence\ManagerRegistry;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
+/**
+ * Handles the storefront AJAX submission of a CMS form.
+ */
 class AjaxFormController extends AbstractController
 {
     #[Route(path: '/respond/{uuid}', name: 'b2b_code_cms_frontend_ajax_respond')]
@@ -31,7 +36,7 @@ class AjaxFormController extends AbstractController
         FormBuilderInterface $formBuilder,
         ManagerRegistry $registry,
         NotificationInterface $notification
-    ) {
+    ): JsonResponse {
         // build CmsFormType and map it to CmsFieldResponse
         // @todo daniel extract
         $form = $formBuilder->getForm($cmsForm->getAlias());

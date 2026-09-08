@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the B2Bcodext CMS Form Builder.
  *
@@ -44,22 +46,25 @@ class FormFieldController extends RestController
      *
      * @return ApiEntityManager
      */
+    #[\Override]
     public function getManager()
     {
         return $this->container->get('b2b_code_cms_form.field_manager.api');
     }
 
     /**
-     * {@inheritdoc}
+     * @return \Symfony\Component\Form\FormInterface
      */
+    #[\Override]
     public function getForm()
     {
         throw new \BadMethodCallException('Form is not available.');
     }
 
     /**
-     * {@inheritdoc}
+     * @return \Oro\Bundle\SoapBundle\Form\Handler\ApiFormHandler
      */
+    #[\Override]
     public function getFormHandler()
     {
         throw new \BadMethodCallException('FormHandler is not available.');

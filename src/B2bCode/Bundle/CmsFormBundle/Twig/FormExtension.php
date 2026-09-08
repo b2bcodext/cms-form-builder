@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the B2Bcodext CMS Form Builder.
  *
@@ -17,22 +19,17 @@ use Symfony\Component\Form\FormRendererInterface;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
+/**
+ * Twig functions rendering a CMS form and listing its updateable fields.
+ */
 class FormExtension extends AbstractExtension
 {
-    /** @var FormBuilderInterface */
-    protected $formBuilder;
+    protected FormBuilderInterface $formBuilder;
 
-    /** @var FormRendererInterface */
-    protected $formRenderer;
+    protected FormRendererInterface $formRenderer;
 
-    /** @var GeneralFieldProvider */
-    protected $generalFieldProvider;
+    protected GeneralFieldProvider $generalFieldProvider;
 
-    /**
-     * @param FormBuilderInterface  $formBuilder
-     * @param FormRendererInterface $formRenderer
-     * @param GeneralFieldProvider  $generalFieldProvider
-     */
     public function __construct(
         FormBuilderInterface $formBuilder,
         FormRendererInterface $formRenderer,
@@ -44,8 +41,9 @@ class FormExtension extends AbstractExtension
     }
 
     /**
-     * {@inheritDoc}
+     * @return TwigFunction[]
      */
+    #[\Override]
     public function getFunctions()
     {
         return [
@@ -54,12 +52,7 @@ class FormExtension extends AbstractExtension
         ];
     }
 
-    /**
-     * @param string      $alias
-     * @param string|null $actionUrl
-     * @return string
-     */
-    public function renderForm(string $alias, ?string $actionUrl = null)
+    public function renderForm(string $alias, ?string $actionUrl = null): string
     {
         $options = [];
         if ($actionUrl) {
@@ -75,7 +68,7 @@ class FormExtension extends AbstractExtension
     }
 
     /**
-     * @return array
+     * @return string[]
      */
     public function getUpdateableFields(): array
     {

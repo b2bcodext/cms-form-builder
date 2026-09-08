@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the B2Bcodext CMS Form Builder.
  *
@@ -16,8 +18,8 @@ use Oro\Bundle\MigrationBundle\Migration\Installation;
 use Oro\Bundle\MigrationBundle\Migration\QueryBag;
 
 /**
- * @SuppressWarnings(PHPMD.TooManyMethods)
- * @SuppressWarnings(PHPMD.ExcessiveClassLength)
+ * @SuppressWarnings("PHPMD.TooManyMethods")
+ * @SuppressWarnings("PHPMD.ExcessiveClassLength")
  * @todo indexes, notnull, onDelete, etc.!
  */
 class B2bCodeCmsFormBundleInstaller implements Installation
@@ -54,7 +56,7 @@ class B2bCodeCmsFormBundleInstaller implements Installation
      *
      * @param Schema $schema
      */
-    protected function createB2BCodeCmsFormResponseTable(Schema $schema)
+    protected function createB2BCodeCmsFormResponseTable(Schema $schema): void
     {
         $table = $schema->createTable('b2b_code_cms_form_response');
         $table->addColumn('id', 'integer', ['autoincrement' => true]);
@@ -73,7 +75,7 @@ class B2bCodeCmsFormBundleInstaller implements Installation
      *
      * @param Schema $schema
      */
-    protected function createB2BCodeCmsFieldResponseTable(Schema $schema)
+    protected function createB2BCodeCmsFieldResponseTable(Schema $schema): void
     {
         $table = $schema->createTable('b2b_code_cms_field_response');
         $table->addColumn('id', 'integer', ['autoincrement' => true]);
@@ -90,7 +92,7 @@ class B2bCodeCmsFormBundleInstaller implements Installation
      *
      * @param Schema $schema
      */
-    protected function createB2BCodeCmsFormFieldTable(Schema $schema)
+    protected function createB2BCodeCmsFormFieldTable(Schema $schema): void
     {
         $table = $schema->createTable('b2b_code_cms_form_field');
         $table->addColumn('id', 'integer', ['autoincrement' => true]);
@@ -112,7 +114,7 @@ class B2bCodeCmsFormBundleInstaller implements Installation
      *
      * @param Schema $schema
      */
-    protected function createB2BCodeCmsFormNotificationTable(Schema $schema)
+    protected function createB2BCodeCmsFormNotificationTable(Schema $schema): void
     {
         $table = $schema->createTable('b2b_code_cms_form_notification');
         $table->addColumn('id', 'integer', ['autoincrement' => true]);
@@ -129,7 +131,7 @@ class B2bCodeCmsFormBundleInstaller implements Installation
      *
      * @param Schema $schema
      */
-    protected function createB2BCodeCmsFormTable(Schema $schema)
+    protected function createB2BCodeCmsFormTable(Schema $schema): void
     {
         $table = $schema->createTable('b2b_code_cms_form');
         $table->addColumn('id', 'integer', ['autoincrement' => true]);
@@ -151,7 +153,7 @@ class B2bCodeCmsFormBundleInstaller implements Installation
      *
      * @param Schema $schema
      */
-    protected function addB2BCodeCmsFormResponseForeignKeys(Schema $schema)
+    protected function addB2BCodeCmsFormResponseForeignKeys(Schema $schema): void
     {
         $table = $schema->getTable('b2b_code_cms_form_response');
         $table->addForeignKeyConstraint(
@@ -173,7 +175,7 @@ class B2bCodeCmsFormBundleInstaller implements Installation
      *
      * @param Schema $schema
      */
-    protected function addB2BCodeCmsFieldResponseForeignKeys(Schema $schema)
+    protected function addB2BCodeCmsFieldResponseForeignKeys(Schema $schema): void
     {
         $table = $schema->getTable('b2b_code_cms_field_response');
         $table->addForeignKeyConstraint(
@@ -195,7 +197,7 @@ class B2bCodeCmsFormBundleInstaller implements Installation
      *
      * @param Schema $schema
      */
-    protected function addB2BCodeCmsFormFieldForeignKeys(Schema $schema)
+    protected function addB2BCodeCmsFormFieldForeignKeys(Schema $schema): void
     {
         $table = $schema->getTable('b2b_code_cms_form_field');
         $table->addForeignKeyConstraint(
@@ -211,7 +213,7 @@ class B2bCodeCmsFormBundleInstaller implements Installation
      *
      * @param Schema $schema
      */
-    protected function addB2BCodeCmsFormNotificationForeignKeys(Schema $schema)
+    protected function addB2BCodeCmsFormNotificationForeignKeys(Schema $schema): void
     {
         $table = $schema->getTable('b2b_code_cms_form_notification');
         $table->addForeignKeyConstraint(

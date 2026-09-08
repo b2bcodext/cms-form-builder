@@ -1,0 +1,20 @@
+parameters:
+    paths:
+        - src
+
+    excludePaths:
+        - '*/Tests/*'
+        - '*/Resources/public/*'
+
+    level: 6
+
+    ignoreErrors:
+        # OroLab ReCaptcha is an OPTIONAL extension: the block that uses it is already guarded by
+        # class_exists('OroLab\Bundle\ReCaptchaBundle\Form\Type\ReCaptchaType') and the package is
+        # not installed in this application, so the constraint class cannot be resolved statically.
+        -
+            identifier: class.notFound
+            message: '#Instantiated class OroLab\\Bundle\\ReCaptchaBundle\\Validator\\Constraints\\IsVerified not found\.#'
+            path: src/B2bCode/Bundle/CmsFormBundle/Provider/FieldTypeProvider.php
+
+    reportUnmatchedIgnoredErrors: false

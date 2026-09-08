@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace B2bCode\Bundle\CmsFormBundle\Tests\Functional\Validator;
 
 use B2bCode\Bundle\CmsFormBundle\Entity\CmsForm;
-use B2bCode\Bundle\CmsFormBundle\Tests\Functional\DataFixtures\LoadFeedbackFormData;
 use B2bCode\Bundle\CmsFormBundle\Event\ConstraintBuild;
+use B2bCode\Bundle\CmsFormBundle\Tests\Functional\DataFixtures\LoadFeedbackFormData;
 use B2bCode\Bundle\CmsFormBundle\Validator\ConstraintProviderInterface;
 use B2bCode\Bundle\CmsFormBundle\Validator\Loader\ValidationRuleLoader;
 use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;

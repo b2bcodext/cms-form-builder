@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the B2Bcodext CMS Form Builder.
  *
@@ -15,11 +17,15 @@ use B2bCode\Bundle\CmsFormBundle\Entity\CmsFormResponse;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
+/**
+ * Twig function exposing a CMS form response to the notification email templates.
+ */
 class EmailExtension extends AbstractExtension
 {
     /**
-     * {@inheritDoc}
+     * @return TwigFunction[]
      */
+    #[\Override]
     public function getFunctions()
     {
         return [
@@ -28,8 +34,7 @@ class EmailExtension extends AbstractExtension
     }
 
     /**
-     * @param CmsFormResponse $formResponse
-     * @return array
+     * @return array<string, mixed>
      */
     public function getResponse(CmsFormResponse $formResponse): array
     {

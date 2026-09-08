@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the B2Bcodext CMS Form Builder.
  *
@@ -33,7 +35,7 @@ class CreateTables implements Migration
      *
      * @param Schema $schema
      */
-    protected function createB2BCodeCmsFormTable(Schema $schema)
+    protected function createB2BCodeCmsFormTable(Schema $schema): void
     {
         $table = $schema->createTable('b2b_code_cms_form');
         $table->addColumn('id', 'integer', ['autoincrement' => true]);
@@ -48,7 +50,7 @@ class CreateTables implements Migration
      *
      * @param Schema $schema
      */
-    protected function createB2BCodeCmsFormFieldTable(Schema $schema)
+    protected function createB2BCodeCmsFormFieldTable(Schema $schema): void
     {
         $table = $schema->createTable('b2b_code_cms_form_field');
         $table->addColumn('id', 'integer', ['autoincrement' => true]);
@@ -66,7 +68,7 @@ class CreateTables implements Migration
      *
      * @param Schema $schema
      */
-    protected function addB2BCodeCmsFormFieldForeignKeys(Schema $schema)
+    protected function addB2BCodeCmsFormFieldForeignKeys(Schema $schema): void
     {
         $table = $schema->getTable('b2b_code_cms_form_field');
         $table->addForeignKeyConstraint(

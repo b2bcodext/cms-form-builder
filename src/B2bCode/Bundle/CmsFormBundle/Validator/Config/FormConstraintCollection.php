@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the B2Bcodext CMS Form Builder.
  *
@@ -13,10 +15,12 @@ namespace B2bCode\Bundle\CmsFormBundle\Validator\Config;
 
 use B2bCode\Bundle\CmsFormBundle\Entity\CmsForm;
 
+/**
+ * Collection of validation constraints per CMS form field, instantiated on demand.
+ */
 class FormConstraintCollection
 {
-    /** @var CmsForm */
-    protected $form;
+    protected CmsForm $form;
 
     /**
      * Structure:
@@ -28,7 +32,7 @@ class FormConstraintCollection
      *          ['Symfony\Component\Validator\Constraints\NotBlank' => null]
      *      ]]
      *
-     * @var array
+     * @var array<string, array<int, array<string, mixed>>>
      */
     protected $constraints = [];
 
@@ -43,10 +47,10 @@ class FormConstraintCollection
     /**
      * @param string $field
      * @param string $constraintClass
-     * @param null   $constraintOptions
-     * @return FormConstraintCollection
+     * @param mixed $constraintOptions
+     * @return static
      */
-    public function addConstraintForField(string $field, string $constraintClass, $constraintOptions = null)
+    public function addConstraintForField(string $field, string $constraintClass, $constraintOptions = null): static
     {
         if (!$this->form->hasField($field)) {
             // @todo Exception?
@@ -57,14 +61,14 @@ class FormConstraintCollection
             $this->constraints[$field] = [];
         }
 
-        array_push($this->constraints[$field], [$constraintClass => $constraintOptions]);
+        $this->constraints[$field][] = [$constraintClass => $constraintOptions];
 
         return $this;
     }
 
     /**
      * @param string $field
-     * @return array
+     * @return array<int, array<string, mixed>>
      */
     public function getRawConstraintsForField(string $field): array
     {
@@ -77,7 +81,7 @@ class FormConstraintCollection
 
     /**
      * @param string $field
-     * @return array
+     * @return array<int, object> instantiated constraint objects
      */
     public function getConstraintsForField(string $field): array
     {

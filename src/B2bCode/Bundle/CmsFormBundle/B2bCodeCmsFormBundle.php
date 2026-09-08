@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the B2Bcodext CMS Form Builder.
  *
@@ -17,10 +19,8 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 class B2bCodeCmsFormBundle extends Bundle
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function build(ContainerBuilder $container)
+    #[\Override]
+    public function build(ContainerBuilder $container): void
     {
         parent::build($container);
 
