@@ -1,28 +1,44 @@
 {
-  "name": "b2bcodext/cms-form-builder",
-  "description": "B2Bcodext - CMS Form Builder for OroCommerce to easily create forms via UI",
-  "license": "OSL-3.0",
-  "authors": [
-    {
-      "name": "Daniel Nahrebecki",
-      "email": "daniel@b2bcodext.com"
-    }
-  ],
-  "autoload": {
-    "psr-4": {
-      "": "src/"
+    "name": "b2bcodext/cms-form-builder",
+    "description": "B2Bcodext - CMS Form Builder for OroCommerce to easily create forms via UI",
+    "license": "OSL-3.0",
+    "authors": [
+        {
+            "name": "Daniel Nahrebecki",
+            "email": "daniel@b2bcodext.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "": "src/"
+        },
+        "exclude-from-classmap": [
+            "/Tests/"
+        ]
     },
-    "exclude-from-classmap": [
-      "**/Tests/"
-    ]
-  },
-  "require": {
-    "oro/commerce": "6.1.*"
-  },
-  "minimum-stability": "dev",
-  "extra": {
-    "branch-alias": {
-      "dev-master": "6.1-dev"
+    "require": {
+        "oro/commerce": "6.1.*"
+    },
+    "minimum-stability": "dev",
+    "extra": {
+        "branch-alias": {
+            "dev-release/2.5": "6.1-dev"
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "php-http/discovery": false,
+            "symfony/flex": false,
+            "symfony/runtime": false
+        },
+        "audit": {
+            "block-insecure": false
+        }
+    },
+    "prefer-stable": true,
+    "require-dev": {
+        "squizlabs/php_codesniffer": "^3.10",
+        "phpunit/phpunit": "^9.5",
+        "phpstan/phpstan": "^2.1"
     }
-  }
 }
