@@ -62,8 +62,8 @@ class AjaxFormController extends AbstractController
     #[AclAncestor('b2b_code_cms_form_create')]
     public function reorderAction(Request $request, CmsForm $cmsForm, ManagerRegistry $registry)
     {
-        /** @var array $data */
-        $data = $request->request->get('cms_form_reorder', []);
+        // `InputBag::get()` only accepts scalars, so the array payload must be read with `all()`.
+        $data = $request->request->all('cms_form_reorder');
         if (!array_key_exists('fields', $data)) {
             return new JsonResponse(['success' => false]);
         }
