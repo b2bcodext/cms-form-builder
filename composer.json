@@ -17,12 +17,12 @@
         ]
     },
     "require": {
-        "oro/commerce": "6.1.*"
+        "oro/commerce": "7.0.*"
     },
     "minimum-stability": "dev",
     "extra": {
         "branch-alias": {
-            "dev-release/2.5": "6.1-dev"
+            "dev-release/2.5": "7.0-dev"
         }
     },
     "config": {
@@ -37,7 +37,7 @@
     },
     "prefer-stable": true,
     "require-dev": {
-        "squizlabs/php_codesniffer": "^3.10",
+        "squizlabs/php_codesniffer": "^4.0",
         "phpunit/phpunit": "^9.5",
         "phpstan/phpstan": "^2.1"
     }
