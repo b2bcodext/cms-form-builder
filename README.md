@@ -33,17 +33,7 @@ Requires **OroCommerce 6.1** (`oro/commerce: 6.1.*`).
 
 ## Installation
 
-1. Add the package as a `vcs` repository in your application's `composer.json`:
-
-   ```json
-   {
-       "repositories": [
-           { "type": "vcs", "url": "https://github.com/b2bcodext/cms-form-builder.git" }
-       ]
-   }
-   ```
-
-2. Require the package:
+1. Require the package:
 
    ```bash
    composer require b2bcodext/cms-form-builder:"^2.5"
@@ -52,7 +42,7 @@ Requires **OroCommerce 6.1** (`oro/commerce: 6.1.*`).
    The package versions on its own `2.x` line — release `2.5` is the OroCommerce 6.1 line. It does
    not share OroCommerce's version numbers.
 
-3. Apply it to the application:
+2. Apply it to the application:
 
    ```bash
    bin/console cache:clear
