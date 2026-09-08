@@ -20,6 +20,7 @@ use B2bCode\Bundle\CmsFormBundle\Entity\CmsFormResponse;
 use B2bCode\Bundle\CmsFormBundle\Notification\NotificationInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Oro\Bundle\SecurityBundle\Attribute\AclAncestor;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -34,6 +35,7 @@ class AjaxFormController extends AbstractController
     #[AclAncestor('b2b_code_cms_frontend_form_respond')]
     public function respondAction(
         Request $request,
+        #[MapEntity(mapping: ['uuid' => 'uuid'])]
         CmsForm $cmsForm,
         FormBuilderInterface $formBuilder,
         ManagerRegistry $registry,

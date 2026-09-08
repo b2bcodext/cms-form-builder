@@ -15,6 +15,7 @@ namespace B2bCode\Bundle\CmsFormBundle\Controller\Frontend;
 
 use B2bCode\Bundle\CmsFormBundle\Entity\CmsForm;
 use Oro\Bundle\LayoutBundle\Attribute\Layout;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Attribute\Route;
 
@@ -29,7 +30,7 @@ class FormController extends AbstractController
      */
     #[Route(path: '/preview/{uuid}', name: 'b2b_code_cms_form_frontend_form_preview')]
     #[Layout]
-    public function formViewAction(CmsForm $form)
+    public function formViewAction(#[MapEntity(mapping: ['uuid' => 'uuid'])] CmsForm $form)
     {
         return [
             'data' => [

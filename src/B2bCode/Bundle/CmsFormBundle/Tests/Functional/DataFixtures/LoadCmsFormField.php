@@ -10,10 +10,8 @@ use Doctrine\Persistence\ObjectManager;
 
 class LoadCmsFormField extends AbstractFixture
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function load(ObjectManager $manager)
+    #[\Override]
+    public function load(ObjectManager $manager): void
     {
         $firstNameOptions = [
             'required' => true,

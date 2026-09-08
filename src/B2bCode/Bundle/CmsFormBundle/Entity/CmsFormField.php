@@ -47,10 +47,10 @@ class CmsFormField implements DatesAwareInterface, ExtendEntityInterface
      */
     #[ORM\Column(name: 'name', type: 'string', nullable: false)]
     #[ConfigField(defaultValues: ['importexport' => ['identity' => true]])]
-    protected string $name;
+    protected ?string $name = null;
 
     #[ORM\Column(name: 'label', type: 'string', nullable: false)]
-    protected string $label;
+    protected ?string $label = null;
 
     /**
      * @var CmsForm|null
@@ -63,7 +63,7 @@ class CmsFormField implements DatesAwareInterface, ExtendEntityInterface
     protected ?int $sortOrder = null;
 
     #[ORM\Column(name: 'type', type: 'string', nullable: false)]
-    protected string $type;
+    protected ?string $type = null;
 
     /**
      * @var array<string, mixed>
@@ -157,7 +157,7 @@ class CmsFormField implements DatesAwareInterface, ExtendEntityInterface
     }
 
     /**
-     * @return string
+     * @return string|null
      */
     public function getType()
     {
