@@ -30,14 +30,11 @@ class CmsFieldResponse implements ExtendEntityInterface
 {
     use ExtendEntityTrait;
 
-    /**
-     * @var int|null
-     */
     #[ORM\Column(name: 'id', type: 'integer')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'AUTO')]
     #[ConfigField(defaultValues: ['importexport' => ['excluded' => true]])]
-    protected $id;
+    protected ?int $id = null;
 
     /**
      * @var CmsFormField|null
@@ -55,12 +52,9 @@ class CmsFieldResponse implements ExtendEntityInterface
     #[ConfigField(defaultValues: ['importexport' => ['excluded' => true]])]
     protected $formResponse;
 
-    /**
-     * @var string|null
-     */
     #[ORM\Column(name: 'value', type: 'text', nullable: true)]
     #[ConfigField(defaultValues: ['importexport' => ['order' => 20]])]
-    protected $value;
+    protected ?string $value = null;
 
     /**
      * @return int|null

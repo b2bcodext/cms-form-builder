@@ -29,13 +29,10 @@ class CmsFormNotification implements ExtendEntityInterface
 {
     use ExtendEntityTrait;
 
-    /**
-     * @var int|null
-     */
     #[ORM\Column(name: 'id', type: 'integer')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'AUTO')]
-    protected $id;
+    protected ?int $id = null;
 
     /**
      * @var CmsForm|null
@@ -51,11 +48,8 @@ class CmsFormNotification implements ExtendEntityInterface
     #[ORM\JoinColumn(name: 'template_id', referencedColumnName: 'id', nullable: true, onDelete: 'SET NULL')]
     protected $template;
 
-    /**
-     * @var string|null
-     */
     #[ORM\Column(name: 'email', type: 'string', nullable: true)]
-    protected $email;
+    protected ?string $email = null;
 
     /**
      * @return int|null

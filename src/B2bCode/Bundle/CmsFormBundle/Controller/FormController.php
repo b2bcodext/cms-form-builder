@@ -63,7 +63,7 @@ class FormController extends AbstractController
     #[AclAncestor('b2b_code_cms_form_create')]
     #[Template('@B2bCodeCmsForm/Form/update.html.twig')]
     public function createAction(
-        Request             $request,
+        Request $request,
         UpdateHandlerFacade $formHandler,
         TranslatorInterface $translator
     ) {
@@ -86,8 +86,8 @@ class FormController extends AbstractController
     #[AclAncestor('b2b_code_cms_form_update')]
     #[Template('@B2bCodeCmsForm/Form/update.html.twig')]
     public function updateAction(
-        Request             $request,
-        CmsForm             $form,
+        Request $request,
+        CmsForm $form,
         UpdateHandlerFacade $formHandler,
         TranslatorInterface $translator
     ) {
@@ -98,8 +98,8 @@ class FormController extends AbstractController
      * @return array<string, mixed>|RedirectResponse
      */
     protected function update(
-        Request             $request,
-        CmsForm             $form,
+        Request $request,
+        CmsForm $form,
         UpdateHandlerFacade $formHandler,
         TranslatorInterface $translator
     ) {
@@ -131,8 +131,8 @@ class FormController extends AbstractController
     #[AclAncestor('b2b_code_cms_form_field_create')]
     #[Template('@B2bCodeCmsForm/Field/update.html.twig')]
     public function createFieldAction(
-        Request             $request,
-        CmsForm             $cmsForm,
+        Request $request,
+        CmsForm $cmsForm,
         UpdateHandlerFacade $formHandler,
         TranslatorInterface $translator
     ) {
@@ -149,8 +149,8 @@ class FormController extends AbstractController
     #[AclAncestor('b2b_code_cms_form_field_update')]
     #[Template('@B2bCodeCmsForm/Field/update.html.twig')]
     public function updateFieldAction(
-        Request             $request,
-        CmsFormField        $field,
+        Request $request,
+        CmsFormField $field,
         UpdateHandlerFacade $formHandler,
         TranslatorInterface $translator
     ) {
@@ -161,8 +161,8 @@ class FormController extends AbstractController
      * @return array<string, mixed>|RedirectResponse
      */
     protected function updateField(
-        Request             $request,
-        CmsFormField        $formField,
+        Request $request,
+        CmsFormField $formField,
         UpdateHandlerFacade $formHandler,
         TranslatorInterface $translator
     ) {

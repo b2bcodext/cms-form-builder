@@ -9,8 +9,17 @@
     <arg name="colors"/>
     <arg value="p"/>
 
-    <rule ref="vendor/oro/platform/build/Oro/phpcs.xml">
+    <!-- Run phpcs FROM the directory whose composer install produced this vendor/ dir: PHP_CodeSniffer
+         resolves a bare relative rule ref against the PROCESS CWD, not against this file's own
+         directory (measured on 3.x and 4.x). In a package checkout that is the package root, with
+         vendor/bin/phpcs and this file passed as the standard; inside an Oro application it is the app
+         root, with this ruleset passed by path. From any other cwd phpcs stops with "Referenced sniff
+         … does not exist" + "No sniffs were registered" (rc 3 on 3.x, 16 on 4.x). -->
+    <rule ref="vendor/oro/platform/build/Oro/ruleset.xml">
         <!-- Pre-existing developer TODOs are content, not style: kept verbatim, sniff excluded. -->
         <exclude name="Generic.Commenting.Todo"/>
     </rule>
+
+    <!-- 7.0-convention delta: strict_types is a 7.0 convention, not enforced on 6.1 vendor code — phpcs-6.1.xml.dist omits this rule -->
+    <rule ref="Generic.PHP.RequireStrictTypes"/>
 </ruleset>

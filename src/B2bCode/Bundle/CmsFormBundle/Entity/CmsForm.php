@@ -41,41 +41,27 @@ class CmsForm implements DatesAwareInterface, ExtendEntityInterface
     use DatesAwareTrait;
     use ExtendEntityTrait;
 
-    /**
-     * @var int|null
-     */
     #[ORM\Column(type: 'integer')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'AUTO')]
-    protected $id;
+    protected ?int $id = null;
 
-    /**
-     * @var string|null
-     */
     #[ORM\Column(name: 'name', type: 'string', length: 255)]
     #[ConfigField(defaultValues: ['dataaudit' => ['auditable' => true]])]
-    protected $name;
+    protected ?string $name = null;
 
     /**
      * This value should start with a symbol and contain only alphabetic symbols, underscore and numbers.
-     *
-     * @var string|null
      */
     #[ORM\Column(name: 'alias', type: 'string', length: 255, unique: true)]
     #[ConfigField(defaultValues: ['dataaudit' => ['auditable' => true], 'importexport' => ['identity' => true]])]
-    protected $alias;
+    protected ?string $alias = null;
 
-    /**
-     * @var string|null
-     */
     #[ORM\Column(name: 'uuid', type: 'string', unique: true)]
-    protected $uuid;
+    protected ?string $uuid = null;
 
-    /**
-     * @var bool
-     */
     #[ORM\Column(name: 'preview_enabled', type: 'boolean', nullable: true)]
-    protected $previewEnabled = false;
+    protected ?bool $previewEnabled = false;
 
     /**
      * @var Collection<int, CmsFormField>
@@ -85,11 +71,8 @@ class CmsForm implements DatesAwareInterface, ExtendEntityInterface
     #[ConfigField(defaultValues: ['dataaudit' => ['auditable' => true]])]
     protected $fields;
 
-    /**
-     * @var bool
-     */
     #[ORM\Column(name: 'notifications_enabled', type: 'boolean', nullable: true)]
-    protected $notificationsEnabled = false;
+    protected ?bool $notificationsEnabled = false;
 
 
     /**
@@ -99,11 +82,8 @@ class CmsForm implements DatesAwareInterface, ExtendEntityInterface
     #[ConfigField(defaultValues: ['dataaudit' => ['auditable' => true]])]
     protected $notifications;
 
-    /**
-     * @var string|null
-     */
     #[ORM\Column(name: 'redirect_url', type: 'string', length: 1024, nullable: true)]
-    protected $redirectUrl;
+    protected ?string $redirectUrl = null;
 
     public function __construct()
     {

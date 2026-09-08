@@ -32,11 +32,14 @@ class FieldResponseNormalizer extends ConfigurableEntityNormalizer
 
     /**
      * @param array<string, mixed> $context
-     * @return array<string, mixed>|string|int|float|bool|null
+     * @return array<string, mixed>|\ArrayObject<string, mixed>|string|int|float|bool|null
      */
     #[\Override]
-    public function normalize($object, $format = null, array $context = [])
-    {
+    public function normalize(
+        $object,
+        $format = null,
+        array $context = []
+    ): array|bool|string|int|float|null|\ArrayObject {
         $result = parent::normalize($object, $format, $context);
 
         if (is_array($result) && array_key_exists('value', $result)) {

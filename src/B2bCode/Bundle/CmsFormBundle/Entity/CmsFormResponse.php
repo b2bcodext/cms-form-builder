@@ -36,14 +36,11 @@ class CmsFormResponse implements DatesAwareInterface, ExtendEntityInterface
     use DatesAwareTrait;
     use ExtendEntityTrait;
 
-    /**
-     * @var int|null
-     */
     #[ORM\Column(name: 'id', type: 'integer')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'AUTO')]
     #[ConfigField(defaultValues: ['importexport' => ['order' => 10]])]
-    protected $id;
+    protected ?int $id = null;
 
     /**
      * @var CmsForm|null
@@ -70,11 +67,8 @@ class CmsFormResponse implements DatesAwareInterface, ExtendEntityInterface
     #[ConfigField(defaultValues: ['importexport' => ['order' => 40]])]
     protected $visitor;
 
-    /**
-     * @var bool
-     */
     #[ORM\Column(name: 'is_resolved', type: 'boolean', nullable: true)]
-    protected $resolved = false;
+    protected ?bool $resolved = false;
 
     public function __construct()
     {
