@@ -32,7 +32,11 @@ use Oro\Bundle\SecurityBundle\Tools\UUIDGenerator;
 #[Config(
     routeName: 'b2b_code_cms_form_index',
     routeView: 'b2b_code_cms_form_view',
-    defaultValues: ['entity' => ['icon' => 'fa-wpforms'], 'grid' => ['default' => 'b2bcode-cms-forms-grid']]
+    defaultValues: [
+        'entity' => ['icon' => 'fa-wpforms'],
+        'grid' => ['default' => 'b2bcode-cms-forms-grid'],
+        'email' => ['available_in_template' => true],
+    ]
 )]
 #[ORM\HasLifecycleCallbacks]
 #[ORM\Table(name: 'b2b_code_cms_form')]
@@ -47,7 +51,12 @@ class CmsForm implements DatesAwareInterface, ExtendEntityInterface
     protected ?int $id = null;
 
     #[ORM\Column(name: 'name', type: 'string', length: 255)]
-    #[ConfigField(defaultValues: ['dataaudit' => ['auditable' => true]])]
+    #[ConfigField(
+        defaultValues: [
+            'dataaudit' => ['auditable' => true],
+            'email' => ['available_in_template' => true],
+        ]
+    )]
     protected ?string $name = null;
 
     /**

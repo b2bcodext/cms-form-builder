@@ -28,7 +28,10 @@ use Oro\Bundle\EntityExtendBundle\Entity\ExtendEntityTrait;
  * A single submission of a CMS form, holding the per-field responses.
  */
 #[ORM\Entity]
-#[Config(defaultValues: ['entity' => ['icon' => 'fa-envelope-open']])]
+#[Config(defaultValues: [
+    'entity' => ['icon' => 'fa-envelope-open'],
+    'email' => ['available_in_template' => true],
+])]
 #[ORM\HasLifecycleCallbacks]
 #[ORM\Table(name: 'b2b_code_cms_form_response')]
 class CmsFormResponse implements DatesAwareInterface, ExtendEntityInterface
@@ -47,7 +50,12 @@ class CmsFormResponse implements DatesAwareInterface, ExtendEntityInterface
      */
     #[ORM\ManyToOne(targetEntity: CmsForm::class)]
     #[ORM\JoinColumn(name: 'form_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
-    #[ConfigField(defaultValues: ['importexport' => ['order' => 20]])]
+    #[ConfigField(
+        defaultValues: [
+            'importexport' => ['order' => 20],
+            'email' => ['available_in_template' => true],
+        ]
+    )]
     protected $form;
 
     /**
