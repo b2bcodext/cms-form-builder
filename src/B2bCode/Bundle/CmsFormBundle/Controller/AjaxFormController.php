@@ -20,11 +20,11 @@ use B2bCode\Bundle\CmsFormBundle\Form\Type\FieldType;
 use B2bCode\Bundle\CmsFormBundle\Provider\GeneralFieldProvider;
 use Doctrine\Persistence\ManagerRegistry;
 use Oro\Bundle\SecurityBundle\Attribute\AclAncestor;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Bridge\Twig\Attribute\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
 /**
  * Handles the back-office AJAX requests of the CMS form editor (field preview, reorder).
@@ -36,7 +36,7 @@ class AjaxFormController extends AbstractController
      */
     #[Route(path: '/form-view}', name: 'b2b_code_cms_form_frontend_ajax_form_view')]
     #[AclAncestor('b2b_code_cms_form_field_create')]
-    #[Template]
+    #[Template('@B2bCodeCmsForm/AjaxForm/formView.html.twig')]
     public function formViewAction(Request $request, GeneralFieldProvider $fieldProvider)
     {
         $form = $this->createForm(FieldType::class, new CmsFormField());
@@ -55,7 +55,7 @@ class AjaxFormController extends AbstractController
      */
     #[Route(path: '/form-preview}', name: 'b2b_code_cms_form_frontend_ajax_field_preview')]
     #[AclAncestor('b2b_code_cms_form_field_create')]
-    #[Template]
+    #[Template('@B2bCodeCmsForm/AjaxForm/fieldPreview.html.twig')]
     public function fieldPreviewAction(Request $request, FormBuilderInterface $formBuilder)
     {
         $cmsField =  new CmsFormField();

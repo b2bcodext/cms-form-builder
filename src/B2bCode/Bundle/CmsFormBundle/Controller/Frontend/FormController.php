@@ -16,7 +16,7 @@ namespace B2bCode\Bundle\CmsFormBundle\Controller\Frontend;
 use B2bCode\Bundle\CmsFormBundle\Entity\CmsForm;
 use Oro\Bundle\LayoutBundle\Attribute\Layout;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
 /**
  * Renders a CMS form on the storefront.

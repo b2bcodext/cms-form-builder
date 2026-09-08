@@ -68,7 +68,7 @@ class FormConstraintCollectionTest extends TestCase
         $this->collection->addConstraintForField('email', Length::class, ['max' => 10]);
 
         self::assertEquals(
-            [new NotBlank(), new Length(['max' => 10])],
+            [new NotBlank(), new Length(max: 10)],
             $this->collection->getConstraintsForField('email')
         );
     }

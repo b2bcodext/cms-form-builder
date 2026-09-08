@@ -3,7 +3,6 @@ datagrids:
         options:
             entity_pagination: true
         source:
-            acl_resource: b2b_code_cms_form_view
             type: orm
             query:
                 select:
@@ -89,6 +88,7 @@ datagrids:
                 link:          response_link
                 icon:          envelope-open
                 acl_resource:  b2b_code_cms_form_view
+        acl_resource: b2b_code_cms_form_view
 
     b2bcode-cms-form-fields-grid:
         extended_entity_name: B2bCode\Bundle\CmsFormBundle\Entity\CmsFormField
@@ -182,7 +182,6 @@ datagrids:
         options:
             entity_pagination: true
         source:
-            acl_resource: b2b_code_cms_form_view
             type: orm
             query:
                 select:
@@ -238,3 +237,4 @@ datagrids:
                     data_name: response.createdAt
         properties:
             id: ~
+        acl_resource: b2b_code_cms_form_view
