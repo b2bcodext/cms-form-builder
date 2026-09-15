@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the B2Bcodext CMS Form Builder.
  *
@@ -17,16 +19,21 @@ use B2bCode\Bundle\CmsFormBundle\Entity\CmsFormField;
 use B2bCode\Bundle\CmsFormBundle\Form\Type\FieldType;
 use B2bCode\Bundle\CmsFormBundle\Provider\GeneralFieldProvider;
 use Doctrine\Persistence\ManagerRegistry;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Routing\Annotation\Route;
+use Oro\Bundle\SecurityBundle\Attribute\AclAncestor;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Oro\Bundle\SecurityBundle\Attribute\AclAncestor;
-use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
 
+/**
+ * Handles the back-office AJAX requests of the CMS form editor (field preview, reorder).
+ */
 class AjaxFormController extends AbstractController
 {
+    /**
+     * @return array<string, mixed>
+     */
     #[Route(path: '/form-view}', name: 'b2b_code_cms_form_frontend_ajax_form_view')]
     #[AclAncestor('b2b_code_cms_form_field_create')]
     #[Template]
@@ -43,6 +50,9 @@ class AjaxFormController extends AbstractController
         ];
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     #[Route(path: '/form-preview}', name: 'b2b_code_cms_form_frontend_ajax_field_preview')]
     #[AclAncestor('b2b_code_cms_form_field_create')]
     #[Template]
@@ -60,10 +70,10 @@ class AjaxFormController extends AbstractController
 
     #[Route(path: '/{id}/reorder', name: 'b2b_code_cms_form_ajax_reorder')]
     #[AclAncestor('b2b_code_cms_form_create')]
-    public function reorderAction(Request $request, CmsForm $cmsForm, ManagerRegistry $registry)
+    public function reorderAction(Request $request, CmsForm $cmsForm, ManagerRegistry $registry): JsonResponse
     {
-        /** @var array $data */
-        $data = $request->request->get('cms_form_reorder', []);
+        // `InputBag::get()` only accepts scalars, so the array payload must be read with `all()`.
+        $data = $request->request->all('cms_form_reorder');
         if (!array_key_exists('fields', $data)) {
             return new JsonResponse(['success' => false]);
         }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the B2Bcodext CMS Form Builder.
  *
@@ -18,27 +20,22 @@ use B2bCode\Bundle\CmsFormBundle\Validator\Loader\ValidationRuleLoader;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
+/**
+ * Builds the validation constraint collection for a CMS form and lets listeners extend it.
+ */
 class ConstraintProvider implements ConstraintProviderInterface
 {
-    /** @var ValidationRuleLoader */
-    protected $ruleLoader;
+    protected ValidationRuleLoader $ruleLoader;
 
-    /** @var EventDispatcherInterface */
-    protected $eventDispatcher;
+    protected EventDispatcherInterface $eventDispatcher;
 
-    /**
-     * @param ValidationRuleLoader     $ruleLoader
-     * @param EventDispatcherInterface $eventDispatcher
-     */
     public function __construct(ValidationRuleLoader $ruleLoader, EventDispatcherInterface $eventDispatcher)
     {
         $this->ruleLoader = $ruleLoader;
         $this->eventDispatcher = $eventDispatcher;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getConstraintsForForm(CmsForm $form): FormConstraintCollection
     {
         // @todo caching here instead of rule loader?

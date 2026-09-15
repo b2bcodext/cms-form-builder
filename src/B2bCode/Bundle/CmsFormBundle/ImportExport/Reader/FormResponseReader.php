@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the B2Bcodext CMS Form Builder.
  *
@@ -15,15 +17,21 @@ use Oro\Bundle\ImportExportBundle\Context\ContextInterface;
 use Oro\Bundle\ImportExportBundle\Reader\EntityReader;
 use Oro\Bundle\OrganizationBundle\Entity\Organization;
 
+/**
+ * Reads the CMS form responses of one form for the import/export export job.
+ */
 class FormResponseReader extends EntityReader
 {
-    /** @var int */
+    /** @var int|null */
     protected $formId;
 
     /**
-     * {@inheritdoc}
+     * @param string $entityName
+     * @param int[] $ids
+     * @return \Doctrine\ORM\QueryBuilder
      */
-    protected function createSourceEntityQueryBuilder($entityName, Organization $organization = null, array $ids = [])
+    #[\Override]
+    protected function createSourceEntityQueryBuilder($entityName, ?Organization $organization = null, array $ids = [])
     {
         $qb = parent::createSourceEntityQueryBuilder($entityName, $organization);
 
@@ -43,8 +51,9 @@ class FormResponseReader extends EntityReader
     }
 
     /**
-     * {@inheritdoc}
+     * @return void
      */
+    #[\Override]
     protected function initializeFromContext(ContextInterface $context)
     {
         $this->formId = (int)$context->getOption('form_id');

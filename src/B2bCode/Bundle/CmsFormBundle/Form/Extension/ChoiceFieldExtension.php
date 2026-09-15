@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the B2Bcodext CMS Form Builder.
  *
@@ -23,36 +25,31 @@ use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormInterface;
 
+/**
+ * Adds and processes the choice options of choice-based CMS form fields.
+ */
 class ChoiceFieldExtension extends AbstractTypeExtension
 {
     /** @var array|string[] */
     protected $supportedTypes = ['dropdown', 'radio'];
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public static function getExtendedTypes(): iterable
     {
         return [FieldType::class];
     }
 
-    /**
-     * @param string $type
-     */
     public function addSupportedType(string $type): void
     {
         $this->supportedTypes[] = $type;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    #[\Override]
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->get('type')->addEventListener(
             FormEvents::POST_SUBMIT,
-            function (FormEvent $event) {
-                /** @var CmsFormField $formField */
+            function (FormEvent $event): void {
                 $form = $event->getForm()->getParent();
                 $formType = $event->getData();
 
@@ -64,9 +61,9 @@ class ChoiceFieldExtension extends AbstractTypeExtension
 
         $builder->addEventListener(
             FormEvents::PRE_SET_DATA,
-            function (FormEvent $event) {
+            function (FormEvent $event): void {
                 $form = $event->getForm();
-                /** @var CmsFormField $formField */
+                /** @var CmsFormField|null $formField */
                 $formField = $event->getData();
 
                 if ($formField && (in_array($formField->getType(), $this->getSupportedTypes()))) {
@@ -88,8 +85,7 @@ class ChoiceFieldExtension extends AbstractTypeExtension
     }
 
     /**
-     * @param FormInterface $form
-     * @param array         $choices
+     * @param array<int, array<string, mixed>> $choices
      */
     protected function addFieldsToForm(FormInterface $form, array $choices = []): void
     {
@@ -135,10 +131,7 @@ class ChoiceFieldExtension extends AbstractTypeExtension
             );
     }
 
-    /**
-     * @param FormEvent $event
-     */
-    public function onSubmit(FormEvent $event)
+    public function onSubmit(FormEvent $event): void
     {
         /** @var CmsFormField $cmsField */
         $cmsField = $event->getData();
@@ -163,10 +156,8 @@ class ChoiceFieldExtension extends AbstractTypeExtension
     /**
      * @todo change to transformers/data mappers
      *
-     * @param CmsFormField  $cmsField
-     * @param FormInterface $form
      */
-    protected function processChoices(CmsFormField $cmsField, FormInterface $form)
+    protected function processChoices(CmsFormField $cmsField, FormInterface $form): void
     {
         if (!$form->has('choices')) {
             return;

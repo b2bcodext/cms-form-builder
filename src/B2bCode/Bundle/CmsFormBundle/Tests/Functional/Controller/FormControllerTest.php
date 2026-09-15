@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace B2bCode\Bundle\CmsFormBundle\Tests\Functional\Controller;
 
 use B2bCode\Bundle\CmsFormBundle\Entity\CmsForm;
@@ -84,7 +86,10 @@ class FormControllerTest extends WebTestCase
 
         self::assertHtmlResponseStatusCodeEquals($response, Response::HTTP_OK);
         self::assertStringContainsString('Preview is not enabled. To enable it', $response->getContent());
-        self::assertStringContainsString('Notifications are disabled or empty. To enable them', $response->getContent());
+        self::assertStringContainsString(
+            'Notifications are disabled or empty. To enable them',
+            $response->getContent()
+        );
         self::assertStringContainsString('Generated code', $response->getContent());
         self::assertStringContainsString('{{ b2b_code_form(&#039;preview-disabled&#039;) }}', $response->getContent());
     }

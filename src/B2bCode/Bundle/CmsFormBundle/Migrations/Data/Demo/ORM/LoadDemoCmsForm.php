@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the B2Bcodext CMS Form Builder.
  *
@@ -16,12 +18,15 @@ use B2bCode\Bundle\CmsFormBundle\Entity\CmsFormField;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Persistence\ObjectManager;
 
+/**
+ * Loads the demo CMS forms ("Feedback" and "Contact Us") with their fields.
+ */
 class LoadDemoCmsForm extends AbstractFixture
 {
     /**
      * {@inheritdoc}
      */
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
         $feedbackForm = $this->createFeedbackForm();
         $contactForm = $this->createContactUsForm();
@@ -165,6 +170,9 @@ class LoadDemoCmsForm extends AbstractFixture
      * @param string $type
      * @param array  $options
      * @return CmsFormField
+     */
+    /**
+     * @param array<string, mixed> $options
      */
     protected function createField(string $label, string $name, int $order, string $type, array $options): CmsFormField
     {

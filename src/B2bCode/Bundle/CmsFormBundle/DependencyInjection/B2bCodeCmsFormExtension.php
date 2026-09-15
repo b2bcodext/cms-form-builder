@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the B2Bcodext CMS Form Builder.
  *
@@ -18,9 +20,10 @@ use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
 class B2bCodeCmsFormExtension extends Extension
 {
-    const ALIAS = 'b2b_code_cms_form';
+    public const ALIAS = 'b2b_code_cms_form';
 
-    public function load(array $configs, ContainerBuilder $container)
+    #[\Override]
+    public function load(array $configs, ContainerBuilder $container): void
     {
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
@@ -29,6 +32,7 @@ class B2bCodeCmsFormExtension extends Extension
         $loader->load('import_export.yml');
     }
 
+    #[\Override]
     public function getAlias(): string
     {
         return self::ALIAS;

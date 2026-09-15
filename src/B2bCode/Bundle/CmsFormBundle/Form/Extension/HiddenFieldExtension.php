@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace B2bCode\Bundle\CmsFormBundle\Form\Extension;
 
 use B2bCode\Bundle\CmsFormBundle\Entity\CmsFormField;
@@ -11,37 +13,36 @@ use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormInterface;
 
+/**
+ * Adds the hidden-value field to CMS form fields of the hidden type.
+ */
 class HiddenFieldExtension extends AbstractTypeExtension
 {
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public static function getExtendedTypes(): iterable
     {
         return [FieldType::class];
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    #[\Override]
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->addEventListener(
             FormEvents::PRE_SET_DATA,
-            function (FormEvent $event) {
+            function (FormEvent $event): void {
                 $form = $event->getForm();
-                /** @var CmsFormField $formField */
+                /** @var CmsFormField|null $formField */
                 $formField = $event->getData();
 
                 if ($formField && $formField->getType() === 'hidden') {
                     $this->addField($form);
                 }
-            });
+            }
+        );
 
         $builder->get('type')->addEventListener(
             FormEvents::POST_SUBMIT,
-            function (FormEvent $event) {
-                /** @var CmsFormField $formField */
+            function (FormEvent $event): void {
                 $form = $event->getForm()->getParent();
                 $formType = $event->getData();
 
@@ -52,10 +53,7 @@ class HiddenFieldExtension extends AbstractTypeExtension
         );
     }
 
-    /**
-     * @param FormInterface $form
-     */
-    protected function addField(FormInterface $form)
+    protected function addField(FormInterface $form): void
     {
         // default value for a field is stored in a `data` option
         $form

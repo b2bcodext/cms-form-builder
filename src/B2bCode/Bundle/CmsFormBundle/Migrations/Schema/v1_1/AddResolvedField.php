@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace B2bCode\Bundle\CmsFormBundle\Migrations\Schema\v1_1;
 
 use Doctrine\DBAL\Schema\Schema;

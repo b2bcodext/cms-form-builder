@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the B2Bcodext CMS Form Builder.
  *
@@ -16,6 +18,9 @@ use Oro\Component\Config\Loader\YamlCumulativeFileLoader;
 use Oro\Component\PhpUtils\ArrayUtil;
 use Psr\Cache\CacheItemPoolInterface;
 
+/**
+ * Loads and caches the CMS form validation rules declared in the bundle configuration.
+ */
 class ValidationRuleLoader
 {
     public const CONFIG_ID = 'b2b_code_cms_form_validation';
@@ -24,6 +29,9 @@ class ValidationRuleLoader
     {
     }
 
+    /**
+     * @return array<string, mixed> validation rules of the form, keyed by field name
+     */
     public function getForForm(string $alias): array
     {
         $this->ensureConfigurationLoaded();

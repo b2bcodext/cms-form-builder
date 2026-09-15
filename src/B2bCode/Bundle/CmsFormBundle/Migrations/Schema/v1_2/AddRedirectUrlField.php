@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace B2bCode\Bundle\CmsFormBundle\Migrations\v1_2;
 
 use Doctrine\DBAL\Schema\Schema;
@@ -19,7 +21,7 @@ class AddRedirectUrlField implements Migration
     /**
      * @param Schema $schema
      */
-    protected function addRedirectUrlField(Schema $schema)
+    protected function addRedirectUrlField(Schema $schema): void
     {
         $table = $schema->getTable('b2b_code_cms_form');
         $table->addColumn('redirect_url', 'string', ['length' => 1024, 'notnull' => false]);

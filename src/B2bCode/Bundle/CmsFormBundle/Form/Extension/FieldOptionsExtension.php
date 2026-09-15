@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the B2Bcodext CMS Form Builder.
  *
@@ -22,37 +24,32 @@ use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
+/**
+ * Adds the general per-field options (label, required, sort order, ...) to the CMS field form.
+ */
 class FieldOptionsExtension extends AbstractTypeExtension
 {
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public static function getExtendedTypes(): iterable
     {
         return [FieldType::class];
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    #[\Override]
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $this->addGeneralOptionsToForm($builder, $options);
 
         $builder->addEventListener(FormEvents::SUBMIT, [$this, 'onSubmit']);
     }
 
-    /**
-     * @param FormEvent $event
-     */
-    public function onSubmit(FormEvent $event)
+    public function onSubmit(FormEvent $event): void
     {
         $this->incrementSortOrder($event);
     }
 
     /**
-     * @param FormBuilderInterface $builder
-     * @param array                $options
+     * @param array<string, mixed> $options
      */
     protected function addGeneralOptionsToForm(FormBuilderInterface $builder, array $options): void
     {
@@ -105,9 +102,6 @@ class FieldOptionsExtension extends AbstractTypeExtension
             );
     }
 
-    /**
-     * @param FormEvent $event
-     */
     protected function incrementSortOrder(FormEvent $event): void
     {
         /** @var CmsFormField $cmsField */

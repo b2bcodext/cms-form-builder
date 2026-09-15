@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the B2Bcodext CMS Form Builder.
  *
@@ -26,10 +28,8 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  */
 class FormType extends AbstractType
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    #[\Override]
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
             ->add(
@@ -95,10 +95,8 @@ class FormType extends AbstractType
         ;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function configureOptions(OptionsResolver $resolver)
+    #[\Override]
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults(
             [

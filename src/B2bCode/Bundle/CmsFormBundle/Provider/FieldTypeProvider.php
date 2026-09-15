@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the B2Bcodext CMS Form Builder.
  *
@@ -21,11 +23,15 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Validator\Constraints\Email;
 
+/**
+ * Provides the CMS form field types declared in the bundle configuration.
+ */
 class FieldTypeProvider implements FieldTypeProviderInterface
 {
     /**
      * @return CmsFieldType[]
      */
+    #[\Override]
     public function getAvailableTypes(): array
     {
         $fields = [

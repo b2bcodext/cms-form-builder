@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the B2Bcodext CMS Form Builder.
  *
@@ -18,16 +20,21 @@ use B2bCode\Bundle\CmsFormBundle\Form\Type\FieldType;
 use B2bCode\Bundle\CmsFormBundle\Form\Type\FormType;
 use Oro\Bundle\FormBundle\Model\UpdateHandlerFacade;
 use Oro\Bundle\SecurityBundle\Attribute\AclAncestor;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
+/**
+ * Back-office CRUD for CMS forms, their fields and their responses.
+ */
 class FormController extends AbstractController
 {
+    /**
+     * @return array<string, mixed>
+     */
     #[Route(path: '/', name: 'b2b_code_cms_form_index')]
     #[AclAncestor('b2b_code_cms_form_view')]
     #[Template]
@@ -36,6 +43,9 @@ class FormController extends AbstractController
         return [];
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     #[Route(path: '/view/{id}', name: 'b2b_code_cms_form_view', requirements: ['id' => '\d+'])]
     #[AclAncestor('b2b_code_cms_form_view')]
     #[Template]
@@ -46,6 +56,9 @@ class FormController extends AbstractController
         return ['entity' => $cmsForm, 'form' => $form->createView()];
     }
 
+    /**
+     * @return array<string, mixed>|RedirectResponse
+     */
     #[Route(path: '/create', name: 'b2b_code_cms_form_create')]
     #[AclAncestor('b2b_code_cms_form_create')]
     #[Template('@B2bCodeCmsForm/Form/update.html.twig')]
@@ -66,6 +79,9 @@ class FormController extends AbstractController
         return $result;
     }
 
+    /**
+     * @return array<string, mixed>|RedirectResponse
+     */
     #[Route(path: '/update/{id}', name: 'b2b_code_cms_form_update', requirements: ['id' => '\d+'])]
     #[AclAncestor('b2b_code_cms_form_update')]
     #[Template('@B2bCodeCmsForm/Form/update.html.twig')]
@@ -78,6 +94,9 @@ class FormController extends AbstractController
         return $this->update($request, $form, $formHandler, $translator);
     }
 
+    /**
+     * @return array<string, mixed>|RedirectResponse
+     */
     protected function update(
         Request             $request,
         CmsForm             $form,
@@ -94,6 +113,9 @@ class FormController extends AbstractController
         return $updateResult;
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     #[Route(path: '/responses/{id}', name: 'b2b_code_cms_form_responses', requirements: ['id' => '\d+'])]
     #[AclAncestor('b2b_code_cms_form_view')]
     #[Template]
@@ -102,6 +124,9 @@ class FormController extends AbstractController
         return ['entity' => $cmsForm];
     }
 
+    /**
+     * @return array<string, mixed>|RedirectResponse
+     */
     #[Route(path: '/{id}/field/create', name: 'b2b_code_cms_form_field_create', requirements: ['id' => '\d+'])]
     #[AclAncestor('b2b_code_cms_form_field_create')]
     #[Template('@B2bCodeCmsForm/Field/update.html.twig')]
@@ -117,6 +142,9 @@ class FormController extends AbstractController
         return $this->updateField($request, $field, $formHandler, $translator);
     }
 
+    /**
+     * @return array<string, mixed>|RedirectResponse
+     */
     #[Route(path: '/field/update/{id}', name: 'b2b_code_cms_form_field_update', requirements: ['id' => '\d+'])]
     #[AclAncestor('b2b_code_cms_form_field_update')]
     #[Template('@B2bCodeCmsForm/Field/update.html.twig')]
@@ -129,6 +157,9 @@ class FormController extends AbstractController
         return $this->updateField($request, $field, $formHandler, $translator);
     }
 
+    /**
+     * @return array<string, mixed>|RedirectResponse
+     */
     protected function updateField(
         Request             $request,
         CmsFormField        $formField,

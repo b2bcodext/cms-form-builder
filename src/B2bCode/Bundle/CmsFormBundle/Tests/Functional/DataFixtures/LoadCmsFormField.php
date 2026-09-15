@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace B2bCode\Bundle\CmsFormBundle\Tests\Functional\DataFixtures;
 
 use B2bCode\Bundle\CmsFormBundle\Entity\CmsFormField;

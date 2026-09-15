@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the B2Bcodext CMS Form Builder.
  *
@@ -17,6 +19,9 @@ use Oro\Bundle\EntityConfigBundle\Metadata\Attribute\Config;
 use Oro\Bundle\EntityExtendBundle\Entity\ExtendEntityInterface;
 use Oro\Bundle\EntityExtendBundle\Entity\ExtendEntityTrait;
 
+/**
+ * An email notification configured for a CMS form (recipient email and email template).
+ */
 #[ORM\Entity]
 #[Config(defaultValues: ['entity' => ['icon' => 'fa-bell']])]
 #[ORM\Table(name: 'b2b_code_cms_form_notification')]
@@ -25,7 +30,7 @@ class CmsFormNotification implements ExtendEntityInterface
     use ExtendEntityTrait;
 
     /**
-     * @var int
+     * @var int|null
      */
     #[ORM\Column(name: 'id', type: 'integer')]
     #[ORM\Id]
@@ -33,27 +38,27 @@ class CmsFormNotification implements ExtendEntityInterface
     protected $id;
 
     /**
-     * @var CmsForm
+     * @var CmsForm|null
      */
     #[ORM\ManyToOne(targetEntity: CmsForm::class, inversedBy: 'notifications')]
-    #[ORM\JoinColumn(name: 'form_id', referencedColumnName: 'id', onDelete: 'CASCADE', nullable: false)]
+    #[ORM\JoinColumn(name: 'form_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
     protected $form;
 
     /**
-     * @var EmailTemplate
+     * @var EmailTemplate|null
      */
     #[ORM\ManyToOne(targetEntity: EmailTemplate::class)]
-    #[ORM\JoinColumn(name: 'template_id', referencedColumnName: 'id', onDelete: 'SET NULL', nullable: true)]
+    #[ORM\JoinColumn(name: 'template_id', referencedColumnName: 'id', nullable: true, onDelete: 'SET NULL')]
     protected $template;
 
     /**
-     * @var string
+     * @var string|null
      */
     #[ORM\Column(name: 'email', type: 'string', nullable: true)]
     protected $email;
 
     /**
-     * @return int
+     * @return int|null
      */
     public function getId()
     {
@@ -61,7 +66,7 @@ class CmsFormNotification implements ExtendEntityInterface
     }
 
     /**
-     * @return CmsForm
+     * @return CmsForm|null
      */
     public function getForm()
     {
@@ -70,9 +75,9 @@ class CmsFormNotification implements ExtendEntityInterface
 
     /**
      * @param CmsForm $form
-     * @return CmsFormNotification
+     * @return static
      */
-    public function setForm(CmsForm $form)
+    public function setForm(CmsForm $form): static
     {
         $this->form = $form;
 
@@ -82,9 +87,9 @@ class CmsFormNotification implements ExtendEntityInterface
     /**
      * @param EmailTemplate $template
      *
-     * @return CmsFormNotification
+     * @return static
      */
-    public function setTemplate(EmailTemplate $template = null)
+    public function setTemplate(?EmailTemplate $template = null): static
     {
         $this->template = $template;
 
@@ -94,7 +99,7 @@ class CmsFormNotification implements ExtendEntityInterface
     /**
      * Get template
      *
-     * @return EmailTemplate
+     * @return EmailTemplate|null
      */
     public function getTemplate()
     {
@@ -102,7 +107,7 @@ class CmsFormNotification implements ExtendEntityInterface
     }
 
     /**
-     * @return string
+     * @return string|null
      */
     public function getEmail()
     {
@@ -112,9 +117,9 @@ class CmsFormNotification implements ExtendEntityInterface
     /**
      * @param string $email
      *
-     * @return CmsFormNotification
+     * @return static
      */
-    public function setEmail(string $email = null)
+    public function setEmail(?string $email = null): static
     {
         $this->email = $email;
 

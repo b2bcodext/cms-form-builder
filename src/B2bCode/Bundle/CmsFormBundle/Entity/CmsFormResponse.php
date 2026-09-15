@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the B2Bcodext CMS Form Builder.
  *
@@ -16,12 +18,15 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Oro\Bundle\CustomerBundle\Entity\CustomerVisitor;
 use Oro\Bundle\EntityBundle\EntityProperty\DatesAwareInterface;
-use Oro\Bundle\EntityConfigBundle\Metadata\Attribute\Config;
 use Oro\Bundle\EntityBundle\EntityProperty\DatesAwareTrait;
+use Oro\Bundle\EntityConfigBundle\Metadata\Attribute\Config;
 use Oro\Bundle\EntityConfigBundle\Metadata\Attribute\ConfigField;
 use Oro\Bundle\EntityExtendBundle\Entity\ExtendEntityInterface;
 use Oro\Bundle\EntityExtendBundle\Entity\ExtendEntityTrait;
 
+/**
+ * A single submission of a CMS form, holding the per-field responses.
+ */
 #[ORM\Entity]
 #[Config(defaultValues: ['entity' => ['icon' => 'fa-envelope-open']])]
 #[ORM\HasLifecycleCallbacks]
@@ -32,7 +37,7 @@ class CmsFormResponse implements DatesAwareInterface, ExtendEntityInterface
     use ExtendEntityTrait;
 
     /**
-     * @var int
+     * @var int|null
      */
     #[ORM\Column(name: 'id', type: 'integer')]
     #[ORM\Id]
@@ -41,18 +46,20 @@ class CmsFormResponse implements DatesAwareInterface, ExtendEntityInterface
     protected $id;
 
     /**
-     * @var CmsForm
+     * @var CmsForm|null
      */
     #[ORM\ManyToOne(targetEntity: CmsForm::class)]
-    #[ORM\JoinColumn(name: 'form_id', referencedColumnName: 'id', onDelete: 'CASCADE', nullable: false)]
+    #[ORM\JoinColumn(name: 'form_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
     #[ConfigField(defaultValues: ['importexport' => ['order' => 20]])]
     protected $form;
 
     /**
-     * @var Collection|CmsFieldResponse[]
+     * @var Collection<int, CmsFieldResponse>
      */
-    #[ORM\OneToMany(targetEntity: CmsFieldResponse::class, mappedBy: 'formResponse', cascade: ['persist'])]
-    #[ConfigField(defaultValues: ['dataaudit' => ['auditable' => true], 'importexport' => ['full' => true, 'order' => 30]])]
+    #[ORM\OneToMany(mappedBy: 'formResponse', targetEntity: CmsFieldResponse::class, cascade: ['persist'])]
+    #[ConfigField(
+        defaultValues: ['dataaudit' => ['auditable' => true], 'importexport' => ['full' => true, 'order' => 30]]
+    )]
     protected $fieldResponses;
 
     /**
@@ -93,9 +100,9 @@ class CmsFormResponse implements DatesAwareInterface, ExtendEntityInterface
     /**
      * @param CmsForm $form
      *
-     * @return CmsFormResponse
+     * @return static
      */
-    public function setForm(CmsForm $form)
+    public function setForm(CmsForm $form): static
     {
         $this->form = $form;
 
@@ -103,7 +110,7 @@ class CmsFormResponse implements DatesAwareInterface, ExtendEntityInterface
     }
 
     /**
-     * @return CmsFieldResponse[]|Collection
+     * @return Collection<int, CmsFieldResponse>
      */
     public function getFieldResponses()
     {
@@ -112,9 +119,9 @@ class CmsFormResponse implements DatesAwareInterface, ExtendEntityInterface
 
     /**
      * @param CmsFieldResponse $cmsFieldResponse
-     * @return CmsFormResponse
+     * @return static
      */
-    public function addFieldResponse(CmsFieldResponse $cmsFieldResponse)
+    public function addFieldResponse(CmsFieldResponse $cmsFieldResponse): static
     {
         if (!$this->fieldResponses->contains($cmsFieldResponse)) {
             $this->fieldResponses->add($cmsFieldResponse);
@@ -134,9 +141,9 @@ class CmsFormResponse implements DatesAwareInterface, ExtendEntityInterface
 
     /**
      * @param CustomerVisitor|null $visitor
-     * @return CmsFormResponse
+     * @return static
      */
-    public function setVisitor(?CustomerVisitor $visitor)
+    public function setVisitor(?CustomerVisitor $visitor): static
     {
         $this->visitor = $visitor;
 
@@ -148,7 +155,7 @@ class CmsFormResponse implements DatesAwareInterface, ExtendEntityInterface
      *
      * @return $this
      */
-    public function setResolved(?bool $resolved)
+    public function setResolved(?bool $resolved): static
     {
         $this->resolved = (bool) $resolved;
 
@@ -164,7 +171,7 @@ class CmsFormResponse implements DatesAwareInterface, ExtendEntityInterface
     }
 
     /**
-     * @return array
+     * @return array<string, mixed>
      */
     public function toArray(): array
     {

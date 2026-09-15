@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the B2Bcodext CMS Form Builder.
  *
@@ -13,11 +15,14 @@ namespace B2bCode\Bundle\CmsFormBundle\Notification;
 
 use B2bCode\Bundle\CmsFormBundle\Entity\CmsFormResponse;
 
+/**
+ * Processes a CMS form response notification (e.g. sends an email).
+ */
 interface NotificationInterface
 {
     /**
      * @param CmsFormResponse $formResponse
-     * @param array           $context
+     * @param array<string, mixed> $context
      *
      * @return mixed
      */

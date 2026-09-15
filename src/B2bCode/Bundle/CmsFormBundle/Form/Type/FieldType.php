@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the B2Bcodext CMS Form Builder.
  *
@@ -23,28 +25,23 @@ use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
+/**
+ * Form type for a CMS form field, offering the field types registered in the field type registry.
+ */
 class FieldType extends AbstractType
 {
-    /** @var FieldTypeRegistry */
-    protected $fieldTypeRegistry;
+    protected FieldTypeRegistry $fieldTypeRegistry;
 
-    /** @var TranslatorInterface */
-    protected $translator;
+    protected TranslatorInterface $translator;
 
-    /**
-     * @param FieldTypeRegistry   $fieldTypeRegistry
-     * @param TranslatorInterface $translator
-     */
     public function __construct(FieldTypeRegistry $fieldTypeRegistry, TranslatorInterface $translator)
     {
         $this->fieldTypeRegistry = $fieldTypeRegistry;
         $this->translator = $translator;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    #[\Override]
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
             ->add(
@@ -87,10 +84,7 @@ class FieldType extends AbstractType
         $builder->addEventListener(FormEvents::SUBMIT, [$this, 'onSubmit']);
     }
 
-    /**
-     * @param FormEvent $event
-     */
-    public function onSubmit(FormEvent $event)
+    public function onSubmit(FormEvent $event): void
     {
         /** @var CmsFormField $cmsField */
         $cmsField = $event->getData();
@@ -100,10 +94,8 @@ class FieldType extends AbstractType
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function configureOptions(OptionsResolver $resolver)
+    #[\Override]
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults(
             [

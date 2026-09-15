@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the B2Bcodext CMS Form Builder.
  *
@@ -15,6 +17,9 @@ use Doctrine\Persistence\ObjectManager;
 use Oro\Bundle\EmailBundle\Entity\EmailTemplate;
 use Oro\Bundle\EmailBundle\Migrations\Data\ORM\AbstractEmailFixture;
 
+/**
+ * Loads the bundle's email templates used by CMS form notifications.
+ */
 class LoadEmailTemplates extends AbstractEmailFixture
 {
     /**
@@ -31,6 +36,9 @@ class LoadEmailTemplates extends AbstractEmailFixture
 
     /**
      * {@inheritdoc}
+     */
+    /**
+     * @param array<string, mixed> $template
      */
     protected function findExistingTemplate(ObjectManager $manager, array $template)
     {

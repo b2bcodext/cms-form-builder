@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the B2Bcodext CMS Form Builder.
  *
@@ -15,39 +17,37 @@ use B2bCode\Bundle\CmsFormBundle\Validator\Loader\ValidationRuleLoader;
 use Symfony\Component\HttpKernel\CacheClearer\CacheClearerInterface;
 use Symfony\Component\HttpKernel\CacheWarmer\CacheWarmerInterface;
 
+/**
+ * Warms up and clears the cached CMS form validation rules.
+ */
 class CacheClearer implements CacheWarmerInterface, CacheClearerInterface
 {
-    /** @var ValidationRuleLoader */
-    protected $ruleLoader;
+    protected ValidationRuleLoader $ruleLoader;
 
-    /**
-     * @param ValidationRuleLoader $ruleLoader
-     */
     public function __construct(ValidationRuleLoader $ruleLoader)
     {
         $this->ruleLoader = $ruleLoader;
     }
 
     /**
-     * {@inheritdoc}
+     * @return string[]
      */
-    public function warmUp($cacheDir)
+    #[\Override]
+    public function warmUp(string $cacheDir): array
     {
         $this->ruleLoader->getForForm('dummy-call');
+
+        return [];
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function isOptional(): bool
     {
         return true;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function clear(string $cacheDir)
+    #[\Override]
+    public function clear(string $cacheDir): void
     {
         $this->ruleLoader->clearCache();
     }

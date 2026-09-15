@@ -1,53 +1,175 @@
-# B2Bcodext - Cms Form Builder
+# B2Bcodext CMS Form Builder
 
-CMS Form Builder is a flexible OroCommerce extension that allows you to easily create
-forms via UI. 
+Build storefront forms for OroCommerce through the back-office UI — no code, no deployment.
 
-No longer need to have a dev team in order to add a form to your storefront. With this extension you can create forms in minutes without writing even a single line of code.
+## Table of Contents
+
+- [Overview](#overview)
+- [Requirements](#requirements)
+- [Installation](#installation)
+- [Features](#features)
+- [Extension Points](#extension-points)
+- [Tests](#tests)
+- [Known Issues & TODOs](#known-issues--todos)
+- [License](#license)
+- [Resources](#resources)
+
+## Overview
+
+The bundle lets a back-office user assemble a form — its fields, validation, notifications and
+success behavior — and publish it to the storefront, without a developer writing a form type or a
+controller. Marketers own the whole lifecycle; developers extend it only where they need something
+the field-type catalog does not cover.
+
+Five entities carry the model: `CmsForm` is the form itself, `CmsFormField` its fields,
+`CmsFormNotification` the per-form email notifications, and `CmsFormResponse` / `CmsFieldResponse`
+a submission and its individual field values. The runtime flow is
+`FormBuilder` (turns a `CmsForm` into a Symfony form) → storefront submit → response entities
+persisted → notification queued.
+
+## Requirements
+
+Requires **OroCommerce 6.1** (`oro/commerce: 6.1.*`).
 
 ## Installation
 
-The easiest way to install CMS Form Builder is by using [Composer](https://getcomposer.org):
+1. Require the package:
 
-```bash
-curl -sS https://getcomposer.org/installer | php
-php composer.phar require b2bcodext/cms-form-builder
-```
+   ```bash
+   composer require b2bcodext/cms-form-builder:"^2.5"
+   ```
 
-or if you have Composer already installed, just run:
+   The package versions on its own `2.x` line — release `2.5` is the OroCommerce 6.1 line. It does
+   not share OroCommerce's version numbers.
 
-```bash
-composer require b2bcodext/cms-form-builder
-```
+2. Apply it to the application:
 
-After installation and running `oro:platform:update`, forms are accessible under Marketing > Cms Forms in the back-office menu. Read more on [how you can create your first form.](./src/B2bCode/Bundle/CmsFormBundle/Resources/doc/user_doc.md#how-to-create-your-first-form)
+   ```bash
+   bin/console cache:clear
+   bin/console oro:platform:update --env=prod --force
+   ```
 
+Forms are then available under **Marketing > Cms Forms** in the back-office menu. See
+[how to create your first form](src/B2bCode/Bundle/CmsFormBundle/Resources/doc/user_doc.md#how-to-create-your-first-form).
 
 ## Features
 
-- Easily embed your forms in landing pages.
-- Email notifications sent on every form response.
-    - Possibility to set different custom email templates per email.
-- Export form responses to CSV.
-- Possibility to add additional CSS to form fields directly from UI.
-- Many field types supported out of the box, like Email (with validation support) or Hidden field. [Full list](./src/B2bCode/Bundle/CmsFormBundle/Resources/doc/field_types.md).
-   - Especially useful when creating special forms for marketing campaign which gives you possibility to embed custom values (like campaign code) without exposing that to end users
-- Seamless integration with ORO Reports engine. Powerful tool for creating custom reports based on form responses.
+### Backend
 
-### Features for developers
+- Form management UI under **Marketing > Cms Forms**, routed under the `/cms-form` prefix
+  (`Controller/FormController.php`), with AJAX field editing, reordering and field preview under
+  `/cms-form/ajax` (`Controller/AjaxFormController.php`).
+- A field-type catalog with per-type options and validation — see
+  [field types](src/B2bCode/Bundle/CmsFormBundle/Resources/doc/field_types.md).
+- Per-form email notifications (`CmsFormNotification`), each able to use its own email template;
+  sending goes through `Notification\SendEmailNotification`.
+- Responses exported to CSV through the Oro import/export batch job
+  (`ImportExport/`), scoped per form.
+- Responses are regular entities, so the Oro reports engine can build reports over them.
 
-> Flexibility Driven Development
+### Frontend
 
-- Easy custom validation rules setup via YAML or events. [More info](./src/B2bCode/Bundle/CmsFormBundle/Resources/doc/dev_doc.md#validation).
-    - E.g. check if a given email already exists in a system or validate product SKU from Request for Quote form
-- Easily create your own form field types with custom type-specific options and/or custom validation. [Have a look at the example.](./src/B2bCode/Bundle/CmsFormBundle/Resources/doc/dev_doc.md#how-to-add-new-field-type)
-- Most of the functionality is covered either with interfaces, events or DI tags which gives you a possibility to inject your code on every single stage of the process.
+- Storefront form rendering and submission over the layout stack
+  (`Controller/Frontend/FormController.php`, `Controller/Frontend/AjaxFormController.php`,
+  `Resources/views/layouts`), with per-field validation errors returned to the page and an optional
+  redirect URL on success.
+- Forms can be embedded in landing pages and other CMS content; the bundle registers its Twig
+  functions with the CMS and email Twig sandboxes via
+  `DependencyInjection/Compiler/TwigSandboxConfigurationPass.php`.
 
-## Documentation
+### Access Control
 
-- [For developers](./src/B2bCode/Bundle/CmsFormBundle/Resources/doc/dev_doc.md)
-- [For users](./src/B2bCode/Bundle/CmsFormBundle/Resources/doc/user_doc.md)
+Declared in `Resources/config/oro/acls.yml`:
+
+- Entity permissions on `CmsForm` (VIEW / CREATE / EDIT / DELETE) and on `CmsFormField`
+  (CREATE / EDIT / DELETE), governing the back-office UI.
+- An action ACL `b2b_code_cms_frontend_form_respond` in the `commerce` group, granted to the
+  `BUYER`, `ADMINISTRATOR` and `ANONYMOUS` frontend roles by the data migration
+  `Migrations/Data/ORM/data/frontend_roles.yml`, and enforced on the storefront submit endpoint
+  (`Controller/Frontend/AjaxFormController::respondAction()`). Revoking it stops submission: an
+  authenticated customer user then gets 403, an anonymous visitor 401. The default grant to
+  `ANONYMOUS` keeps storefront forms open to unauthenticated visitors out of the box.
+
+## Extension Points
+
+| Contract | Purpose |
+|---|---|
+| `B2bCode\Bundle\CmsFormBundle\Provider\FieldTypeProviderInterface` | Contribute field types. Register with the `b2b_code_cms_form.field_type_provider` service tag. |
+| `B2bCode\Bundle\CmsFormBundle\Validator\ConstraintProviderInterface` | Supply the validation constraints for a form (`getConstraintsForForm(CmsForm)`). |
+| `B2bCode\Bundle\CmsFormBundle\Notification\NotificationInterface` | Replace or add to how a submission is notified. |
+| `B2bCode\Bundle\CmsFormBundle\Builder\FormBuilderInterface` | Replace how a `CmsForm` becomes a Symfony form. |
+
+Validation rules can also be declared in YAML or contributed from an event listener — see the
+[developer documentation](src/B2bCode/Bundle/CmsFormBundle/Resources/doc/dev_doc.md#validation) and
+[how to add a new field type](src/B2bCode/Bundle/CmsFormBundle/Resources/doc/dev_doc.md#how-to-add-new-field-type).
+
+## Tests
+
+Both suites live in `src/B2bCode/Bundle/CmsFormBundle/Tests` and ship with the package. Run them from
+the application the package is installed into. The two suites use **different** configurations, and
+the difference matters: the unit suite runs against the package's own `phpunit.xml.dist` with the
+application's autoloader passed explicitly (the package has no vendor directory of its own), while the
+functional suite must run against the **application's** `phpunit.xml.dist`, which supplies the Oro test
+bootstrap. Do not "correct" one to match the other.
+
+### Unit Tests
+
+```bash
+bin/phpunit -c vendor/b2bcodext/cms-form-builder/phpunit.xml.dist --testsuite=unit \
+    --bootstrap ./vendor/autoload.php
+```
+
+### Functional Tests
+
+Require an installed test environment (`bin/console oro:install --env=test`):
+
+```bash
+bin/phpunit -c phpunit.xml.dist \
+    vendor/b2bcodext/cms-form-builder/src/B2bCode/Bundle/CmsFormBundle/Tests/Functional
+```
+
+### Static Analysis & Code Style
+
+```bash
+bin/phpcs --standard=vendor/b2bcodext/cms-form-builder/phpcs.xml.dist \
+    vendor/b2bcodext/cms-form-builder/src
+```
+
+`phpcs` ships with the Oro application. PHPStan does not — install it (the package declares
+`phpstan/phpstan: ^2.1` in `require-dev`) and run:
+
+```bash
+phpstan analyse -c vendor/b2bcodext/cms-form-builder/phpstan.neon
+```
+
+`phpstan.neon` runs at level 6 and excludes `Tests`.
+
+### CI
+
+Omitted — the package ships no CI workflow. The hosting GitHub space does not support GitHub Actions,
+so the checks above are run locally and are not re-run automatically on push or pull request.
+
+## Known Issues & TODOs
+
+- `ImportExport/Reader/FormResponseReader::createSourceEntityQueryBuilder()` accepts an `$ids`
+  argument but does not apply it, so a batched async export re-reads the whole form's responses
+  instead of the requested slice. Current behavior is pinned by a unit test; changing it is a
+  maintainer decision.
+- Sixteen `@todo` occurrences remain in non-test source (one of them inside a string literal).
+  The largest clusters are `Form/Extension/ChoiceFieldExtension.php` (3 — two asking for the
+  choice-field handling to be reworked into data transformers or data mappers, which the bundle
+  does not currently use) and `Controller/Frontend/AjaxFormController.php` (3, in the submit
+  endpoint discussed under Access Control); the rest sit in the Twig extension, validation
+  collection, field-type registry, response repository, notification sending and the schema
+  installer. The `Generic.Commenting.Todo` sniff is excluded in `phpcs.xml.dist` so they are kept
+  verbatim rather than deleted to satisfy a linter.
 
 ## License
 
-[OSL-3.0](./LICENSE) Copyright (c) 2019 Daniel Nahrebecki <daniel@b2bcodext.com>
+[OSL-3.0](LICENSE) — Copyright (c) 2019 Daniel Nahrebecki
+
+## Resources
+
+  * [OroCommerce Documentation](https://doc.oroinc.com)
+  * [Contributing](https://doc.oroinc.com/community/contribute/)
+  * [Reporting a Security Issue](https://doc.oroinc.com/community/report-issues/security/)

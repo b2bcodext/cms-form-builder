@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the B2Bcodext CMS Form Builder.
  *
@@ -17,15 +19,19 @@ use Oro\Bundle\EmailBundle\DependencyInjection\Compiler\AbstractTwigSandboxConfi
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
 
+/**
+ * Registers the bundle's Twig functions in the Oro email/CMS Twig sandboxes.
+ */
 class TwigSandboxConfigurationPass extends AbstractTwigSandboxConfigurationPass
 {
-    public function process(ContainerBuilder $container)
+    #[\Override]
+    public function process(ContainerBuilder $container): void
     {
         $this->cmsTwigRenderer($container);
         parent::process($container);
     }
 
-    protected function cmsTwigRenderer(ContainerBuilder $container)
+    protected function cmsTwigRenderer(ContainerBuilder $container): void
     {
         if ($container->hasDefinition('oro_cms.twig.content_security_policy')) {
             $securityPolicyDef = $container->getDefinition('oro_cms.twig.content_security_policy');
@@ -40,26 +46,30 @@ class TwigSandboxConfigurationPass extends AbstractTwigSandboxConfigurationPass
         }
     }
 
-    #[\Override] protected function getFunctions(): array
+    #[\Override]
+    protected function getFunctions(): array
     {
         return [
             'b2b_code_form_response_array'
         ];
     }
 
-    #[\Override] protected function getFilters(): array
+    #[\Override]
+    protected function getFilters(): array
     {
         return [
             'merge'
         ];
     }
 
-    #[\Override] protected function getTags(): array
+    #[\Override]
+    protected function getTags(): array
     {
         return [];
     }
 
-    #[\Override] protected function getExtensions(): array
+    #[\Override]
+    protected function getExtensions(): array
     {
         return [
             EmailExtension::class,

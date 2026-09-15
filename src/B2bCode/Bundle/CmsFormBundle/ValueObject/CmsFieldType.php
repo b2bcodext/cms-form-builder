@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the B2Bcodext CMS Form Builder.
  *
@@ -11,21 +13,22 @@
 
 namespace B2bCode\Bundle\CmsFormBundle\ValueObject;
 
+/**
+ * Value object describing a CMS form field type: its name, Symfony form type and form options.
+ */
 class CmsFieldType
 {
-    /** @var string */
-    protected $name;
+    protected string $name;
 
-    /** @var string */
-    protected $formType;
+    protected string $formType;
 
-    /** @var array */
+    /** @var array<string, mixed> */
     protected $formOptions;
 
     /**
      * @param string $name
      * @param string $formType
-     * @param array   $formOptions
+     * @param array<string, mixed> $formOptions
      */
     public function __construct(string $name, string $formType, $formOptions = [])
     {
@@ -74,7 +77,7 @@ class CmsFieldType
     }
 
     /**
-     * @return array
+     * @return array<string, mixed>
      */
     public function getFormOptions(): array
     {
@@ -82,7 +85,7 @@ class CmsFieldType
     }
 
     /**
-     * @param array $formOptions
+     * @param array<string, mixed> $formOptions
      * @return CmsFieldType
      */
     public function setFormOptions(array $formOptions): CmsFieldType

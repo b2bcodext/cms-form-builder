@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the B2Bcodext CMS Form Builder.
  *
@@ -11,6 +13,9 @@
 
 namespace B2bCode\Bundle\CmsFormBundle\Helper;
 
+/**
+ * Turns an arbitrary string into a slug usable as a CMS form or field alias.
+ */
 class SlugifyHelper
 {
     /**

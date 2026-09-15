@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the B2Bcodext CMS Form Builder.
  *
@@ -14,11 +16,16 @@ namespace B2bCode\Bundle\CmsFormBundle\Entity\Repository;
 use B2bCode\Bundle\CmsFormBundle\Entity\CmsFieldResponse;
 use Doctrine\ORM\EntityRepository;
 
+/**
+ * Repository for CMS field responses.
+ *
+ * @extends EntityRepository<CmsFieldResponse>
+ */
 class CmsFieldResponseRepository extends EntityRepository
 {
     /**
-     * @param array $formResponsesIds
-     * @return array
+     * @param int[] $formResponsesIds
+     * @return array<int, CmsFieldResponse[]> field responses grouped by form-response id
      */
     public function findGroupedByFormResponses(array $formResponsesIds = [])
     {

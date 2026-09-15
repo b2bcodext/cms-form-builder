@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the B2Bcodext CMS Form Builder.
  *
@@ -16,13 +18,16 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Oro\Bundle\EntityBundle\EntityProperty\DatesAwareInterface;
-use Oro\Bundle\EntityConfigBundle\Metadata\Attribute\Config;
 use Oro\Bundle\EntityBundle\EntityProperty\DatesAwareTrait;
+use Oro\Bundle\EntityConfigBundle\Metadata\Attribute\Config;
 use Oro\Bundle\EntityConfigBundle\Metadata\Attribute\ConfigField;
 use Oro\Bundle\EntityExtendBundle\Entity\ExtendEntityInterface;
 use Oro\Bundle\EntityExtendBundle\Entity\ExtendEntityTrait;
 use Oro\Bundle\SecurityBundle\Tools\UUIDGenerator;
 
+/**
+ * A CMS form: its alias, fields, notifications and submitted responses.
+ */
 #[ORM\Entity]
 #[Config(
     routeName: 'b2b_code_cms_form_index',
@@ -37,7 +42,7 @@ class CmsForm implements DatesAwareInterface, ExtendEntityInterface
     use ExtendEntityTrait;
 
     /**
-     * @var int
+     * @var int|null
      */
     #[ORM\Column(type: 'integer')]
     #[ORM\Id]
@@ -45,7 +50,7 @@ class CmsForm implements DatesAwareInterface, ExtendEntityInterface
     protected $id;
 
     /**
-     * @var int
+     * @var string|null
      */
     #[ORM\Column(name: 'name', type: 'string', length: 255)]
     #[ConfigField(defaultValues: ['dataaudit' => ['auditable' => true]])]
@@ -54,14 +59,14 @@ class CmsForm implements DatesAwareInterface, ExtendEntityInterface
     /**
      * This value should start with a symbol and contain only alphabetic symbols, underscore and numbers.
      *
-     * @var string
+     * @var string|null
      */
-    #[ORM\Column(name: 'alias', type: 'string', unique: true, length: 255)]
+    #[ORM\Column(name: 'alias', type: 'string', length: 255, unique: true)]
     #[ConfigField(defaultValues: ['dataaudit' => ['auditable' => true], 'importexport' => ['identity' => true]])]
     protected $alias;
 
     /**
-     * @var string
+     * @var string|null
      */
     #[ORM\Column(name: 'uuid', type: 'string', unique: true)]
     protected $uuid;
@@ -73,9 +78,9 @@ class CmsForm implements DatesAwareInterface, ExtendEntityInterface
     protected $previewEnabled = false;
 
     /**
-     * @var Collection|CmsFormField[]
+     * @var Collection<int, CmsFormField>
      */
-    #[ORM\OneToMany(targetEntity: CmsFormField::class, mappedBy: 'form', cascade: ['persist'])]
+    #[ORM\OneToMany(mappedBy: 'form', targetEntity: CmsFormField::class, cascade: ['persist'])]
     #[ORM\OrderBy(['sortOrder' => 'ASC'])]
     #[ConfigField(defaultValues: ['dataaudit' => ['auditable' => true]])]
     protected $fields;
@@ -88,9 +93,9 @@ class CmsForm implements DatesAwareInterface, ExtendEntityInterface
 
 
     /**
-     * @var Collection|CmsFormNotification[]
+     * @var Collection<int, CmsFormNotification>
      */
-    #[ORM\OneToMany(targetEntity: CmsFormNotification::class, mappedBy: 'form', cascade: ['all'], orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'form', targetEntity: CmsFormNotification::class, cascade: ['all'], orphanRemoval: true)]
     #[ConfigField(defaultValues: ['dataaudit' => ['auditable' => true]])]
     protected $notifications;
 
@@ -107,7 +112,7 @@ class CmsForm implements DatesAwareInterface, ExtendEntityInterface
     }
 
     /**
-     * @return int
+     * @return int|null
      */
     public function getId()
     {
@@ -115,7 +120,7 @@ class CmsForm implements DatesAwareInterface, ExtendEntityInterface
     }
 
     /**
-     * @return string
+     * @return string|null
      */
     public function uuid()
     {
@@ -123,7 +128,7 @@ class CmsForm implements DatesAwareInterface, ExtendEntityInterface
     }
 
     /**
-     * @return int
+     * @return string|null
      */
     public function getName()
     {
@@ -133,7 +138,7 @@ class CmsForm implements DatesAwareInterface, ExtendEntityInterface
     /**
      * @param string $name
      */
-    public function setName(string $name)
+    public function setName(string $name): static
     {
         $this->name = $name;
 
@@ -141,7 +146,7 @@ class CmsForm implements DatesAwareInterface, ExtendEntityInterface
     }
 
     /**
-     * @return string
+     * @return string|null
      */
     public function getAlias()
     {
@@ -150,9 +155,9 @@ class CmsForm implements DatesAwareInterface, ExtendEntityInterface
 
     /**
      * @param string $alias
-     * @return CmsForm
+     * @return static
      */
-    public function setAlias(string $alias)
+    public function setAlias(string $alias): static
     {
         $this->alias = $alias;
 
@@ -163,7 +168,7 @@ class CmsForm implements DatesAwareInterface, ExtendEntityInterface
      * @param bool $enabled
      * @return $this
      */
-    public function setPreviewEnabled(bool $enabled)
+    public function setPreviewEnabled(bool $enabled): static
     {
         $this->previewEnabled = $enabled;
 
@@ -179,7 +184,7 @@ class CmsForm implements DatesAwareInterface, ExtendEntityInterface
     }
 
     /**
-     * @return CmsFormField[]|Collection
+     * @return Collection<int, CmsFormField>
      */
     public function getFields()
     {
@@ -187,9 +192,9 @@ class CmsForm implements DatesAwareInterface, ExtendEntityInterface
     }
 
     /**
-     * @param iterable $fields
+     * @param iterable<CmsFormField> $fields
      */
-    public function setFields(iterable $fields)
+    public function setFields(iterable $fields): void
     {
         foreach ($fields as $field) {
             $this->addField($field);
@@ -200,7 +205,7 @@ class CmsForm implements DatesAwareInterface, ExtendEntityInterface
      * @param CmsFormField $field
      * @return $this
      */
-    public function addField(CmsFormField $field)
+    public function addField(CmsFormField $field): static
     {
         if (!$this->fields->contains($field)) {
             $this->fields->add($field);
@@ -244,7 +249,7 @@ class CmsForm implements DatesAwareInterface, ExtendEntityInterface
      * @param bool $enabled
      * @return $this
      */
-    public function setNotificationsEnabled(bool $enabled)
+    public function setNotificationsEnabled(bool $enabled): static
     {
         $this->notificationsEnabled = $enabled;
 
@@ -260,7 +265,7 @@ class CmsForm implements DatesAwareInterface, ExtendEntityInterface
     }
 
     /**
-     * @return CmsFormNotification[]|Collection
+     * @return Collection<int, CmsFormNotification>
      */
     public function getNotifications()
     {
@@ -271,7 +276,7 @@ class CmsForm implements DatesAwareInterface, ExtendEntityInterface
      * @param CmsFormNotification $notification
      * @return $this
      */
-    public function addNotification(CmsFormNotification $notification)
+    public function addNotification(CmsFormNotification $notification): static
     {
         if (!$this->notifications->contains($notification)) {
             $this->notifications->add($notification);
@@ -282,10 +287,10 @@ class CmsForm implements DatesAwareInterface, ExtendEntityInterface
     }
 
     /**
-     * @param CmsFormNotification[] $notifications
-     * @return CmsForm
+     * @param iterable<CmsFormNotification> $notifications
+     * @return static
      */
-    public function setNotifications(iterable $notifications)
+    public function setNotifications(iterable $notifications): static
     {
         foreach ($notifications as $notification) {
             $this->addNotification($notification);
@@ -298,7 +303,7 @@ class CmsForm implements DatesAwareInterface, ExtendEntityInterface
      * @param CmsFormNotification $notification
      * @return $this
      */
-    public function removeNotification(CmsFormNotification $notification)
+    public function removeNotification(CmsFormNotification $notification): static
     {
         $this->notifications->removeElement($notification);
 
@@ -325,16 +330,16 @@ class CmsForm implements DatesAwareInterface, ExtendEntityInterface
      * Pre persist event handler.
      */
     #[ORM\PrePersist]
-    public function prePersist()
+    public function prePersist(): void
     {
-        if ($this->createdAt === null) {
+        if (!$this->createdAt instanceof \DateTimeInterface) {
             $this->createdAt = new \DateTime('now', new \DateTimeZone('UTC'));
         }
 
         // just in case...
         if ($this->alias === null) {
             // may cause non-unique doctrine exception
-            $this->alias = SlugifyHelper::slugify($this->getName());
+            $this->alias = SlugifyHelper::slugify((string) $this->getName());
         }
         if ($this->uuid === null) {
             $this->uuid = UUIDGenerator::v4();
@@ -347,13 +352,13 @@ class CmsForm implements DatesAwareInterface, ExtendEntityInterface
      * Pre update event handler.
      */
     #[ORM\PreUpdate]
-    public function preUpdate()
+    public function preUpdate(): void
     {
         $this->updatedAt = new \DateTime('now', new \DateTimeZone('UTC'));
     }
 
     /**
-     * @return array
+     * @return array<string, mixed>
      */
     public function toArray(): array
     {

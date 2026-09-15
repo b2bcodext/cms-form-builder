@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the B2Bcodext CMS Form Builder.
  *
@@ -18,10 +20,10 @@ use Symfony\Component\Form\FormView;
  */
 class GeneralFieldProvider
 {
-    /** @var array */
+    /** @var string[] */
     protected $generalFields = ['name', 'sortOrder', 'type', 'required', 'label', 'placeholder', 'css_class', 'size'];
 
-    /** @var array General fields that are rendered at the form field update page */
+    /** @var string[] General fields that are rendered at the form field update page */
     protected $updateableFields = ['label', 'name', 'type', 'size', 'placeholder', 'css_class', 'required'];
 
     /**
@@ -40,7 +42,7 @@ class GeneralFieldProvider
     }
 
     /**
-     * @return array
+     * @return string[]
      */
     public function getUpdateableFields(): array
     {
@@ -48,7 +50,7 @@ class GeneralFieldProvider
     }
 
     /**
-     * @return array
+     * @return string[]
      */
     public function getGeneralFields(): array
     {
@@ -60,7 +62,7 @@ class GeneralFieldProvider
      *
      * @param FormView $formView
      */
-    public function manipulate(FormView $formView)
+    public function manipulate(FormView $formView): void
     {
         foreach ($this->generalFields as $renderedField) {
             if ($formView->offsetExists($renderedField)) {

@@ -1,6 +1,24 @@
-/.settings
+# IDEs and Project Configuration
+/.settings/
 /.buildpath
 /.project
-/.idea
-composer.lock
+/.idea/
+
+# Dependencies (Composer)
+/composer.phar
+/composer.lock
+/vendor/
+
+# Testing (PHPUnit)
+phpunit.xml
+.phpunit.result.cache
+.php-cs-fixer.cache
+
+# Auth / local
+auth.json
+
+# System & Editor Backups
+*~
+
+# Local dev VM
 /.vagrant

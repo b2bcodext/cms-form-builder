@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the B2Bcodext CMS Form Builder.
  *
@@ -19,28 +21,21 @@ use Oro\Bundle\EmailBundle\Provider\EmailRenderer;
 use Oro\Bundle\NotificationBundle\Async\Topic\SendEmailNotificationTopic;
 use Oro\Component\MessageQueue\Client\MessageProducerInterface;
 
+/**
+ * Sends the configured email notifications for a submitted CMS form response.
+ */
 class SendEmailNotification implements NotificationInterface
 {
     public const DEFAULT_EMAIL_TEMPLATE = 'B2bCodeCmsFormBundle:response_received';
 
-    /** @var MessageProducerInterface */
-    private $messageProducer;
+    private MessageProducerInterface $messageProducer;
 
-    /** @var EmailRenderer */
-    private $renderer;
+    private EmailRenderer $renderer;
 
-    /** @var ConfigManager */
-    private $configManager;
+    private ConfigManager $configManager;
 
-    /** @var ManagerRegistry */
-    private $doctrine;
+    private ManagerRegistry $doctrine;
 
-    /**
-     * @param MessageProducerInterface $messageProducer
-     * @param EmailRenderer            $renderer
-     * @param ConfigManager            $configManager
-     * @param ManagerRegistry          $doctrine
-     */
     public function __construct(
         MessageProducerInterface $messageProducer,
         EmailRenderer $renderer,
@@ -53,10 +48,8 @@ class SendEmailNotification implements NotificationInterface
         $this->doctrine = $doctrine;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function process(CmsFormResponse $formResponse, array $context = [])
+    #[\Override]
+    public function process(CmsFormResponse $formResponse, array $context = []): void
     {
         $form = $formResponse->getForm();
 
