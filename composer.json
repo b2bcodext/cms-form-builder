@@ -22,7 +22,7 @@
     "minimum-stability": "dev",
     "extra": {
         "branch-alias": {
-            "dev-release/2.5": "7.0-dev"
+            "dev-release/2.6": "7.0-dev"
         }
     },
     "config": {
