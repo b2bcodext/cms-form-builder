@@ -36,13 +36,8 @@ Requires **OroCommerce 7.0** (`oro/commerce: 7.0.*`) on PHP 8.5.
 1. Require the package:
 
    ```bash
-   composer require b2bcodext/cms-form-builder:"dev-upgrade/7.0"
+   composer require b2bcodext/cms-form-builder
    ```
-
-   The package versions on its own line and does not share OroCommerce's version numbers. The
-   published releases (newest `2.5.0`) target **OroCommerce 6.1**; OroCommerce 7.0 support currently
-   lives on the unreleased `upgrade/7.0` branch, which is why the constraint above names the branch
-   rather than a tag. Switch to a normal version constraint once a 7.0-compatible release is tagged.
 
 2. Apply it to the application:
 
