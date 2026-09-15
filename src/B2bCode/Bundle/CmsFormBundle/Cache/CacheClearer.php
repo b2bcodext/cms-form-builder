@@ -33,7 +33,7 @@ class CacheClearer implements CacheWarmerInterface, CacheClearerInterface
      * @return string[]
      */
     #[\Override]
-    public function warmUp(string $cacheDir): array
+    public function warmUp(string $cacheDir, ?string $buildDir = null): array
     {
         $this->ruleLoader->getForForm('dummy-call');
 

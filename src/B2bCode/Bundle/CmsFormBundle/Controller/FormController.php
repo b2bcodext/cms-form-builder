@@ -20,11 +20,11 @@ use B2bCode\Bundle\CmsFormBundle\Form\Type\FieldType;
 use B2bCode\Bundle\CmsFormBundle\Form\Type\FormType;
 use Oro\Bundle\FormBundle\Model\UpdateHandlerFacade;
 use Oro\Bundle\SecurityBundle\Attribute\AclAncestor;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Bridge\Twig\Attribute\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
@@ -37,7 +37,7 @@ class FormController extends AbstractController
      */
     #[Route(path: '/', name: 'b2b_code_cms_form_index')]
     #[AclAncestor('b2b_code_cms_form_view')]
-    #[Template]
+    #[Template('@B2bCodeCmsForm/Form/index.html.twig')]
     public function indexAction()
     {
         return [];
@@ -48,7 +48,7 @@ class FormController extends AbstractController
      */
     #[Route(path: '/view/{id}', name: 'b2b_code_cms_form_view', requirements: ['id' => '\d+'])]
     #[AclAncestor('b2b_code_cms_form_view')]
-    #[Template]
+    #[Template('@B2bCodeCmsForm/Form/view.html.twig')]
     public function viewAction(CmsForm $cmsForm, FormBuilderInterface $formBuilder)
     {
         $form = $formBuilder->getForm($cmsForm->getAlias());
@@ -63,7 +63,7 @@ class FormController extends AbstractController
     #[AclAncestor('b2b_code_cms_form_create')]
     #[Template('@B2bCodeCmsForm/Form/update.html.twig')]
     public function createAction(
-        Request             $request,
+        Request $request,
         UpdateHandlerFacade $formHandler,
         TranslatorInterface $translator
     ) {
@@ -86,8 +86,8 @@ class FormController extends AbstractController
     #[AclAncestor('b2b_code_cms_form_update')]
     #[Template('@B2bCodeCmsForm/Form/update.html.twig')]
     public function updateAction(
-        Request             $request,
-        CmsForm             $form,
+        Request $request,
+        CmsForm $form,
         UpdateHandlerFacade $formHandler,
         TranslatorInterface $translator
     ) {
@@ -98,8 +98,8 @@ class FormController extends AbstractController
      * @return array<string, mixed>|RedirectResponse
      */
     protected function update(
-        Request             $request,
-        CmsForm             $form,
+        Request $request,
+        CmsForm $form,
         UpdateHandlerFacade $formHandler,
         TranslatorInterface $translator
     ) {
@@ -118,7 +118,7 @@ class FormController extends AbstractController
      */
     #[Route(path: '/responses/{id}', name: 'b2b_code_cms_form_responses', requirements: ['id' => '\d+'])]
     #[AclAncestor('b2b_code_cms_form_view')]
-    #[Template]
+    #[Template('@B2bCodeCmsForm/Form/responses.html.twig')]
     public function responsesAction(CmsForm $cmsForm)
     {
         return ['entity' => $cmsForm];
@@ -131,8 +131,8 @@ class FormController extends AbstractController
     #[AclAncestor('b2b_code_cms_form_field_create')]
     #[Template('@B2bCodeCmsForm/Field/update.html.twig')]
     public function createFieldAction(
-        Request             $request,
-        CmsForm             $cmsForm,
+        Request $request,
+        CmsForm $cmsForm,
         UpdateHandlerFacade $formHandler,
         TranslatorInterface $translator
     ) {
@@ -149,8 +149,8 @@ class FormController extends AbstractController
     #[AclAncestor('b2b_code_cms_form_field_update')]
     #[Template('@B2bCodeCmsForm/Field/update.html.twig')]
     public function updateFieldAction(
-        Request             $request,
-        CmsFormField        $field,
+        Request $request,
+        CmsFormField $field,
         UpdateHandlerFacade $formHandler,
         TranslatorInterface $translator
     ) {
@@ -161,8 +161,8 @@ class FormController extends AbstractController
      * @return array<string, mixed>|RedirectResponse
      */
     protected function updateField(
-        Request             $request,
-        CmsFormField        $formField,
+        Request $request,
+        CmsFormField $formField,
         UpdateHandlerFacade $formHandler,
         TranslatorInterface $translator
     ) {

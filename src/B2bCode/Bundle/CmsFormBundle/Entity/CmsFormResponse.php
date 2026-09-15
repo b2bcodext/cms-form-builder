@@ -28,7 +28,10 @@ use Oro\Bundle\EntityExtendBundle\Entity\ExtendEntityTrait;
  * A single submission of a CMS form, holding the per-field responses.
  */
 #[ORM\Entity]
-#[Config(defaultValues: ['entity' => ['icon' => 'fa-envelope-open']])]
+#[Config(defaultValues: [
+    'entity' => ['icon' => 'fa-envelope-open'],
+    'email' => ['available_in_template' => true],
+])]
 #[ORM\HasLifecycleCallbacks]
 #[ORM\Table(name: 'b2b_code_cms_form_response')]
 class CmsFormResponse implements DatesAwareInterface, ExtendEntityInterface
@@ -36,21 +39,23 @@ class CmsFormResponse implements DatesAwareInterface, ExtendEntityInterface
     use DatesAwareTrait;
     use ExtendEntityTrait;
 
-    /**
-     * @var int|null
-     */
     #[ORM\Column(name: 'id', type: 'integer')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'AUTO')]
     #[ConfigField(defaultValues: ['importexport' => ['order' => 10]])]
-    protected $id;
+    protected ?int $id = null;
 
     /**
      * @var CmsForm|null
      */
     #[ORM\ManyToOne(targetEntity: CmsForm::class)]
     #[ORM\JoinColumn(name: 'form_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
-    #[ConfigField(defaultValues: ['importexport' => ['order' => 20]])]
+    #[ConfigField(
+        defaultValues: [
+            'importexport' => ['order' => 20],
+            'email' => ['available_in_template' => true],
+        ]
+    )]
     protected $form;
 
     /**
@@ -70,11 +75,8 @@ class CmsFormResponse implements DatesAwareInterface, ExtendEntityInterface
     #[ConfigField(defaultValues: ['importexport' => ['order' => 40]])]
     protected $visitor;
 
-    /**
-     * @var bool
-     */
     #[ORM\Column(name: 'is_resolved', type: 'boolean', nullable: true)]
-    protected $resolved = false;
+    protected ?bool $resolved = false;
 
     public function __construct()
     {

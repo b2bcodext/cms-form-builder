@@ -29,18 +29,15 @@ persisted → notification queued.
 
 ## Requirements
 
-Requires **OroCommerce 6.1** (`oro/commerce: 6.1.*`).
+Requires **OroCommerce 7.0** (`oro/commerce: 7.0.*`) on PHP 8.5.
 
 ## Installation
 
 1. Require the package:
 
    ```bash
-   composer require b2bcodext/cms-form-builder:"^2.5"
+   composer require b2bcodext/cms-form-builder
    ```
-
-   The package versions on its own `2.x` line — release `2.5` is the OroCommerce 6.1 line. It does
-   not share OroCommerce's version numbers.
 
 2. Apply it to the application:
 
@@ -65,7 +62,8 @@ Forms are then available under **Marketing > Cms Forms** in the back-office menu
   sending goes through `Notification\SendEmailNotification`.
 - Responses exported to CSV through the Oro import/export batch job
   (`ImportExport/`), scoped per form.
-- Responses are regular entities, so the Oro reports engine can build reports over them.
+- Responses are ordinary configurable Doctrine entities rather than an opaque log, so they are
+  available to the platform's generic entity tooling.
 
 ### Frontend
 
@@ -86,8 +84,10 @@ Declared in `Resources/config/oro/acls.yml`:
 - An action ACL `b2b_code_cms_frontend_form_respond` in the `commerce` group, granted to the
   `BUYER`, `ADMINISTRATOR` and `ANONYMOUS` frontend roles by the data migration
   `Migrations/Data/ORM/data/frontend_roles.yml`, and enforced on the storefront submit endpoint
-  (`Controller/Frontend/AjaxFormController::respondAction()`). Revoking it stops submission: an
-  authenticated customer user then gets 403, an anonymous visitor 401. The default grant to
+  (`Controller/Frontend/AjaxFormController::respondAction()`). Revoking it stops submission — the storefront endpoint is refused rather than
+  accepted. The functional suite pins the anonymous case (403 is the corresponding refusal for an
+  authenticated customer user, and follows from Symfony's standard handling rather than from a test
+  in this package). The default grant to
   `ANONYMOUS` keeps storefront forms open to unauthenticated visitors out of the box.
 
 ## Extension Points
@@ -139,10 +139,12 @@ bin/phpcs --standard=vendor/b2bcodext/cms-form-builder/phpcs.xml.dist \
 `phpstan/phpstan: ^2.1` in `require-dev`) and run:
 
 ```bash
-phpstan analyse -c vendor/b2bcodext/cms-form-builder/phpstan.neon
+bin/phpstan analyse -c vendor/b2bcodext/cms-form-builder/phpstan.neon
 ```
 
-`phpstan.neon` runs at level 6 and excludes `Tests`.
+`phpstan.neon` runs at level 6 and excludes `Tests`. On 7.0 the phpcs ruleset resolves to Oro's
+`Oro/ruleset.xml` and additionally enforces `declare(strict_types=1)`, which every file in the
+package carries.
 
 ### CI
 
@@ -154,14 +156,15 @@ so the checks above are run locally and are not re-run automatically on push or 
 - `ImportExport/Reader/FormResponseReader::createSourceEntityQueryBuilder()` accepts an `$ids`
   argument but does not apply it, so a batched async export re-reads the whole form's responses
   instead of the requested slice. Current behavior is pinned by a unit test; changing it is a
-  maintainer decision.
+  maintainer decision. On installations with large response volumes this is a real cost, not a
+  theoretical one — the batch size stops bounding the query.
 - Sixteen `@todo` occurrences remain in non-test source (one of them inside a string literal).
   The largest clusters are `Form/Extension/ChoiceFieldExtension.php` (3 — two asking for the
   choice-field handling to be reworked into data transformers or data mappers, which the bundle
   does not currently use) and `Controller/Frontend/AjaxFormController.php` (3, in the submit
-  endpoint discussed under Access Control); the rest sit in the Twig extension, validation
-  collection, field-type registry, response repository, notification sending and the schema
-  installer. The `Generic.Commenting.Todo` sniff is excluded in `phpcs.xml.dist` so they are kept
+  endpoint discussed under Access Control); the rest sit in the Twig extension, the validation
+  collection and provider, the field-type registry, the response repository, notification sending
+  and the schema installer. The `Generic.Commenting.Todo` sniff is excluded in `phpcs.xml.dist` so they are kept
   verbatim rather than deleted to satisfy a linter.
 
 ## License
@@ -170,6 +173,7 @@ so the checks above are run locally and are not re-run automatically on push or 
 
 ## Resources
 
+  * [Source](https://github.com/b2bcodext/cms-form-builder)
   * [OroCommerce Documentation](https://doc.oroinc.com)
   * [Contributing](https://doc.oroinc.com/community/contribute/)
   * [Reporting a Security Issue](https://doc.oroinc.com/community/report-issues/security/)

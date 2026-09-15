@@ -37,28 +37,20 @@ class CmsFormField implements DatesAwareInterface, ExtendEntityInterface
     use DatesAwareTrait;
     use ExtendEntityTrait;
 
-    /**
-     * @var int|null
-     */
     #[ORM\Column(type: 'integer')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'AUTO')]
-    protected $id;
+    protected ?int $id = null;
 
     /**
      * This value should start with a symbol and contain only alphabetic symbols, underscore and numbers.
-     *
-     * @var string|null
      */
     #[ORM\Column(name: 'name', type: 'string', nullable: false)]
     #[ConfigField(defaultValues: ['importexport' => ['identity' => true]])]
-    protected $name;
+    protected ?string $name = null;
 
-    /**
-     * @var string|null
-     */
     #[ORM\Column(name: 'label', type: 'string', nullable: false)]
-    protected $label;
+    protected ?string $label = null;
 
     /**
      * @var CmsForm|null
@@ -67,17 +59,11 @@ class CmsFormField implements DatesAwareInterface, ExtendEntityInterface
     #[ORM\JoinColumn(name: 'form_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
     protected $form;
 
-    /**
-     * @var int|null
-     */
     #[ORM\Column(name: 'sort_order', type: 'smallint')]
-    protected $sortOrder;
+    protected ?int $sortOrder = null;
 
-    /**
-     * @var string
-     */
     #[ORM\Column(name: 'type', type: 'string', nullable: false)]
-    protected $type;
+    protected ?string $type = null;
 
     /**
      * @var array<string, mixed>
@@ -171,7 +157,7 @@ class CmsFormField implements DatesAwareInterface, ExtendEntityInterface
     }
 
     /**
-     * @return string
+     * @return string|null
      */
     public function getType()
     {
